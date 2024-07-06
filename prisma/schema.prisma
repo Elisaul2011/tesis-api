@@ -14,19 +14,19 @@ datasource db {
 }
 
 model atas {
-  IdAta     Int    @id @default(autoincrement())
-  CodigoAta String @db.VarChar(30)
-  NombreATA String @db.VarChar(200)
+  IdAta      Int          @id @default(autoincrement())
+  CodigoAta  String       @db.VarChar(30)
+  NombreATA  String       @db.VarChar(200)
   inventario inventario[]
 }
 
 model roles {
-  idRol       Int    @id @default(autoincrement())
-  rol String
+  idRol Int    @id @default(autoincrement())
+  rol   String
   // tecnico     String
   // inspector   String
   // almacenista String
-  user        user[]
+  user  user[]
 }
 
 model user {
@@ -42,7 +42,7 @@ model user {
 
 model typeComponents {
   idTypeComponents Int          @id @default(autoincrement())
-  typeComponent String
+  typeComponent    String
   components       components[]
   inventario       inventario[]
 }
@@ -55,56 +55,58 @@ model components {
   lote             Int
   idTypeComponents Int
   typeComponents   typeComponents @relation(fields: [idTypeComponents], references: [idTypeComponents])
-  idLote Int
-  lotes lotes @relation(fields: [idLote], references: [idLotes])
+  idLote           Int
+  lotes            lotes          @relation(fields: [idLote], references: [idLotes])
 }
 
 model lotes {
-  idLotes Int @id @default(autoincrement())
-  codigo  Int
+  idLotes    Int          @id @default(autoincrement())
+  codigo     Int
   componente components[]
   inventario inventario[]
 }
 
 model estado {
-  idEstado         Int          @id @default(autoincrement())
-  estado String
+  idEstado   Int          @id @default(autoincrement())
+  estado     String
   // serviciables     String
   // esperaInspeccion String
   // cuarentena       String
   // prestamo         String
-  inventario       inventario[]
-}
-
-model tipoAlmacen {
-  idTipoAlmacen    Int    @id @default(autoincrement())
-  tipoAlmacen String
-  // aeronave         String
-  // tallerReparacion String
-  inventario  inventario[]
-}
-
-
-model almacen {
-  idAlmacen  Int          @id @default(autoincrement())
-  nombre     String
-  pais       String
-  idCiudad   Int
-  ciudad     ciudad       @relation(fields: [idCiudad], references: [idCiudad])
   inventario inventario[]
 }
 
+model tipoAlmacen {
+  idTipoAlmacen Int          @id @default(autoincrement())
+  tipoAlmacen   String
+  // aeronave         String
+  // tallerReparacion String
+  inventario    inventario[]
+}
+
+model almacenes {
+  idAlmacenes Int          @id @default(autoincrement())
+  nombre      String
+  idPais      Int
+  pais        pais         @relation(fields: [idPais], references: [idPais])
+  idCiudad    Int
+  ciudad      ciudad       @relation(fields: [idCiudad], references: [idCiudad])
+  inventario  inventario[]
+}
+
 model ciudad {
-  idCiudad Int       @id @default(autoincrement())
-  idPais   Int
-  almacen  almacen[]
-  pais     pais      @relation(fields: [idPais], references: [idPais])
+  idCiudad     Int       @id @default(autoincrement())
+  idPais       Int
+  nombreCiudad String
+  almacenes      almacenes[]
+  pais         pais      @relation(fields: [idPais], references: [idPais])
 }
 
 model pais {
-  idPais Int      @id @default(autoincrement())
-  nombre String
-  ciudad ciudad[]
+  idPais  Int       @id @default(autoincrement())
+  nombre  String
+  ciudad  ciudad[]
+  almacenes almacenes[]
 }
 
 model inventario {
@@ -121,12 +123,11 @@ model inventario {
   shelfLife        Int
   pn               Int
   idAlmacen        Int
-  almacen          almacen        @relation(fields: [idAlmacen], references: [idAlmacen])
-    idLote Int
-  lotes lotes @relation(fields: [idLote], references: [idLotes])
-  idTipoAlmacen Int
-  tipoAlmacen tipoAlmacen @relation(fields: [idTipoAlmacen], references: [idTipoAlmacen])
-  idATAs Int
-  ata atas @relation(fields: [idATAs], references: [IdAta])
+  almacen          almacenes       @relation(fields: [idAlmacen], references: [idAlmacenes])
+  idLote           Int
+  lotes            lotes          @relation(fields: [idLote], references: [idLotes])
+  idTipoAlmacen    Int
+  tipoAlmacen      tipoAlmacen    @relation(fields: [idTipoAlmacen], references: [idTipoAlmacen])
+  idATAs           Int
+  ata              atas           @relation(fields: [idATAs], references: [IdAta])
 }
-

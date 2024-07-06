@@ -1,8 +1,8 @@
 import { BadRequestException, Get, Injectable } from '@nestjs/common';
-import { user } from '@prisma/client';
+import { roles, user } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
-import { DtoCreateUser } from 'src/dtos/user.dto';
+import { DtoCreateUser, DtoEditUser } from 'src/dtos/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -17,15 +17,13 @@ export class UsersService {
             }
         });
     }
+    async getUsersRoles(): Promise<roles[]> {
+        return await this.prismaService.roles.findMany();
+    }
 
     async postUser(newUser: DtoCreateUser): Promise<DtoBaseResponse> {
         const createUser = await this.prismaService.user.create({
-            data: {
-                nameUser: newUser.nameUser,
-                lastnameUser: newUser.lastnameUser,
-                password: newUser.password,
-                rolId: newUser.rolId
-            }
+            data: newUser
         });
 
         if(!createUser){
@@ -33,6 +31,26 @@ export class UsersService {
         }
 
         baseResponse.message = 'Usuario creado.'
+
+        return baseResponse;
+    }
+
+    async putUser(user: DtoEditUser): Promise<DtoBaseResponse> {
+        const editUser = await this.prismaService.user.update({
+            data: {
+                nameUser: user.nameUser,
+                lastnameUser: user.lastnameUser
+            },
+            where: {
+                idUser: user.idUser
+            }
+        });
+
+        if(!editUser){
+            throw new BadRequestException('Ha ocurrido un error');
+        }
+
+        baseResponse.message = 'Usuario Editado.'
 
         return baseResponse;
     }
