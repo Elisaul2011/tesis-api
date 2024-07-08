@@ -13,20 +13,168 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model inventario {
+  idInventario     Int            @id @default(autoincrement())
+  almacenes        almacenes      @relation(fields: [almacenesId], references: [idAlmacenes])
+  almacenesId      Int
+  pn               String
+  descripcion      String
+  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  tipoComponenteId Int
+  sn               String
+  cantidad         Int
+  idEstado         estado         @relation(fields: [estadoId], references: [idEstado])
+  estadoId         Int
+  shelfLife        DateTime
+  order            String
+}
+
+model aeronave {
+  idAeronave       Int            @id @default(autoincrement())
+  aeronave         String
+  pn               String
+  descripcion      String
+  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  tipoComponenteId Int
+  sn               String
+  cantidad         Int
+  condicion        String
+  workOrder        String
+}
+
+model tallerReparacion {
+  idTaller         Int            @id @default(autoincrement())
+  taller           String
+  pn               String
+  descripcion      String
+  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  tipoComponenteId Int
+  sn               String
+  condicion        String
+  workshopOrder    String
+}
+
+model componente {
+  idComponente     Int            @id @default(autoincrement())
+  pn               String
+  sn               String
+  fabricante       String
+  idAlmacenes      almacenes      @relation(fields: [almacenesId], references: [idAlmacenes])
+  almacenesId      Int
+  aterrizajes      Int
+  descripcion      String
+  idATA            atas           @relation(fields: [ataId], references: [IdAta])
+  ataId            Int
+  idZona           zona           @relation(fields: [zonaId], references: [idZona])
+  zonaId           Int
+  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  tipoComponenteId Int
+  horas            Int
+  idEstado         estado         @relation(fields: [estadoId], references: [idEstado])
+  estadoId         Int
+  shelfLife        DateTime
+  ciclos           Int
+}
+
+model horasManuales {
+  idHorasManuales Int      @id @default(autoincrement())
+  fecha           DateTime
+  horas           Int
+  ciclos          Int
+  aterrizajes     Int
+}
+
+model prestar {
+  idPrestar        Int            @id @default(autoincrement())
+  idAlmacenes      almacenes      @relation(fields: [almacenesId], references: [idAlmacenes])
+  almacenesId      Int
+  idZona           zona           @relation(fields: [zonaId], references: [idZona])
+  zonaId           Int
+  pn               String
+  descripcion      String
+  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  tipoComponenteId Int
+  sn               String
+  cantidad         Int
+  lote             String
+  condicion        String
+  idEstado         estado         @relation(fields: [estadoId], references: [idEstado])
+  estadoId         Int
+}
+
+model estado {
+  idEstado         Int                @id @default(autoincrement())
+  estado           String
+  inventario       inventario[]
+  componente       componente[]
+  prestar          prestar[]
+  reporteShelfLife reporteShelfLife[]
+  historial        historial[]
+}
+
+model reporteShelfLife {
+  idReporteShelfLife Int            @id @default(autoincrement())
+  idAlmacenes        almacenes      @relation(fields: [almacenesId], references: [idAlmacenes])
+  almacenesId        Int
+  idZona             zona           @relation(fields: [zonaid], references: [idZona])
+  zonaid             Int
+  pn                 String
+  descripcion        String
+  idTipoComponente   tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  tipoComponenteId   Int
+  sn                 String
+  cantidad           Int
+  lote               String
+  idEstado           estado         @relation(fields: [estadoId], references: [idEstado])
+  estadoId           Int
+  shelfLife          DateTime
+  venceEn            Int
+}
+
+model historial {
+  idHistorial      Int            @id @default(autoincrement())
+  fechaMovimiento  DateTime
+  pn               String
+  descripcion      String
+  sn               String
+  cantidad         Int
+  origen           String
+  destino          String
+  realizadoPor     String
+  idTipoMovimiento tipoMovimiento @relation(fields: [tipoMovimientoId], references: [idTipoMovimiento])
+  tipoMovimientoId Int
+  idEstado         estado         @relation(fields: [estadoId], references: [idEstado])
+  estadoId         Int
+  order            String
+}
+
+model tipoMovimiento {
+  idTipoMovimiento Int         @id @default(autoincrement())
+  tipoMovimiento   String
+  historial        historial[]
+}
+
+model tipoComponente {
+  idTipoComponente Int                @id @default(autoincrement())
+  tipoComponente   String
+  inventario       inventario[]
+  aeronave         aeronave[]
+  tallerReparacion tallerReparacion[]
+  componente       componente[]
+  prestar          prestar[]
+  reporteShelfLife reporteShelfLife[]
+}
+
+model controlMantenimiento {
+  idControlMantenimiento Int    @id @default(autoincrement())
+  controlMantenimiento   String
+}
+
 model atas {
   IdAta      Int          @id @default(autoincrement())
   CodigoAta  String       @db.VarChar(30)
   NombreATA  String       @db.VarChar(200)
-  inventario inventario[]
-}
-
-model roles {
-  idRol Int    @id @default(autoincrement())
-  rol   String
-  // tecnico     String
-  // inspector   String
-  // almacenista String
-  user  user[]
+  componente componente[]
 }
 
 model user {
@@ -40,94 +188,34 @@ model user {
   @@index([rolId], map: "User_rolId_fkey")
 }
 
-model typeComponents {
-  idTypeComponents Int          @id @default(autoincrement())
-  typeComponent    String
-  components       components[]
-  inventario       inventario[]
-}
-
-model components {
-  idComponents     Int            @id @default(autoincrement())
-  descripcion      String
-  fabricante       String
-  sn               Int
-  lote             Int
-  idTypeComponents Int
-  typeComponents   typeComponents @relation(fields: [idTypeComponents], references: [idTypeComponents])
-  idLote           Int
-  lotes            lotes          @relation(fields: [idLote], references: [idLotes])
-}
-
-model lotes {
-  idLotes    Int          @id @default(autoincrement())
-  codigo     Int
-  componente components[]
-  inventario inventario[]
-}
-
-model estado {
-  idEstado   Int          @id @default(autoincrement())
-  estado     String
-  // serviciables     String
-  // esperaInspeccion String
-  // cuarentena       String
-  // prestamo         String
-  inventario inventario[]
-}
-
-model tipoAlmacen {
-  idTipoAlmacen Int          @id @default(autoincrement())
-  tipoAlmacen   String
-  // aeronave         String
-  // tallerReparacion String
-  inventario    inventario[]
+model roles {
+  idRol Int    @id @default(autoincrement())
+  rol   String
+  // tecnico     
+  // inspector   
+  // almacenista
+  // jefe de almacen 
+  user  user[]
 }
 
 model almacenes {
-  idAlmacenes Int          @id @default(autoincrement())
-  nombre      String
-  idPais      Int
-  pais        pais         @relation(fields: [idPais], references: [idPais])
-  idCiudad    Int
-  ciudad      ciudad       @relation(fields: [idCiudad], references: [idCiudad])
-  inventario  inventario[]
-}
-
-model ciudad {
-  idCiudad     Int       @id @default(autoincrement())
-  idPais       Int
-  nombreCiudad String
-  almacenes      almacenes[]
-  pais         pais      @relation(fields: [idPais], references: [idPais])
-}
-
-model pais {
-  idPais  Int       @id @default(autoincrement())
-  nombre  String
-  ciudad  ciudad[]
-  almacenes almacenes[]
-}
-
-model inventario {
-  idInventario     Int            @id @default(autoincrement())
-  idTypeComponents Int
-  typeComponents   typeComponents @relation(fields: [idTypeComponents], references: [idTypeComponents])
-  cantidad         Int
-  sn               Int
+  idAlmacenes      Int                @id @default(autoincrement())
+  nombre           String
   descripcion      String
+  pais             String
+  ciudad           String
+  estado           Int
+  inventario       inventario[]
+  componente       componente[]
+  prestar          prestar[]
+  reporteShelfLife reporteShelfLife[]
+}
+
+model zona {
+  idZona           Int                @id @default(autoincrement())
   zona             String
-  orden            String
-  idEstado         Int
-  estado           estado         @relation(fields: [idEstado], references: [idEstado])
-  shelfLife        Int
-  pn               Int
-  idAlmacen        Int
-  almacen          almacenes       @relation(fields: [idAlmacen], references: [idAlmacenes])
-  idLote           Int
-  lotes            lotes          @relation(fields: [idLote], references: [idLotes])
-  idTipoAlmacen    Int
-  tipoAlmacen      tipoAlmacen    @relation(fields: [idTipoAlmacen], references: [idTipoAlmacen])
-  idATAs           Int
-  ata              atas           @relation(fields: [idATAs], references: [IdAta])
+  descripcionZona  String
+  componente       componente[]
+  prestar          prestar[]
+  reporteShelfLife reporteShelfLife[]
 }
