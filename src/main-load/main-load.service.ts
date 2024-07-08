@@ -60,31 +60,68 @@ export class MainLoadService {
             ]
         });
 
-        const createTypesComponents = await this.prismaService.typeComponents.createMany({
+        const createtipoComponente = await this.prismaService.tipoComponente.createMany({
             data: [
                 {
-                    typeComponent: 'Consumibles'
+                    tipoComponente: 'Consumibles'
                 },
                 {
-                    typeComponent: 'Consumibles Serializado'
+                    tipoComponente: 'Consumibles Serializado'
                 },
                 {
-                    typeComponent: 'Equipo'
+                    tipoComponente: 'Equipo'
                 },
                 {
-                    typeComponent: 'Herramienta'
+                    tipoComponente: 'Herramienta'
                 },
                 {
-                    typeComponent: 'Motor'
+                    tipoComponente: 'Motor'
                 },
                 {
-                    typeComponent: 'Propela'
+                    tipoComponente: 'Propela'
                 },
                 {
-                    typeComponent: 'Rotable'
+                    tipoComponente: 'Rotable'
                 },
             ]
         });
+
+        const createtipoMovimiento = await this.prismaService.tipoMovimiento.createMany({
+            data: [
+                {
+                    tipoMovimiento: 'Inspeccionar'
+                },
+                {
+                    tipoMovimiento: 'Prestar'
+                },
+                {
+                    tipoMovimiento: 'WO'
+                },
+                {
+                    tipoMovimiento: 'OT'
+                },
+                {
+                    tipoMovimiento: 'Cuarentena'
+                },
+            ]
+        })
+
+        const createEstado = await this.prismaService.estado.createMany({
+            data: [
+                {
+                    estado: 'Serviciable'
+                },
+                {
+                    estado: 'Esperando por inspección'
+                },
+                {
+                    estado: 'En préstamo'
+                },
+                {
+                    estado: 'En cuarentena'
+                },
+            ]
+        })
 
         if(!createRoles){
             throw new BadRequestException('Se produjo un error.');
@@ -94,11 +131,15 @@ export class MainLoadService {
             throw new BadRequestException('Se produjo un error.');
         }
 
-        if(!createTypesComponents){
+        if(!createtipoComponente){
             throw new BadRequestException('Se produjo un error.');
         }
 
         if(!createAtas){
+            throw new BadRequestException('Se produjo un error.');
+        }
+
+        if(!createtipoMovimiento){
             throw new BadRequestException('Se produjo un error.');
         }
 
