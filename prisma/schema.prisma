@@ -31,6 +31,15 @@ model inventario {
   tallerReparacion tallerReparacion[]
 }
 
+model ordenCompra {
+  idOrdenCompra Int      @id @default(autoincrement())
+  ordenCompra   Int
+  Fecha         DateTime
+  cantidad      Int
+  pn            String
+  sn            String
+}
+
 model aeronave {
   idAeronave   Int        @id @default(autoincrement())
   aeronave     String
