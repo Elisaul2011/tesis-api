@@ -14,44 +14,37 @@ datasource db {
 }
 
 model inventario {
-  idInventario     Int            @id @default(autoincrement())
-  almacenes        almacenes      @relation(fields: [almacenesId], references: [idAlmacenes])
+  idInventario     Int                @id @default(autoincrement())
+  almacenes        almacenes          @relation(fields: [almacenesId], references: [idAlmacenes])
   almacenesId      Int
   pn               String
   descripcion      String
-  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  idTipoComponente tipoComponente     @relation(fields: [tipoComponenteId], references: [idTipoComponente])
   tipoComponenteId Int
   sn               String
   cantidad         Int
-  idEstado         estado         @relation(fields: [estadoId], references: [idEstado])
+  idEstado         estado             @relation(fields: [estadoId], references: [idEstado])
   estadoId         Int
   shelfLife        DateTime
   order            String
+  aeronave         aeronave[]
+  tallerReparacion tallerReparacion[]
 }
 
 model aeronave {
-  idAeronave       Int            @id @default(autoincrement())
-  aeronave         String
-  pn               String
-  descripcion      String
-  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
-  tipoComponenteId Int
-  sn               String
-  cantidad         Int
-  condicion        String
-  workOrder        String
+  idAeronave   Int        @id @default(autoincrement())
+  aeronave     String
+  idInventario inventario @relation(fields: [inventarioId], references: [idInventario])
+  inventarioId Int
+  workOrder    String
 }
 
 model tallerReparacion {
-  idTaller         Int            @id @default(autoincrement())
-  taller           String
-  pn               String
-  descripcion      String
-  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
-  tipoComponenteId Int
-  sn               String
-  condicion        String
-  workshopOrder    String
+  idTaller      Int        @id @default(autoincrement())
+  taller        String
+  idInventario  inventario @relation(fields: [inventarioId], references: [idInventario])
+  inventarioId  Int
+  workshopOrder String
 }
 
 model componente {
@@ -158,8 +151,6 @@ model tipoComponente {
   idTipoComponente Int                @id @default(autoincrement())
   tipoComponente   String
   inventario       inventario[]
-  aeronave         aeronave[]
-  tallerReparacion tallerReparacion[]
   componente       componente[]
   prestar          prestar[]
   reporteShelfLife reporteShelfLife[]
@@ -205,6 +196,8 @@ model almacenes {
   pais             String
   ciudad           String
   estado           Int
+  idZona           zona               @relation(fields: [zonaId], references: [idZona])
+  zonaId           Int
   inventario       inventario[]
   componente       componente[]
   prestar          prestar[]
@@ -218,4 +211,5 @@ model zona {
   componente       componente[]
   prestar          prestar[]
   reporteShelfLife reporteShelfLife[]
+  almacenes        almacenes[]
 }
