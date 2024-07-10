@@ -8,16 +8,7 @@ export class AlmacenService {
     constructor(private prismaService: PrismaService){}
 
     async getAlmacen(): Promise<inventario[]> {
-        return await this.prismaService.inventario.findMany({
-            include: {
-                typeComponents: true,
-                estado: true,
-                almacen: true,
-                lotes: true,
-                tipoAlmacen: true,
-                ata: true
-            }
-        })
+        return await this.prismaService.inventario.findMany()
     }
 
 }

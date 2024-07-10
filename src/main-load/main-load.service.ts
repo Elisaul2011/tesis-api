@@ -12,7 +12,6 @@ export class MainLoadService {
     const createAtas = await this.prismaService.atas.createMany({
       data: dataAta,
     });
-
     const createRoles = await this.prismaService.roles.createMany({
       data: [
         {
@@ -29,7 +28,6 @@ export class MainLoadService {
         },
       ],
     });
-
     const createUsers = await this.prismaService.user.createMany({
       data: [
         {
@@ -58,9 +56,7 @@ export class MainLoadService {
         },
       ],
     });
-
-    const createtipoComponente =
-      await this.prismaService.tipoComponente.createMany({
+    const createtipoComponente = await this.prismaService.tipoComponente.createMany({
         data: [
           {
             tipoComponente: 'Consumibles',
@@ -84,10 +80,8 @@ export class MainLoadService {
             tipoComponente: 'Rotable',
           },
         ],
-      });
-
-    const createtipoMovimiento =
-      await this.prismaService.tipoMovimiento.createMany({
+    });
+    const createtipoMovimiento = await this.prismaService.tipoMovimiento.createMany({
         data: [
           {
             tipoMovimiento: 'Inspeccionar',
@@ -105,8 +99,7 @@ export class MainLoadService {
             tipoMovimiento: 'Cuarentena',
           },
         ],
-      });
-
+    });
     const createEstado = await this.prismaService.estado.createMany({
       data: [
         {
@@ -123,11 +116,29 @@ export class MainLoadService {
         },
       ],
     });
+    //--------------------------------------------//
+
+    const createZonas = await this.prismaService.zona.create({
+      data: {
+        descripcionZona: 'Venezuela',
+        zona:'Venezuela'
+      }
+    });
+
+    const createAlmacen = await this.prismaService.almacenes.create({
+      data: {
+        ciudad:'Maracaibo',
+        descripcion:'Descripción del Almacen uno',
+        estado:1,
+        nombre:'Almacen Nro1',
+        pais:'Venezuela',
+        zonaId: 1
+      }
+    })
 
     const createInventario = await this.prismaService.inventario.createMany({
       data: [
         {
-          idInventario: 1,
           almacenesId: 1,
           pn: 'ABC-123',
           descripcion: 'Sensor de presión',
@@ -135,11 +146,10 @@ export class MainLoadService {
           sn: 'SN-001',
           cantidad: 15,
           estadoId: 2,
-          shelfLife: '2025-03-15',
+          shelfLife: new Date('2025-03-15'),
           order: 'WO-001',
         },
         {
-          idInventario: 2,
           almacenesId: 1,
           pn: 'XYZ-456',
           descripcion: 'Válvula de combustible',
@@ -147,11 +157,10 @@ export class MainLoadService {
           sn: 'SN-002',
           cantidad: 8,
           estadoId: 1,
-          shelfLife: '2024-11-30',
+          shelfLife: new Date('2024-11-30'),
           order: 'OT-002',
         },
         {
-          idInventario: 3,
           almacenesId: 1,
           pn: 'DEF-789',
           descripcion: 'Filtro de aceite',
@@ -159,11 +168,10 @@ export class MainLoadService {
           sn: 'SN-003',
           cantidad: 20,
           estadoId: 3,
-          shelfLife: '2026-01-01',
+          shelfLife: new Date('2026-01-01'),
           order: 'INSP-003',
         },
         {
-          idInventario: 4,
           almacenesId: 1,
           pn: 'GHI-012',
           descripcion: 'Regulador de presión',
@@ -171,11 +179,10 @@ export class MainLoadService {
           sn: 'SN-004',
           cantidad: 12,
           estadoId: 1,
-          shelfLife: '2025-06-30',
+          shelfLife: new Date('2025-06-30'),
           order: 'WO-004',
         },
         {
-          idInventario: 5,
           almacenesId: 1,
           pn: 'JKL-345',
           descripcion: 'Bomba de combustible',
@@ -183,11 +190,10 @@ export class MainLoadService {
           sn: 'SN-005',
           cantidad: 6,
           estadoId: 2,
-          shelfLife: '2024-09-15',
+          shelfLife: new Date('2024-09-15'),
           order: 'OT-005',
         },
         {
-          idInventario: 6,
           almacenesId: 1,
           pn: 'MNO-678',
           descripcion: 'Interruptor de encendido',
@@ -195,11 +201,10 @@ export class MainLoadService {
           sn: 'SN-006',
           cantidad: 18,
           estadoId: 3,
-          shelfLife: '2026-04-20',
+          shelfLife: new Date('2026-04-20'),
           order: 'INSP-006',
         },
         {
-          idInventario: 7,
           almacenesId: 1,
           pn: 'PQR-901',
           descripcion: 'Alternador',
@@ -207,11 +212,10 @@ export class MainLoadService {
           sn: 'SN-007',
           cantidad: 9,
           estadoId: 1,
-          shelfLife: '2025-12-31',
+          shelfLife: new Date('2025-12-31'),
           order: 'WO-007',
         },
         {
-          idInventario: 8,
           almacenesId: 1,
           pn: 'STU-234',
           descripcion: 'Neumático',
@@ -219,11 +223,10 @@ export class MainLoadService {
           sn: 'SN-008',
           cantidad: 22,
           estadoId: 2,
-          shelfLife: '2024-07-01',
+          shelfLife: new Date('2024-07-01'),
           order: 'OT-008',
         },
         {
-          idInventario: 9,
           almacenesId: 1,
           pn: 'VWX-567',
           descripcion: 'Amortiguador',
@@ -231,11 +234,10 @@ export class MainLoadService {
           sn: 'SN-009',
           cantidad: 14,
           estadoId: 3,
-          shelfLife: '2026-02-28',
+          shelfLife: new Date('2026-02-28'),
           order: 'INSP-009',
         },
         {
-          idInventario: 10,
           almacenesId: 1,
           pn: 'YZA-890',
           descripcion: 'Batería',
@@ -243,7 +245,7 @@ export class MainLoadService {
           sn: 'SN-010',
           cantidad: 11,
           estadoId: 1,
-          shelfLife: '2025-05-31',
+          shelfLife: new Date('2025-05-31'),
           order: 'WO-010',
         },
       ],
@@ -253,83 +255,88 @@ export class MainLoadService {
       data: [
         {
           aeronave: 'Cessna 172',
-          inventarioId: 1,
+          inventarioId: 11,
           workOrder: 'WO-001',
         },
         {
           aeronave: 'Boeing 737',
-          inventarioId: 2,
+          inventarioId: 12,
           workOrder: 'WO-002',
         },
         {
           aeronave: 'Airbus A320',
-          inventarioId: 3,
+          inventarioId: 13,
           workOrder: 'WO-003',
         },
         {
           aeronave: 'Embraer ERJ-145',
-          inventarioId: 4,
+          inventarioId: 14,
           workOrder: 'WO-004',
         },
         {
           aeronave: 'Bombardier CRJ-200',
-          inventarioId: 5,
+          inventarioId: 15,
           workOrder: 'WO-005',
         },
       ],
     });
 
-    const createTallerReparacion =
-      await this.prismaService.tallerReparacion.createMany({
+    const createTallerReparacion = await this.prismaService.tallerReparacion.createMany({
         data: [
           {
             taller: 'Taller A',
-            inventarioId: 6,
+            inventarioId: 16,
             workshopOrder: 'OT-001',
           },
           {
             taller: 'Taller B',
-            inventarioId: 7,
+            inventarioId: 17,
             workshopOrder: 'OT-002',
           },
           {
             taller: 'Taller C',
-            inventarioId: 8,
+            inventarioId: 18,
             workshopOrder: 'OT-003',
           },
           {
             taller: 'Taller D',
-            inventarioId: 9,
+            inventarioId: 19,
             workshopOrder: 'OT-004',
           },
           {
             taller: 'Taller E',
-            inventarioId: 10,
+            inventarioId: 20,
             workshopOrder: 'OT-005',
           },
         ],
-      });
+    });
 
+    if (!createEstado) {
+      throw new BadRequestException('Se produjo un error.');
+    }
     if (!createRoles) {
       throw new BadRequestException('Se produjo un error.');
     }
-
     if (!createUsers) {
       throw new BadRequestException('Se produjo un error.');
     }
-
     if (!createtipoComponente) {
       throw new BadRequestException('Se produjo un error.');
     }
-
     if (!createAtas) {
       throw new BadRequestException('Se produjo un error.');
     }
-
     if (!createtipoMovimiento) {
       throw new BadRequestException('Se produjo un error.');
     }
 
+    if (!createAlmacen) {
+      throw new BadRequestException('Se produjo un error.');
+    }
+
+    if (!createZonas) {
+      throw new BadRequestException('Se produjo un error.');
+    }
     if (!createInventario) {
       throw new BadRequestException('Se produjo un error.');
     }
@@ -342,9 +349,9 @@ export class MainLoadService {
       throw new BadRequestException('Se produjo un error.');
     }
 
-    if (!createEstado) {
-      throw new BadRequestException('Se produjo un error.');
-    }
+    // if (!createEstado) {
+    //   throw new BadRequestException('Se produjo un error.');
+    // }
 
     baseResponse.message = 'Se han creado los datos.';
 
