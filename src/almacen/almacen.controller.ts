@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { AlmacenService } from './almacen.service';
-import { almacenes } from '@prisma/client';
+import { almacenes, zona } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { DtoCreateAlmacen, DtoUpdateAlmacen } from 'src/dtos/almacen.dto';
 
@@ -12,6 +12,11 @@ export class AlmacenController {
     @Get()
     async getAlmacenes(): Promise<almacenes[]>{
         return await this.almacenesService.getAlmacen();
+    }
+
+    @Get('/zonas')
+    async getZonas(): Promise<zona[]>{
+        return await this.almacenesService.getZona();
     }
 
     @Post()

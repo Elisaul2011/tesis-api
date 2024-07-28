@@ -19,3 +19,15 @@ export class DtoUpdateAlmacen extends DtoCreateAlmacen {
     @IsNumber()
     idAlmacenes: number;
 }
+
+export class DtoCreateZona{
+    @IsString()
+    zona: string;
+    @IsString()
+    descripcionZona: string;
+}
+
+export class DtoUpdateZona extends DtoCreateZona {
+    @IsNumber()
+    idZona: number;
+}

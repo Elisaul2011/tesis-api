@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { almacenes } from '@prisma/client';
+import { almacenes, zona } from '@prisma/client';
 import { DtoCreateAlmacen, DtoUpdateAlmacen } from 'src/dtos/almacen.dto';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
@@ -18,6 +18,10 @@ export class AlmacenService {
         })
     }
 
+    async getZona(): Promise<zona[]> {
+        return await this.prismaService.zona.findMany()
+    }
+
     async postAlmacen(add: DtoCreateAlmacen): Promise<DtoBaseResponse>{
         const createAlmacen = this.prismaService.almacenes.create({
             data: {
@@ -33,7 +37,6 @@ export class AlmacenService {
         if(!createAlmacen){
             throw new BadRequestException('El almacen no pudo ser creado.')
         }
-
 
         baseResponse.message = 'Almacen creado.'
         return baseResponse;
@@ -57,7 +60,6 @@ export class AlmacenService {
         if(!updateAlmacen){
             throw new BadRequestException('El almacen no se pudo actualizar.')
         }
-
 
         baseResponse.message = 'Almacen actualizado.'
         return baseResponse;

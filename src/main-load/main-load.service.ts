@@ -35,24 +35,28 @@ export class MainLoadService {
           lastnameUser: 'Uribe',
           rolId: 1,
           password: '12345',
+          active: true
         },
         {
           nameUser: 'Luis',
           lastnameUser: 'Nava',
           rolId: 2,
           password: '12345',
+          active: true
         },
         {
           nameUser: 'Saulo',
           lastnameUser: 'Ortega',
           rolId: 3,
           password: '12345',
+          active: true
         },
         {
           nameUser: 'José',
           lastnameUser: 'Urdaneta',
           rolId: 4,
           password: 'admin123',
+          active: true
         },
       ],
     });
@@ -116,7 +120,6 @@ export class MainLoadService {
         },
       ],
     });
-    //--------------------------------------------//
 
     const createZonas = await this.prismaService.zona.create({
       data: {
@@ -251,31 +254,34 @@ export class MainLoadService {
       ],
     });
 
+    //--------------------------------------------//
+
+
     const createAeronave = await this.prismaService.aeronave.createMany({
       data: [
         {
           aeronave: 'Cessna 172',
-          inventarioId: 11,
+          inventarioId: 1,
           workOrder: 'WO-001',
         },
         {
           aeronave: 'Boeing 737',
-          inventarioId: 12,
+          inventarioId: 2,
           workOrder: 'WO-002',
         },
         {
           aeronave: 'Airbus A320',
-          inventarioId: 13,
+          inventarioId: 3,
           workOrder: 'WO-003',
         },
         {
           aeronave: 'Embraer ERJ-145',
-          inventarioId: 14,
+          inventarioId: 4,
           workOrder: 'WO-004',
         },
         {
           aeronave: 'Bombardier CRJ-200',
-          inventarioId: 15,
+          inventarioId: 5,
           workOrder: 'WO-005',
         },
       ],
@@ -285,27 +291,27 @@ export class MainLoadService {
         data: [
           {
             taller: 'Taller A',
-            inventarioId: 16,
+            inventarioId: 1,
             workshopOrder: 'OT-001',
           },
           {
             taller: 'Taller B',
-            inventarioId: 17,
+            inventarioId: 2,
             workshopOrder: 'OT-002',
           },
           {
             taller: 'Taller C',
-            inventarioId: 18,
+            inventarioId: 3,
             workshopOrder: 'OT-003',
           },
           {
             taller: 'Taller D',
-            inventarioId: 19,
+            inventarioId: 4,
             workshopOrder: 'OT-004',
           },
           {
             taller: 'Taller E',
-            inventarioId: 20,
+            inventarioId: 5,
             workshopOrder: 'OT-005',
           },
         ],

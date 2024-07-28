@@ -5,9 +5,10 @@ import { PrismaService } from './prisma/prisma.service';
 import { UsersModule } from './users/users.module';
 import { MainLoadModule } from './main-load/main-load.module';
 import { AlmacenModule } from './almacen/almacen.module';
+import { ZonaModule } from './zona/zona.module';
 
 @Module({
-  imports: [UsersModule, MainLoadModule, AlmacenModule],
+  imports: [UsersModule, MainLoadModule, AlmacenModule, ZonaModule],
   providers: [PrismaService],
 })
 export class AppModule {}

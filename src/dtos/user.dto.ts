@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 
 export class DtoCreateUser {
@@ -10,6 +10,8 @@ export class DtoCreateUser {
     password: string;
     @IsNumber()
     rolId: number;
+    @IsBoolean()
+    active: boolean;
 }
 
 export class DtoEditUser extends DtoCreateUser{

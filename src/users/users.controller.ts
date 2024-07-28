@@ -1,5 +1,5 @@
 import { Constructor } from './../../node_modules/make-error/index.d';
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { roles, user } from '@prisma/client';
 import { UsersService } from './users.service';
 import { DtoBaseResponse } from 'src/dtos/base-response';
@@ -28,5 +28,10 @@ export class UsersController {
     @Put()
     async putUser(@Body() user: DtoEditUser): Promise<DtoBaseResponse>{
         return await this.userService.putUser(user);
+    }
+
+    @Delete('/:id')
+    async deleteUser(@Param('id') id: string): Promise<DtoBaseResponse>{
+        return await this.userService.deleteUser(id);
     }
 }

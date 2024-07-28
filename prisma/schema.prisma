@@ -182,6 +182,7 @@ model user {
   nameUser     String
   lastnameUser String
   rolId        Int
+  active       Boolean
   password     String @db.VarChar(50)
   roles        roles  @relation(fields: [rolId], references: [idRol], map: "User_rolId_fkey")
 

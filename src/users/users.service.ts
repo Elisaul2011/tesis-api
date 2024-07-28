@@ -39,7 +39,8 @@ export class UsersService {
         const editUser = await this.prismaService.user.update({
             data: {
                 nameUser: user.nameUser,
-                lastnameUser: user.lastnameUser
+                lastnameUser: user.lastnameUser,
+                active: user.active
             },
             where: {
                 idUser: user.idUser
@@ -51,6 +52,22 @@ export class UsersService {
         }
 
         baseResponse.message = 'Usuario Editado.'
+
+        return baseResponse;
+    }
+
+    async deleteUser(id: string): Promise<DtoBaseResponse> {
+        const deleteUser = await this.prismaService.user.delete({
+            where: {
+                idUser: Number(id)
+            }
+        });
+
+        if(!deleteUser){
+            throw new BadRequestException('Ha ocurrido un error');
+        }
+
+        baseResponse.message = 'Usuario Eliminado.'
 
         return baseResponse;
     }
