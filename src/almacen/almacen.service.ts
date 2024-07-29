@@ -13,7 +13,7 @@ export class AlmacenService {
     async getAlmacen(): Promise<almacenes[]> {
         return await this.prismaService.almacenes.findMany({
             include: {
-                idZona: true
+                idZona: true,
             }
         })
     }

@@ -23,12 +23,21 @@ model inventario {
   tipoComponenteId Int
   sn               String
   cantidad         Int
+  lote             String
   idEstado         estado             @relation(fields: [estadoId], references: [idEstado])
   estadoId         Int
   shelfLife        DateTime
   order            String
   aeronave         aeronave[]
   tallerReparacion tallerReparacion[]
+  inspeccion       inspeccion[]
+}
+
+model inspeccion {
+  idInspeccion Int        @id @default(autoincrement())
+  idInventario inventario @relation(fields: [inventarioId], references: [idInventario])
+  inventarioId Int
+  orderInsp    String
 }
 
 model ordenCompra {
@@ -40,6 +49,12 @@ model ordenCompra {
   sn            String
 }
 
+model necesidadesTecnicas {
+  idNecesidadesTecnicas Int @id @default(autoincrement())
+  pn               String
+  descripcion      String
+  cantidad         Int
+}
 model aeronave {
   idAeronave   Int        @id @default(autoincrement())
   aeronave     String
@@ -178,13 +193,13 @@ model atas {
 }
 
 model user {
-  idUser       Int    @id @default(autoincrement())
+  idUser       Int     @id @default(autoincrement())
   nameUser     String
   lastnameUser String
   rolId        Int
   active       Boolean
-  password     String @db.VarChar(50)
-  roles        roles  @relation(fields: [rolId], references: [idRol], map: "User_rolId_fkey")
+  password     String  @db.VarChar(50)
+  roles        roles   @relation(fields: [rolId], references: [idRol], map: "User_rolId_fkey")
 
   @@index([rolId], map: "User_rolId_fkey")
 }
