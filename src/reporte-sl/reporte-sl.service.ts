@@ -15,7 +15,7 @@ export class ReporteSlService {
     }
 
     async postReporte(add: DtoCreateReporte): Promise<DtoBaseResponse>{
-        const createReporte = this.prismaService.reporteShelfLife.create({
+        const createReporte = await this.prismaService.reporteShelfLife.create({
             data: {
                 almacenesId: add.almacenesId,
                 zonaid: add.zonaid,
@@ -40,7 +40,7 @@ export class ReporteSlService {
     }
 
     async putReporte(update: DtoUpdateReporte): Promise<DtoBaseResponse>{
-        const updateReporte = this.prismaService.reporteShelfLife.update({
+        const updateReporte = await this.prismaService.reporteShelfLife.update({
             data: {
                 almacenesId: update.almacenesId,
                 zonaid: update.zonaid,

@@ -42,8 +42,9 @@ model inspeccion {
 
 model ordenCompra {
   idOrdenCompra Int      @id @default(autoincrement())
-  ordenCompra   Int
+  ordenCompra   String
   Fecha         DateTime
+  descripcion   String
   cantidad      Int
   pn            String
   sn            String

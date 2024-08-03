@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { inventario } from '@prisma/client';
+import { inventario, almacenes, zona } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateInventario, DtoUpdateInventario } from 'src/dtos/inventario.dto';
@@ -10,11 +10,21 @@ export class InventarioService {
     constructor(private prismaService: PrismaService) { }
 
     async getInventario(): Promise<inventario[]> {
-        return await this.prismaService.inventario.findMany();
+        return await this.prismaService.inventario.findMany({
+            include: {
+                idEstado: true,
+                idTipoComponente: true,
+                almacenes: {
+                    include: {
+                        idZona: true
+                    }
+                }
+            }
+        });
     }
 
     async postInventario(add: DtoCreateInventario): Promise<DtoBaseResponse>{
-        const createInventario = this.prismaService.inventario.create({
+        const createInventario = await this.prismaService.inventario.create({
             data: {
                 almacenesId: add.almacenesId, 
                 pn: add.pn,
@@ -38,7 +48,7 @@ export class InventarioService {
     }
 
     async putInventario(update: DtoUpdateInventario): Promise<DtoBaseResponse>{
-        const updateInventario = this.prismaService.inventario.update({
+        const updateInventario = await this.prismaService.inventario.update({
             data: {
                 almacenesId: update.almacenesId,
                 pn: update.pn,

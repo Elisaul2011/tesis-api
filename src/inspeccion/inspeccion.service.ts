@@ -15,7 +15,7 @@ export class InspeccionService {
     }
 
     async postInspeccion(add: DtoCreateInspeccion): Promise<DtoBaseResponse>{
-        const createInspeccion = this.prismaService.inspeccion.create({
+        const createInspeccion = await this.prismaService.inspeccion.create({
             data: {
                 inventarioId: add.inventarioId,
                 orderInsp: add.orderInsp
@@ -31,7 +31,7 @@ export class InspeccionService {
     }
 
     async putInspeccion(update: DtoUpdateInspeccion): Promise<DtoBaseResponse>{
-        const updateInspeccion = this.prismaService.inspeccion.update({
+        const updateInspeccion = await this.prismaService.inspeccion.update({
             data: {
                 inventarioId: update.inventarioId,
                 orderInsp: update.orderInsp

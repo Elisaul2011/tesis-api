@@ -13,9 +13,10 @@ import { InspeccionModule } from './inspeccion/inspeccion.module';
 import { NecesidadesTecnicasModule } from './necesidades-tecnicas/necesidades-tecnicas.module';
 import { ReporteSlModule } from './reporte-sl/reporte-sl.module';
 import { HistorialModule } from './historial/historial.module';
+import { CompraModule } from './compra/compra.module';
 
 @Module({
-  imports: [UsersModule, MainLoadModule, AlmacenModule, ZonaModule, InventarioModule, AeronaveModule, TallerReparacionModule, InspeccionModule, NecesidadesTecnicasModule, ReporteSlModule, HistorialModule],
+  imports: [UsersModule, MainLoadModule, AlmacenModule, ZonaModule, InventarioModule, AeronaveModule, TallerReparacionModule, InspeccionModule, NecesidadesTecnicasModule, ReporteSlModule, HistorialModule, CompraModule],
   providers: [PrismaService],
 })
 export class AppModule {}

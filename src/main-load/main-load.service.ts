@@ -144,6 +144,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'ABC-123',
+          lote: '',
           descripcion: 'Sensor de presión',
           tipoComponenteId: 5,
           sn: 'SN-001',
@@ -155,6 +156,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'XYZ-456',
+          lote: '',
           descripcion: 'Válvula de combustible',
           tipoComponenteId: 3,
           sn: 'SN-002',
@@ -166,6 +168,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'DEF-789',
+          lote: '',
           descripcion: 'Filtro de aceite',
           tipoComponenteId: 2,
           sn: 'SN-003',
@@ -177,6 +180,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'GHI-012',
+          lote: '',
           descripcion: 'Regulador de presión',
           tipoComponenteId: 6,
           sn: 'SN-004',
@@ -188,6 +192,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'JKL-345',
+          lote: '',
           descripcion: 'Bomba de combustible',
           tipoComponenteId: 1,
           sn: 'SN-005',
@@ -199,6 +204,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'MNO-678',
+          lote: '',
           descripcion: 'Interruptor de encendido',
           tipoComponenteId: 4,
           sn: 'SN-006',
@@ -210,6 +216,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'PQR-901',
+          lote: '',
           descripcion: 'Alternador',
           tipoComponenteId: 7,
           sn: 'SN-007',
@@ -221,6 +228,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'STU-234',
+          lote: '',
           descripcion: 'Neumático',
           tipoComponenteId: 2,
           sn: 'SN-008',
@@ -232,6 +240,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'VWX-567',
+          lote: '',
           descripcion: 'Amortiguador',
           tipoComponenteId: 5,
           sn: 'SN-009',
@@ -243,6 +252,7 @@ export class MainLoadService {
         {
           almacenesId: 1,
           pn: 'YZA-890',
+          lote: '',
           descripcion: 'Batería',
           tipoComponenteId: 3,
           sn: 'SN-010',

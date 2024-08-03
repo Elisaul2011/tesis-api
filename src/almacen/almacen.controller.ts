@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AlmacenService } from './almacen.service';
 import { almacenes, zona } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
@@ -27,5 +27,10 @@ export class AlmacenController {
     @Put()
     async putAlmacenes(@Body() bodyAlmacen: DtoUpdateAlmacen): Promise<DtoBaseResponse>{
         return await this.almacenesService.putAlmacen(bodyAlmacen);
+    }
+
+    @Delete('/:id')
+    async deleteAlmacenes(@Param('id') idAlmacen: string): Promise<DtoBaseResponse>{
+        return await this.almacenesService.deleteAlmacen(idAlmacen);
     }
 }

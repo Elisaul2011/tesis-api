@@ -15,7 +15,7 @@ export class NecesidadesTecnicasService {
     }
 
     async postNecesidades(add: DtoCreateNecesidades): Promise<DtoBaseResponse>{
-        const createNecesidades = this.prismaService.necesidadesTecnicas.create({
+        const createNecesidades = await this.prismaService.necesidadesTecnicas.create({
             data: {
                 pn: add.pn,
                 descripcion: add.descripcion,
@@ -32,7 +32,7 @@ export class NecesidadesTecnicasService {
     }
 
     async putNecesidades(update: DtoUpdateNecesidades): Promise<DtoBaseResponse>{
-        const updateNecesidades = this.prismaService.necesidadesTecnicas.update({
+        const updateNecesidades = await this.prismaService.necesidadesTecnicas.update({
             data: {
                 pn: update.pn,
                 descripcion: update.descripcion,

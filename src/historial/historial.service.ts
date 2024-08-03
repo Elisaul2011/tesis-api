@@ -15,7 +15,7 @@ export class HistorialService {
     }
 
     async postHistorial(add: DtoCreateHistorial): Promise<DtoBaseResponse>{
-        const createHistorial = this.prismaService.historial.create({
+        const createHistorial = await this.prismaService.historial.create({
             data: {
                 fechaMovimiento: add.fechaMovimiento,
                 pn: add.pn,
@@ -40,7 +40,7 @@ export class HistorialService {
     }
 
     async putHistorial(update: DtoUpdateHistorial): Promise<DtoBaseResponse>{
-        const updateHistorial = this.prismaService.historial.update({
+        const updateHistorial= await this.prismaService.historial.update({
             data: {
                 fechaMovimiento: update.fechaMovimiento,
                 pn: update.pn,

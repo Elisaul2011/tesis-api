@@ -3,6 +3,8 @@ import { almacenes, zona } from '@prisma/client';
 import { DtoCreateAlmacen, DtoUpdateAlmacen } from 'src/dtos/almacen.dto';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
+import { DtoCreateHistorial } from 'src/dtos/historial.dto';
+import { HistorialService } from 'src/historial/historial.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -23,7 +25,7 @@ export class AlmacenService {
     }
 
     async postAlmacen(add: DtoCreateAlmacen): Promise<DtoBaseResponse>{
-        const createAlmacen = this.prismaService.almacenes.create({
+        const createAlmacen = await this.prismaService.almacenes.create({
             data: {
                 ciudad: add.ciudad,
                 descripcion: add.descripcion,
@@ -43,7 +45,7 @@ export class AlmacenService {
     }
 
     async putAlmacen(update: DtoUpdateAlmacen): Promise<DtoBaseResponse>{
-        const updateAlmacen = this.prismaService.almacenes.update({
+        const updateAlmacen = await this.prismaService.almacenes.update({
             data: {
                 ciudad: update.ciudad,
                 descripcion: update.descripcion,
@@ -62,6 +64,21 @@ export class AlmacenService {
         }
 
         baseResponse.message = 'Almacen actualizado.'
+        return baseResponse;
+    }
+
+    async deleteAlmacen(idAlmacenes: string): Promise<DtoBaseResponse>{
+        const deleteAlmacen = await this.prismaService.almacenes.delete({
+            where: {
+                idAlmacenes: Number(idAlmacenes)
+            }
+        });
+
+        if(!deleteAlmacen){
+            throw new BadRequestException('El almacen no se pudo eliminar.')
+        }
+
+        baseResponse.message = 'Almacen eliminado.'
         return baseResponse;
     }
 

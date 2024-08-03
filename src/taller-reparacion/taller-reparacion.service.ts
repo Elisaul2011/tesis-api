@@ -15,7 +15,7 @@ export class TallerReparacionService {
     }
 
     async postTaller(add: DtoCreateTallerReparacion): Promise<DtoBaseResponse>{
-        const createTaller = this.prismaService.tallerReparacion.create({
+        const createTaller = await this.prismaService.tallerReparacion.create({
             data: {
                 taller: add.taller,
                 inventarioId: add.inventarioId,
@@ -32,7 +32,7 @@ export class TallerReparacionService {
     }
 
     async putTaller(update: DtoUpdateTallerReparacion): Promise<DtoBaseResponse>{
-        const updateTaller = this.prismaService.tallerReparacion.update({
+        const updateTaller = await this.prismaService.tallerReparacion.update({
             data: {
                 taller: update.taller,
                 inventarioId: update.inventarioId,
