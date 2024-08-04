@@ -19,7 +19,6 @@ export class TallerReparacionService {
             data: {
                 taller: add.taller,
                 inventarioId: add.inventarioId,
-                workshopOrder: add.workshopOrder
             }
         });
 
@@ -36,7 +35,6 @@ export class TallerReparacionService {
             data: {
                 taller: update.taller,
                 inventarioId: update.inventarioId,
-                workshopOrder: update.workshopOrder
             },
             where: {
                 idTaller: update.idTaller

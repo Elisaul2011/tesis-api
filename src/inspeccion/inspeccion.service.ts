@@ -18,7 +18,6 @@ export class InspeccionService {
         const createInspeccion = await this.prismaService.inspeccion.create({
             data: {
                 inventarioId: add.inventarioId,
-                orderInsp: add.orderInsp
             }
         });
 
@@ -34,7 +33,6 @@ export class InspeccionService {
         const updateInspeccion = await this.prismaService.inspeccion.update({
             data: {
                 inventarioId: update.inventarioId,
-                orderInsp: update.orderInsp
             },
             where: {
                 idInspeccion: update.idInspeccion

@@ -1,26 +1,10 @@
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsNumber } from "class-validator";
 
 export class DtoCreateReporte {
     @IsNumber()
-    almacenesId: number;
+    idReporteShelfLife: number;
     @IsNumber()
-    zonaid: number;
-    @IsString()
-    pn: string;
-    @IsString()
-    descripcion: string;
-    @IsNumber()
-    tipoComponenteId: number;
-    @IsString()
-    sn: string;
-    @IsNumber()
-    cantidad: number;
-    @IsString()
-    lote: string;
-    @IsNumber()
-    estadoId: number;
-    @IsDate()
-    shelfLife: Date;
+    inventarioId: number;
     @IsNumber()
     venceEn: number;
 }

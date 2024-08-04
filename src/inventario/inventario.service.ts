@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { inventario, almacenes, zona } from '@prisma/client';
+import { inventario, almacenes, zona, atas } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateInventario, DtoUpdateInventario } from 'src/dtos/inventario.dto';
@@ -14,13 +14,14 @@ export class InventarioService {
             include: {
                 idEstado: true,
                 idTipoComponente: true,
-                almacenes: {
-                    include: {
-                        idZona: true
-                    }
-                }
+                almacenes: true,
+                zonas: true
             }
         });
+    }
+
+    async getAtas(): Promise<atas[]> {
+        return await this.prismaService.atas.findMany();
     }
 
     async postInventario(add: DtoCreateInventario): Promise<DtoBaseResponse>{
@@ -33,9 +34,13 @@ export class InventarioService {
                 sn: add.sn,
                 cantidad: add.cantidad,
                 lote: add.lote,
+                fabricante: add.fabricante,
                 estadoId: add.estadoId,
                 shelfLife: add.shelfLife,
-                order: add.order
+                order: add.order,
+                zonaId: add.zonaId,
+                ataId: add.idAta,
+                horasManualesId: add.idHorasManuales
             }
         });
 
@@ -57,9 +62,11 @@ export class InventarioService {
                 sn: update.sn,
                 cantidad: update.cantidad,
                 lote: update.lote,
-                estadoId: update.estadoId,
+                fabricante: update.fabricante,
+                //estadoId: update.estadoId,
                 shelfLife: update.shelfLife,
-                order: update.order
+                order: update.order,
+                zonaId: update.zonaId
             },
             where: {
                 idInventario: update.idInventario

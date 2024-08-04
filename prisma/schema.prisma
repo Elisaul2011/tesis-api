@@ -17,6 +17,8 @@ model inventario {
   idInventario     Int                @id @default(autoincrement())
   almacenes        almacenes          @relation(fields: [almacenesId], references: [idAlmacenes])
   almacenesId      Int
+  zonas            zona               @relation(fields: [zonaId], references: [idZona])
+  zonaId           Int
   pn               String
   descripcion      String
   idTipoComponente tipoComponente     @relation(fields: [tipoComponenteId], references: [idTipoComponente])
@@ -24,146 +26,101 @@ model inventario {
   sn               String
   cantidad         Int
   lote             String
+  fabricante       String
   idEstado         estado             @relation(fields: [estadoId], references: [idEstado])
   estadoId         Int
   shelfLife        DateTime
   order            String
+  idAta            atas               @relation(fields: [ataId], references: [IdAta])
+  ataId            Int
+  idHorasManuales  horasManuales      @relation(fields: [horasManualesId], references: [idHorasManuales])
+  horasManualesId  Int
   aeronave         aeronave[]
   tallerReparacion tallerReparacion[]
   inspeccion       inspeccion[]
+  historial        historial[]
+  reporteShelfLife reporteShelfLife[]
 }
 
 model inspeccion {
-  idInspeccion Int        @id @default(autoincrement())
-  idInventario inventario @relation(fields: [inventarioId], references: [idInventario])
+  idInspeccion Int         @id @default(autoincrement())
+  idInventario inventario  @relation(fields: [inventarioId], references: [idInventario])
   inventarioId Int
-  orderInsp    String
+  historial    historial[]
 }
 
 model ordenCompra {
-  idOrdenCompra Int      @id @default(autoincrement())
+  idOrdenCompra Int         @id @default(autoincrement())
   ordenCompra   String
   Fecha         DateTime
   descripcion   String
   cantidad      Int
   pn            String
   sn            String
+  historial     historial[]
 }
 
 model necesidadesTecnicas {
-  idNecesidadesTecnicas Int @id @default(autoincrement())
-  pn               String
-  descripcion      String
-  cantidad         Int
+  idNecesidadesTecnicas Int    @id @default(autoincrement())
+  pn                    String
+  descripcion           String
+  cantidad              Int
 }
+
 model aeronave {
-  idAeronave   Int        @id @default(autoincrement())
+  idAeronave   Int         @id @default(autoincrement())
   aeronave     String
-  idInventario inventario @relation(fields: [inventarioId], references: [idInventario])
+  idInventario inventario  @relation(fields: [inventarioId], references: [idInventario])
   inventarioId Int
-  workOrder    String
+  historial    historial[]
 }
 
 model tallerReparacion {
-  idTaller      Int        @id @default(autoincrement())
-  taller        String
-  idInventario  inventario @relation(fields: [inventarioId], references: [idInventario])
-  inventarioId  Int
-  workshopOrder String
-}
-
-model componente {
-  idComponente     Int            @id @default(autoincrement())
-  pn               String
-  sn               String
-  fabricante       String
-  idAlmacenes      almacenes      @relation(fields: [almacenesId], references: [idAlmacenes])
-  almacenesId      Int
-  aterrizajes      Int
-  descripcion      String
-  idATA            atas           @relation(fields: [ataId], references: [IdAta])
-  ataId            Int
-  idZona           zona           @relation(fields: [zonaId], references: [idZona])
-  zonaId           Int
-  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
-  tipoComponenteId Int
-  horas            Int
-  idEstado         estado         @relation(fields: [estadoId], references: [idEstado])
-  estadoId         Int
-  shelfLife        DateTime
-  ciclos           Int
+  idTaller     Int         @id @default(autoincrement())
+  taller       String
+  idInventario inventario  @relation(fields: [inventarioId], references: [idInventario])
+  inventarioId Int
+  historial    historial[]
 }
 
 model horasManuales {
-  idHorasManuales Int      @id @default(autoincrement())
+  idHorasManuales Int          @id @default(autoincrement())
   fecha           DateTime
   horas           Int
   ciclos          Int
   aterrizajes     Int
-}
-
-model prestar {
-  idPrestar        Int            @id @default(autoincrement())
-  idAlmacenes      almacenes      @relation(fields: [almacenesId], references: [idAlmacenes])
-  almacenesId      Int
-  idZona           zona           @relation(fields: [zonaId], references: [idZona])
-  zonaId           Int
-  pn               String
-  descripcion      String
-  idTipoComponente tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
-  tipoComponenteId Int
-  sn               String
-  cantidad         Int
-  lote             String
-  condicion        String
-  idEstado         estado         @relation(fields: [estadoId], references: [idEstado])
-  estadoId         Int
+  inventario      inventario[]
 }
 
 model estado {
-  idEstado         Int                @id @default(autoincrement())
-  estado           String
-  inventario       inventario[]
-  componente       componente[]
-  prestar          prestar[]
-  reporteShelfLife reporteShelfLife[]
-  historial        historial[]
+  idEstado   Int          @id @default(autoincrement())
+  estado     String
+  inventario inventario[]
 }
 
 model reporteShelfLife {
-  idReporteShelfLife Int            @id @default(autoincrement())
-  idAlmacenes        almacenes      @relation(fields: [almacenesId], references: [idAlmacenes])
-  almacenesId        Int
-  idZona             zona           @relation(fields: [zonaid], references: [idZona])
-  zonaid             Int
-  pn                 String
-  descripcion        String
-  idTipoComponente   tipoComponente @relation(fields: [tipoComponenteId], references: [idTipoComponente])
-  tipoComponenteId   Int
-  sn                 String
-  cantidad           Int
-  lote               String
-  idEstado           estado         @relation(fields: [estadoId], references: [idEstado])
-  estadoId           Int
-  shelfLife          DateTime
+  idReporteShelfLife Int        @id @default(autoincrement())
+  idInventario       inventario @relation(fields: [inventarioId], references: [idInventario])
+  inventarioId       Int
   venceEn            Int
 }
 
 model historial {
-  idHistorial      Int            @id @default(autoincrement())
-  fechaMovimiento  DateTime
-  pn               String
-  descripcion      String
-  sn               String
-  cantidad         Int
-  origen           String
-  destino          String
-  realizadoPor     String
-  idTipoMovimiento tipoMovimiento @relation(fields: [tipoMovimientoId], references: [idTipoMovimiento])
+  idHistorial      Int              @id @default(autoincrement())
+  idInventario     inventario       @relation(fields: [inventarioId], references: [idInventario])
+  inventarioId     Int
+  idInspeccion     inspeccion       @relation(fields: [inspeccionId], references: [idInspeccion])
+  inspeccionId     Int
+  idOrdenCompra    ordenCompra      @relation(fields: [ordenCompraId], references: [idOrdenCompra])
+  ordenCompraId    Int
+  idAeronave       aeronave         @relation(fields: [aeronaveId], references: [idAeronave])
+  aeronaveId       Int
+  idTaller         tallerReparacion @relation(fields: [tallerId], references: [idTaller])
+  tallerId         Int
+  idUser           user             @relation(fields: [userId], references: [idUser])
+  userId           Int
+  idTipoMovimiento tipoMovimiento   @relation(fields: [tipoMovimientoId], references: [idTipoMovimiento])
   tipoMovimientoId Int
-  idEstado         estado         @relation(fields: [estadoId], references: [idEstado])
-  estadoId         Int
-  order            String
 }
 
 model tipoMovimiento {
@@ -173,36 +130,49 @@ model tipoMovimiento {
 }
 
 model tipoComponente {
-  idTipoComponente Int                @id @default(autoincrement())
+  idTipoComponente Int          @id @default(autoincrement())
   tipoComponente   String
   inventario       inventario[]
-  componente       componente[]
-  prestar          prestar[]
-  reporteShelfLife reporteShelfLife[]
-}
-
-model controlMantenimiento {
-  idControlMantenimiento Int    @id @default(autoincrement())
-  controlMantenimiento   String
 }
 
 model atas {
   IdAta      Int          @id @default(autoincrement())
   CodigoAta  String       @db.VarChar(30)
   NombreATA  String       @db.VarChar(200)
-  componente componente[]
+  inventario inventario[]
 }
 
 model user {
-  idUser       Int     @id @default(autoincrement())
+  idUser       Int         @id @default(autoincrement())
   nameUser     String
   lastnameUser String
   rolId        Int
   active       Boolean
-  password     String  @db.VarChar(50)
-  roles        roles   @relation(fields: [rolId], references: [idRol], map: "User_rolId_fkey")
+  password     String      @db.VarChar(50)
+  roles        roles       @relation(fields: [rolId], references: [idRol], map: "User_rolId_fkey")
+  historial    historial[]
 
   @@index([rolId], map: "User_rolId_fkey")
+}
+
+model almacenes {
+  idAlmacenes Int          @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  pais        String
+  ciudad      String
+  estado      Int
+  inventario  inventario[]
+  zona        zona[]
+}
+
+model zona {
+  idZona          Int          @id @default(autoincrement())
+  zona            String
+  descripcionZona String
+  almacenId       Int
+  almacen         almacenes    @relation(fields: [almacenId], references: [idAlmacenes])
+  inventario      inventario[]
 }
 
 model roles {
@@ -213,29 +183,4 @@ model roles {
   // almacenista
   // jefe de almacen 
   user  user[]
-}
-
-model almacenes {
-  idAlmacenes      Int                @id @default(autoincrement())
-  nombre           String
-  descripcion      String
-  pais             String
-  ciudad           String
-  estado           Int
-  idZona           zona               @relation(fields: [zonaId], references: [idZona])
-  zonaId           Int
-  inventario       inventario[]
-  componente       componente[]
-  prestar          prestar[]
-  reporteShelfLife reporteShelfLife[]
-}
-
-model zona {
-  idZona           Int                @id @default(autoincrement())
-  zona             String
-  descripcionZona  String
-  componente       componente[]
-  prestar          prestar[]
-  reporteShelfLife reporteShelfLife[]
-  almacenes        almacenes[]
 }

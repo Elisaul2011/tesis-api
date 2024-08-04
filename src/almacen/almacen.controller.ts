@@ -14,11 +14,6 @@ export class AlmacenController {
         return await this.almacenesService.getAlmacen();
     }
 
-    @Get('/zonas')
-    async getZonas(): Promise<zona[]>{
-        return await this.almacenesService.getZona();
-    }
-
     @Post()
     async postAlmacenes(@Body() bodyAlmacen: DtoCreateAlmacen): Promise<DtoBaseResponse>{
         return await this.almacenesService.postAlmacen(bodyAlmacen);

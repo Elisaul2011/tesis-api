@@ -14,6 +14,11 @@ export class ZonaController {
         return await this.zonaService.getZonas();
     }
 
+    @Get(':idAlmacen')
+    async getZonaByAlmacen(@Param('idAlmacen') idAlmacen: string): Promise<zona[]> {
+        return await this.zonaService.getZonaByAlmacen(idAlmacen);
+    }
+
     @Post()
     async postZonas(@Body() bodyZona: DtoCreateZona): Promise<DtoBaseResponse>{
         return await this.zonaService.postZonas(bodyZona);

@@ -19,7 +19,6 @@ export class AeronaveService {
             data: {
                 aeronave: add.aeronave,
                 inventarioId: add.inventarioId,
-                workOrder: add.workOrder
             }
         });
 
@@ -36,7 +35,6 @@ export class AeronaveService {
             data: {
                 aeronave: update.aeronave,
                 inventarioId: update.inventarioId,
-                workOrder: update.workOrder
             },
             where: {
                 idAeronave: update.idAeronave

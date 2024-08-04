@@ -19,14 +19,4 @@ export class HistorialController {
         return await this.historialService.postHistorial(newHistorial);
     }
 
-    @Put()
-    async putHistorial(@Body() inventario: DtoUpdateHistorial): Promise<DtoBaseResponse>{
-        return await this.historialService.putHistorial(inventario);
-    }
-
-    @Delete('/:id')
-    async deleteHistorial(@Param('id') id: string): Promise<DtoBaseResponse>{
-        return await this.historialService.deleteHistorial(id);
-    }
-
 }

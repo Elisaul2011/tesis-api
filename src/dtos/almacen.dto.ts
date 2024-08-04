@@ -11,8 +11,6 @@ export class DtoCreateAlmacen {
     pais: string;
     @IsString()
     nombre: string;
-    @IsNumber()
-    zonaId: number;
 }
 
 export class DtoUpdateAlmacen extends DtoCreateAlmacen {
@@ -25,6 +23,8 @@ export class DtoCreateZona{
     zona: string;
     @IsString()
     descripcionZona: string;
+    @IsNumber()
+    almacenId: number;
 }
 
 export class DtoUpdateZona extends DtoCreateZona {

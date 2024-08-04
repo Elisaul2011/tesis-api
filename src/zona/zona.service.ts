@@ -10,7 +10,19 @@ export class ZonaService {
     constructor(private prismaService: PrismaService) { }
 
     async getZonas(): Promise<zona[]> {
-        return await this.prismaService.zona.findMany();
+        return await this.prismaService.zona.findMany({
+            include: {
+                almacen: true,
+            },
+        });
+    }
+
+    async getZonaByAlmacen(almacenId: string): Promise<zona[]> {
+        return await this.prismaService.zona.findMany({
+            where: {
+                almacenId: Number(almacenId),
+            },
+        });
     }
 
     async postZonas(zona: DtoCreateZona): Promise<DtoBaseResponse> {
@@ -31,6 +43,7 @@ export class ZonaService {
             data: {
                 zona: zona.zona,
                 descripcionZona: zona.descripcionZona,
+                almacenId: zona.almacenId,
             },
             where: {
                 idZona: zona.idZona,
@@ -64,4 +77,3 @@ export class ZonaService {
         return baseResponse;
     }
 }
-

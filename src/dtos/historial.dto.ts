@@ -1,28 +1,22 @@
 import { IsDate, IsNumber, IsString } from "class-validator";
 
 export class DtoCreateHistorial {
-    @IsDate()
-    fechaMovimiento: Date;
-    @IsString()
-    pn: string;
-    @IsString()
-    descripcion: string;
-    @IsString()
-    sn: string;
     @IsNumber()
-    cantidad: number;
-    @IsString()
-    origen: string;
-    @IsString()
-    destino: string;
-    @IsString()
-    realizadoPor: string;
+    idHistorial: number;
+    @IsNumber()
+    inventarioId: number;
+    @IsNumber()
+    inspeccionId: number;
+    @IsNumber()
+    ordenCompraId: number;
+    @IsNumber()
+    aeronaveId: number;
+    @IsNumber()
+    tallerId: number;
+    @IsNumber()
+    userId: number;
     @IsNumber()
     tipoMovimientoId: number;
-    @IsNumber()
-    estadoId: number;
-    @IsString()
-    order: string;
 }
 
 export class DtoUpdateHistorial extends DtoCreateHistorial {

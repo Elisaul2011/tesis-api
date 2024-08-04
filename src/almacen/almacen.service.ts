@@ -13,15 +13,7 @@ export class AlmacenService {
     constructor(private prismaService: PrismaService){}
 
     async getAlmacen(): Promise<almacenes[]> {
-        return await this.prismaService.almacenes.findMany({
-            include: {
-                idZona: true,
-            }
-        })
-    }
-
-    async getZona(): Promise<zona[]> {
-        return await this.prismaService.zona.findMany()
+        return await this.prismaService.almacenes.findMany()
     }
 
     async postAlmacen(add: DtoCreateAlmacen): Promise<DtoBaseResponse>{
@@ -32,7 +24,6 @@ export class AlmacenService {
                 estado: add.estado,
                 pais: add.pais,
                 nombre: add.nombre,
-                zonaId: add.zonaId
             }
         });
 
@@ -52,7 +43,6 @@ export class AlmacenService {
                 estado: update.estado,
                 pais: update.pais,
                 nombre: update.nombre,
-                zonaId: update.zonaId
             },
             where: {
                 idAlmacenes: update.idAlmacenes

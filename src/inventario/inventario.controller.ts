@@ -1,4 +1,4 @@
-import { inventario } from '@prisma/client';
+import { atas, inventario } from '@prisma/client';
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { InventarioService } from './inventario.service';
 import { DtoCreateInventario, DtoUpdateInventario } from 'src/dtos/inventario.dto';
@@ -12,6 +12,11 @@ export class InventarioController {
     @Get()
     async getInventario(): Promise<inventario[]> {
         return await this.inventarioService.getInventario();
+    }
+
+    @Get('/atas')
+    async getAtas(): Promise<atas[]> {
+        return await this.inventarioService.getAtas();
     }
 
     @Post()

@@ -28,6 +28,7 @@ export class MainLoadService {
         },
       ],
     });
+
     const createUsers = await this.prismaService.user.createMany({
       data: [
         {
@@ -60,6 +61,7 @@ export class MainLoadService {
         },
       ],
     });
+
     const createtipoComponente = await this.prismaService.tipoComponente.createMany({
         data: [
           {
@@ -85,6 +87,7 @@ export class MainLoadService {
           },
         ],
     });
+
     const createtipoMovimiento = await this.prismaService.tipoMovimiento.createMany({
         data: [
           {
@@ -104,6 +107,7 @@ export class MainLoadService {
           },
         ],
     });
+
     const createEstado = await this.prismaService.estado.createMany({
       data: [
         {
@@ -121,22 +125,56 @@ export class MainLoadService {
       ],
     });
 
-    const createZonas = await this.prismaService.zona.create({
-      data: {
-        descripcionZona: 'Venezuela',
-        zona:'Venezuela'
-      }
+    const createAlmacen = await this.prismaService.almacenes.createMany({
+      data: [
+        {
+          ciudad:'Maracaibo',
+          descripcion:'Descripción del Almacen uno',
+          estado:1,
+          nombre:'Almacen Nro1',
+          pais:'Venezuela',
+        },
+        {
+          ciudad:'Merida',
+          descripcion:'Descripción del Almacen dos',
+          estado:1,
+          nombre:'Almacen Nro2',
+          pais:'Venezuela',
+        }
+      ]
+    })
+
+    const createZonas = await this.prismaService.zona.createMany({
+      data: [
+        {
+          descripcionZona: 'Piezas pequeñas',
+          zona:'Zona 1',
+          almacenId: 1
+        },
+        {
+          descripcionZona: 'Piezas grandes',
+          zona:'Zona 2',
+          almacenId: 1
+        },
+        {
+          descripcionZona: 'Piezas mediadas',
+          zona:'Zona 3',
+          almacenId: 2
+        }
+      ]
     });
 
-    const createAlmacen = await this.prismaService.almacenes.create({
-      data: {
-        ciudad:'Maracaibo',
-        descripcion:'Descripción del Almacen uno',
-        estado:1,
-        nombre:'Almacen Nro1',
-        pais:'Venezuela',
-        zonaId: 1
-      }
+    //--------------------------------------------//
+    const createHorasManuales = await this.prismaService.horasManuales.createMany({
+      data: [
+        {
+        idHorasManuales: 1,
+        fecha: new Date('2024-04-15'),
+        horas: 12,
+        ciclos: 2,
+        aterrizajes: 4
+        }
+      ]
     })
 
     const createInventario = await this.prismaService.inventario.createMany({
@@ -150,8 +188,12 @@ export class MainLoadService {
           sn: 'SN-001',
           cantidad: 15,
           estadoId: 2,
+          fabricante: '',
           shelfLife: new Date('2025-03-15'),
           order: 'WO-001',
+          zonaId: 1,
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -164,6 +206,10 @@ export class MainLoadService {
           estadoId: 1,
           shelfLife: new Date('2024-11-30'),
           order: 'OT-002',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -176,6 +222,10 @@ export class MainLoadService {
           estadoId: 3,
           shelfLife: new Date('2026-01-01'),
           order: 'INSP-003',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -188,6 +238,10 @@ export class MainLoadService {
           estadoId: 1,
           shelfLife: new Date('2025-06-30'),
           order: 'WO-004',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -200,6 +254,10 @@ export class MainLoadService {
           estadoId: 2,
           shelfLife: new Date('2024-09-15'),
           order: 'OT-005',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -212,6 +270,10 @@ export class MainLoadService {
           estadoId: 3,
           shelfLife: new Date('2026-04-20'),
           order: 'INSP-006',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -224,6 +286,10 @@ export class MainLoadService {
           estadoId: 1,
           shelfLife: new Date('2025-12-31'),
           order: 'WO-007',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -236,6 +302,10 @@ export class MainLoadService {
           estadoId: 2,
           shelfLife: new Date('2024-07-01'),
           order: 'OT-008',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -248,6 +318,10 @@ export class MainLoadService {
           estadoId: 3,
           shelfLife: new Date('2026-02-28'),
           order: 'INSP-009',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
         {
           almacenesId: 1,
@@ -260,39 +334,35 @@ export class MainLoadService {
           estadoId: 1,
           shelfLife: new Date('2025-05-31'),
           order: 'WO-010',
+          zonaId: 1,
+          fabricante: '',
+          ataId: 1,
+          horasManualesId: 1
         },
       ],
     });
-
-    //--------------------------------------------//
-
 
     const createAeronave = await this.prismaService.aeronave.createMany({
       data: [
         {
           aeronave: 'Cessna 172',
           inventarioId: 1,
-          workOrder: 'WO-001',
         },
         {
           aeronave: 'Boeing 737',
           inventarioId: 2,
-          workOrder: 'WO-002',
         },
         {
           aeronave: 'Airbus A320',
           inventarioId: 3,
-          workOrder: 'WO-003',
         },
         {
           aeronave: 'Embraer ERJ-145',
           inventarioId: 4,
-          workOrder: 'WO-004',
         },
         {
           aeronave: 'Bombardier CRJ-200',
           inventarioId: 5,
-          workOrder: 'WO-005',
         },
       ],
     });
@@ -302,31 +372,29 @@ export class MainLoadService {
           {
             taller: 'Taller A',
             inventarioId: 1,
-            workshopOrder: 'OT-001',
           },
           {
             taller: 'Taller B',
             inventarioId: 2,
-            workshopOrder: 'OT-002',
           },
           {
             taller: 'Taller C',
             inventarioId: 3,
-            workshopOrder: 'OT-003',
           },
           {
             taller: 'Taller D',
             inventarioId: 4,
-            workshopOrder: 'OT-004',
           },
           {
             taller: 'Taller E',
             inventarioId: 5,
-            workshopOrder: 'OT-005',
           },
         ],
     });
 
+    if (!createHorasManuales) {
+      throw new BadRequestException('Se produjo un error.');
+    }
     if (!createEstado) {
       throw new BadRequestException('Se produjo un error.');
     }

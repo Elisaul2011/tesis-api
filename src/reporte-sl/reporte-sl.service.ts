@@ -17,17 +17,9 @@ export class ReporteSlService {
     async postReporte(add: DtoCreateReporte): Promise<DtoBaseResponse>{
         const createReporte = await this.prismaService.reporteShelfLife.create({
             data: {
-                almacenesId: add.almacenesId,
-                zonaid: add.zonaid,
-                pn: add.pn,
-                descripcion: add.descripcion,
-                tipoComponenteId: add.tipoComponenteId,
-                sn: add.sn,
-                cantidad: add.cantidad,
-                lote: add.lote,
-                estadoId: add.estadoId,
-                shelfLife: add.shelfLife,
-                venceEn: add.venceEn
+                idReporteShelfLife: add.idReporteShelfLife,
+                inventarioId: add.inventarioId,
+                venceEn: add.venceEn,
             }
         });
 
@@ -42,16 +34,8 @@ export class ReporteSlService {
     async putReporte(update: DtoUpdateReporte): Promise<DtoBaseResponse>{
         const updateReporte = await this.prismaService.reporteShelfLife.update({
             data: {
-                almacenesId: update.almacenesId,
-                zonaid: update.zonaid,
-                pn: update.pn,
-                descripcion: update.descripcion,
-                tipoComponenteId: update.tipoComponenteId,
-                sn: update.sn,
-                cantidad: update.cantidad,
-                lote: update.lote,
-                estadoId: update.estadoId,
-                shelfLife: update.shelfLife,
+                idReporteShelfLife: update.idReporteShelfLife,
+                inventarioId: update.inventarioId,
                 venceEn: update.venceEn
             },
             where: {
