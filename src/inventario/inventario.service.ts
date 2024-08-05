@@ -39,8 +39,10 @@ export class InventarioService {
                 shelfLife: add.shelfLife,
                 order: add.order,
                 zonaId: add.zonaId,
-                ataId: add.idAta,
-                horasManualesId: add.idHorasManuales
+                ataId: add.ataId,
+                horasManualesId: add.horasManualesId,
+                necesidadesTecnicasId: add.necesidadesTecnicasId,
+                rolId: add.rolId
             }
         });
 
@@ -66,7 +68,10 @@ export class InventarioService {
                 //estadoId: update.estadoId,
                 shelfLife: update.shelfLife,
                 order: update.order,
-                zonaId: update.zonaId
+                zonaId: update.zonaId,
+                horasManualesId: update.horasManualesId,
+                necesidadesTecnicasId: update.necesidadesTecnicasId,
+                rolId: update.rolId
             },
             where: {
                 idInventario: update.idInventario

@@ -14,32 +14,36 @@ datasource db {
 }
 
 model inventario {
-  idInventario     Int                @id @default(autoincrement())
-  almacenes        almacenes          @relation(fields: [almacenesId], references: [idAlmacenes])
-  almacenesId      Int
-  zonas            zona               @relation(fields: [zonaId], references: [idZona])
-  zonaId           Int
-  pn               String
-  descripcion      String
-  idTipoComponente tipoComponente     @relation(fields: [tipoComponenteId], references: [idTipoComponente])
-  tipoComponenteId Int
-  sn               String
-  cantidad         Int
-  lote             String
-  fabricante       String
-  idEstado         estado             @relation(fields: [estadoId], references: [idEstado])
-  estadoId         Int
-  shelfLife        DateTime
-  order            String
-  idAta            atas               @relation(fields: [ataId], references: [IdAta])
-  ataId            Int
-  idHorasManuales  horasManuales      @relation(fields: [horasManualesId], references: [idHorasManuales])
-  horasManualesId  Int
-  aeronave         aeronave[]
-  tallerReparacion tallerReparacion[]
-  inspeccion       inspeccion[]
-  historial        historial[]
-  reporteShelfLife reporteShelfLife[]
+  idInventario          Int                 @id @default(autoincrement())
+  almacenes             almacenes           @relation(fields: [almacenesId], references: [idAlmacenes])
+  almacenesId           Int
+  zonas                 zona                @relation(fields: [zonaId], references: [idZona])
+  zonaId                Int
+  pn                    String
+  descripcion           String
+  idTipoComponente      tipoComponente      @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  tipoComponenteId      Int
+  sn                    String
+  cantidad              Int
+  lote                  String
+  fabricante            String
+  idEstado              estado              @relation(fields: [estadoId], references: [idEstado])
+  estadoId              Int
+  shelfLife             DateTime
+  order                 String
+  idAta                 atas                @relation(fields: [ataId], references: [IdAta])
+  ataId                 Int
+  idHorasManuales       horasManuales       @relation(fields: [horasManualesId], references: [idHorasManuales])
+  horasManualesId       Int
+  idNecesidadesTecnicas necesidadesTecnicas @relation(fields: [necesidadesTecnicasId], references: [idNecesidadesTecnicas])
+  necesidadesTecnicasId Int
+  idRol                 roles               @relation(fields: [rolId], references: [idRol])
+  rolId                 Int
+  aeronave              aeronave[]
+  tallerReparacion      tallerReparacion[]
+  inspeccion            inspeccion[]
+  historial             historial[]
+  reporteShelfLife      reporteShelfLife[]
 }
 
 model inspeccion {
@@ -61,10 +65,11 @@ model ordenCompra {
 }
 
 model necesidadesTecnicas {
-  idNecesidadesTecnicas Int    @id @default(autoincrement())
+  idNecesidadesTecnicas Int          @id @default(autoincrement())
   pn                    String
   descripcion           String
   cantidad              Int
+  inventario            inventario[]
 }
 
 model aeronave {
@@ -176,11 +181,12 @@ model zona {
 }
 
 model roles {
-  idRol Int    @id @default(autoincrement())
-  rol   String
+  idRol      Int          @id @default(autoincrement())
+  rol        String
   // tecnico     
   // inspector   
   // almacenista
   // jefe de almacen 
-  user  user[]
+  user       user[]
+  inventario inventario[]
 }

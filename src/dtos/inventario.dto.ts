@@ -26,9 +26,13 @@ export class DtoCreateInventario {
     @IsString()
     order: string;
     @IsNumber()
-    idAta: number;
+    ataId: number;
     @IsNumber()
-    idHorasManuales: number;
+    horasManualesId: number;
+    @IsNumber()
+    necesidadesTecnicasId: number
+    @IsNumber()
+    rolId: number;
 }
 
 export class DtoUpdateInventario extends DtoCreateInventario {

@@ -177,6 +177,17 @@ export class MainLoadService {
       ]
     })
 
+    const createNecesidades = await this.prismaService.necesidadesTecnicas.createMany({
+      data: [
+        {
+          idNecesidadesTecnicas: 1,
+          pn: '2121451',
+          descripcion: 'Guantes',
+          cantidad: 1
+        }
+      ]
+    })
+
     const createInventario = await this.prismaService.inventario.createMany({
       data: [
         {
@@ -193,7 +204,9 @@ export class MainLoadService {
           order: 'WO-001',
           zonaId: 1,
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -209,7 +222,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -225,7 +240,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -241,7 +258,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -257,7 +276,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -273,7 +294,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -289,7 +312,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -305,7 +330,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -321,7 +348,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -337,7 +366,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
       ],
     });
@@ -392,6 +423,9 @@ export class MainLoadService {
         ],
     });
 
+    if (!createNecesidades) {
+      throw new BadRequestException('Se produjo un error.');
+    }
     if (!createHorasManuales) {
       throw new BadRequestException('Se produjo un error.');
     }
