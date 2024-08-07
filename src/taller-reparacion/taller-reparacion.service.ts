@@ -11,7 +11,15 @@ export class TallerReparacionService {
     constructor(private prismaService: PrismaService) { }
 
     async getTaller(): Promise<tallerReparacion[]> {
-        return await this.prismaService.tallerReparacion.findMany();
+        return await this.prismaService.tallerReparacion.findMany({
+            include: {
+                idInventario: {
+                    include: {
+                        idTipoComponente: true
+                    }
+                }
+            }
+        });
     }
 
     async postTaller(add: DtoCreateTallerReparacion): Promise<DtoBaseResponse>{

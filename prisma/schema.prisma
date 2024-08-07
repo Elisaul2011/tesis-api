@@ -178,9 +178,5 @@ model zona {
 model roles {
   idRol Int    @id @default(autoincrement())
   rol   String
-  // tecnico     
-  // inspector   
-  // almacenista
-  // jefe de almacen 
   user  user[]
 }
