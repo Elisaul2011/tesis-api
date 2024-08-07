@@ -92,6 +92,8 @@ export class InventarioService {
             throw new BadRequestException('Ha ocurrido un error');
         }
 
+
+        
         baseResponse.message = 'Registro de componente eliminado.'
 
         return baseResponse;
