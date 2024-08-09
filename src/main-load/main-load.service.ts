@@ -6,7 +6,7 @@ import { dataAta } from './main-load.data';
 
 @Injectable()
 export class MainLoadService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
   async generateAllData(): Promise<DtoBaseResponse> {
     const createAtas = await this.prismaService.atas.createMany({
@@ -25,6 +25,9 @@ export class MainLoadService {
         },
         {
           rol: 'Jefe de almacén',
+        },
+        {
+          rol: 'Administrador',
         },
       ],
     });
@@ -59,53 +62,60 @@ export class MainLoadService {
           password: 'admin123',
           active: true
         },
+        {
+          nameUser: 'admin',
+          lastnameUser: 'admin',
+          rolId: 5,
+          password: 'admin',
+          active: true
+        },
       ],
     });
 
-    const createtipoComponente = await this.prismaService.tipoComponente.createMany({
-        data: [
-          {
-            tipoComponente: 'Consumibles',
-          },
-          {
-            tipoComponente: 'Consumibles Serializado',
-          },
-          {
-            tipoComponente: 'Equipo',
-          },
-          {
-            tipoComponente: 'Herramienta',
-          },
-          {
-            tipoComponente: 'Motor',
-          },
-          {
-            tipoComponente: 'Propela',
-          },
-          {
-            tipoComponente: 'Rotable',
-          },
-        ],
+    const createtipoComponente = await this.prismaService.tipocomponente.createMany({
+      data: [
+        {
+          tipoComponente: 'Consumibles',
+        },
+        {
+          tipoComponente: 'Consumibles Serializado',
+        },
+        {
+          tipoComponente: 'Equipo',
+        },
+        {
+          tipoComponente: 'Herramienta',
+        },
+        {
+          tipoComponente: 'Motor',
+        },
+        {
+          tipoComponente: 'Propela',
+        },
+        {
+          tipoComponente: 'Rotable',
+        },
+      ],
     });
 
-    const createtipoMovimiento = await this.prismaService.tipoMovimiento.createMany({
-        data: [
-          {
-            tipoMovimiento: 'Inspeccionar',
-          },
-          {
-            tipoMovimiento: 'Prestar',
-          },
-          {
-            tipoMovimiento: 'WO',
-          },
-          {
-            tipoMovimiento: 'OT',
-          },
-          {
-            tipoMovimiento: 'Cuarentena',
-          },
-        ],
+    const createtipoMovimiento = await this.prismaService.tipomovimiento.createMany({
+      data: [
+        {
+          tipoMovimiento: 'Inspeccionar',
+        },
+        {
+          tipoMovimiento: 'Prestar',
+        },
+        {
+          tipoMovimiento: 'WO',
+        },
+        {
+          tipoMovimiento: 'OT',
+        },
+        {
+          tipoMovimiento: 'Cuarentena',
+        },
+      ],
     });
 
     const createEstado = await this.prismaService.estado.createMany({
@@ -128,18 +138,18 @@ export class MainLoadService {
     const createAlmacen = await this.prismaService.almacenes.createMany({
       data: [
         {
-          ciudad:'Maracaibo',
-          descripcion:'Descripción del Almacen uno',
-          estado:1,
-          nombre:'Almacen Nro1',
-          pais:'Venezuela',
+          ciudad: 'Maracaibo',
+          descripcion: 'Descripción del Almacen uno',
+          estado: 1,
+          nombre: 'Almacen Nro1',
+          pais: 'Venezuela',
         },
         {
-          ciudad:'Merida',
-          descripcion:'Descripción del Almacen dos',
-          estado:1,
-          nombre:'Almacen Nro2',
-          pais:'Venezuela',
+          ciudad: 'Merida',
+          descripcion: 'Descripción del Almacen dos',
+          estado: 1,
+          nombre: 'Almacen Nro2',
+          pais: 'Venezuela',
         }
       ]
     })
@@ -148,31 +158,31 @@ export class MainLoadService {
       data: [
         {
           descripcionZona: 'Piezas pequeñas',
-          zona:'Zona 1',
+          zona: 'Zona 1',
           almacenId: 1
         },
         {
           descripcionZona: 'Piezas grandes',
-          zona:'Zona 2',
+          zona: 'Zona 2',
           almacenId: 1
         },
         {
           descripcionZona: 'Piezas mediadas',
-          zona:'Zona 3',
+          zona: 'Zona 3',
           almacenId: 2
         }
       ]
     });
 
     //--------------------------------------------//
-    const createHorasManuales = await this.prismaService.horasManuales.createMany({
+    const createHorasManuales = await this.prismaService.horasmanuales.createMany({
       data: [
         {
-        idHorasManuales: 1,
-        fecha: new Date('2024-04-15'),
-        horas: 12,
-        ciclos: 2,
-        aterrizajes: 4
+          idHorasManuales: 1,
+          fecha: new Date('2024-04-15'),
+          horas: 12,
+          ciclos: 2,
+          aterrizajes: 4
         }
       ]
     })
@@ -193,7 +203,9 @@ export class MainLoadService {
           order: 'WO-001',
           zonaId: 1,
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -209,7 +221,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -225,7 +239,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -241,7 +257,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -257,7 +275,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -273,7 +293,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -289,7 +311,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -305,7 +329,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -321,7 +347,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
         {
           almacenesId: 1,
@@ -337,7 +365,9 @@ export class MainLoadService {
           zonaId: 1,
           fabricante: '',
           ataId: 1,
-          horasManualesId: 1
+          horasManualesId: 1,
+          necesidadesTecnicasId: 1,
+          rolId: 1
         },
       ],
     });
@@ -367,29 +397,29 @@ export class MainLoadService {
       ],
     });
 
-    const createTallerReparacion = await this.prismaService.tallerReparacion.createMany({
-        data: [
-          {
-            taller: 'Taller A',
-            inventarioId: 1,
-          },
-          {
-            taller: 'Taller B',
-            inventarioId: 2,
-          },
-          {
-            taller: 'Taller C',
-            inventarioId: 3,
-          },
-          {
-            taller: 'Taller D',
-            inventarioId: 4,
-          },
-          {
-            taller: 'Taller E',
-            inventarioId: 5,
-          },
-        ],
+    const createTallerReparacion = await this.prismaService.tallerreparacion.createMany({
+      data: [
+        {
+          taller: 'Taller A',
+          inventarioId: 1,
+        },
+        {
+          taller: 'Taller B',
+          inventarioId: 2,
+        },
+        {
+          taller: 'Taller C',
+          inventarioId: 3,
+        },
+        {
+          taller: 'Taller D',
+          inventarioId: 4,
+        },
+        {
+          taller: 'Taller E',
+          inventarioId: 5,
+        },
+      ],
     });
 
     if (!createHorasManuales) {

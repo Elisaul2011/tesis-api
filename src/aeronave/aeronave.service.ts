@@ -13,9 +13,9 @@ export class AeronaveService {
     async getAeronave(): Promise<aeronave[]> {
         return await this.prismaService.aeronave.findMany({
             include: {
-                idInventario: {
+                inventario: {
                     include: {
-                        idTipoComponente: true
+                        tipocomponente: true
                     }
                 }
             }

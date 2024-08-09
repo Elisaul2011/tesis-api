@@ -12,7 +12,7 @@ export class ZonaService {
     async getZonas(): Promise<zona[]> {
         return await this.prismaService.zona.findMany({
             include: {
-                almacen: true,
+                almacenes: true,
             },
         });
     }

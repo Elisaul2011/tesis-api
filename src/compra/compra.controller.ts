@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CompraService } from './compra.service';
-import { ordenCompra } from '@prisma/client';
+import { ordencompra } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { DtoCreateCompra, DtoUpdateCompra } from 'src/dtos/compra.dto';
 
@@ -10,7 +10,7 @@ export class CompraController {
     constructor(private compraService: CompraService){}
 
     @Get()
-    async getCompra(): Promise<ordenCompra[]>{
+    async getCompra(): Promise<ordencompra[]>{
         return await this.compraService.getCompra();
     }
 

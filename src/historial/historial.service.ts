@@ -11,20 +11,27 @@ export class HistorialService {
     constructor(private prismaService: PrismaService) { }
 
     async getHistorial(): Promise<historial[]> {
-        return await this.prismaService.historial.findMany();
+        return await this.prismaService.historial.findMany({
+            include: {
+                inventario: {
+                    include: {
+                        tipocomponente: true,
+                        zona: true,
+                        almacenes: true,
+                        estado: true
+                    }
+                },
+                tipomovimiento: true
+            }
+        });
     }
 
     async postHistorial(add: DtoCreateHistorial): Promise<DtoBaseResponse>{
         const createHistorial = await this.prismaService.historial.create({
             data: {
-                idHistorial: add.idHistorial,
                 inventarioId: add.inventarioId,
-                inspeccionId: add.inspeccionId,
-                ordenCompraId: add.ordenCompraId,
-                aeronaveId: add.aeronaveId,
-                tallerId: add.tallerId,
-                userId: add.userId,
-                tipoMovimientoId: add.tipoMovimientoId
+                tipoMovimientoId: add.tipoMovimientoId,
+                fechaMovimiento: new Date(),
             }
         });
 

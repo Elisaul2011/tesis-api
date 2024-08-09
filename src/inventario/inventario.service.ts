@@ -12,10 +12,10 @@ export class InventarioService {
     async getInventario(): Promise<inventario[]> {
         return await this.prismaService.inventario.findMany({
             include: {
-                idEstado: true,
-                idTipoComponente: true,
+                estado: true,
+                tipocomponente: true,
                 almacenes: true,
-                zonas: true
+                zona: true
             }
         });
     }
@@ -40,7 +40,9 @@ export class InventarioService {
                 order: add.order,
                 zonaId: add.zonaId,
                 ataId: add.idAta,
-                horasManualesId: add.idHorasManuales
+                horasManualesId: add.idHorasManuales,
+                necesidadesTecnicasId: add.necesidadesTecnicasId,
+                rolId: add.rolId
             }
         });
 
@@ -55,7 +57,7 @@ export class InventarioService {
     async putInventario(update: DtoUpdateInventario): Promise<DtoBaseResponse>{
         const updateInventario = await this.prismaService.inventario.update({
             data: {
-                almacenesId: update.almacenesId,
+                almacenesId: update.almacenesId, 
                 pn: update.pn,
                 descripcion: update.descripcion,
                 tipoComponenteId: update.tipoComponenteId,
@@ -63,10 +65,14 @@ export class InventarioService {
                 cantidad: update.cantidad,
                 lote: update.lote,
                 fabricante: update.fabricante,
-                //estadoId: update.estadoId,
+                estadoId: update.estadoId,
                 shelfLife: update.shelfLife,
                 order: update.order,
-                zonaId: update.zonaId
+                zonaId: update.zonaId,
+                ataId: update.idAta,
+                horasManualesId: update.idHorasManuales,
+                necesidadesTecnicasId: update.necesidadesTecnicasId,
+                rolId: update.rolId
             },
             where: {
                 idInventario: update.idInventario
@@ -91,8 +97,6 @@ export class InventarioService {
         if(!deleteInventario){
             throw new BadRequestException('Ha ocurrido un error');
         }
-
-
         
         baseResponse.message = 'Registro de componente eliminado.'
 

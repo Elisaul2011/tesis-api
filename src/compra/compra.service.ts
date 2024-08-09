@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ordenCompra } from '@prisma/client';
+import { ordencompra } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateCompra, DtoUpdateCompra } from 'src/dtos/compra.dto';
@@ -10,13 +10,13 @@ export class CompraService {
 
     constructor(private prismaService: PrismaService){}
 
-    async getCompra(): Promise<ordenCompra[]> {
-        return await this.prismaService.ordenCompra.findMany({
+    async getCompra(): Promise<ordencompra[]> {
+        return await this.prismaService.ordencompra.findMany({
         })
     }
 
     async postCompra(add: DtoCreateCompra): Promise<DtoBaseResponse>{
-        const createCompra = await this.prismaService.ordenCompra.create({
+        const createCompra = await this.prismaService.ordencompra.create({
             data: {
                 ordenCompra: add.ordenCompra,
                 Fecha: add.Fecha,
@@ -24,6 +24,7 @@ export class CompraService {
                 cantidad: add.cantidad,
                 pn: add.pn,
                 sn: add.sn,
+                proveedor: add.proveedor
             }
         });
 
@@ -36,7 +37,7 @@ export class CompraService {
     }
 
     async putCompra(update: DtoUpdateCompra): Promise<DtoBaseResponse>{
-        const updateCompra = await this.prismaService.ordenCompra.update({
+        const updateCompra = await this.prismaService.ordencompra.update({
             data: {
                 ordenCompra: update.ordenCompra,
                 Fecha: update.Fecha,
@@ -59,7 +60,7 @@ export class CompraService {
     }
 
     async deleteCompra(idOrdenCompra: string): Promise<DtoBaseResponse>{
-        const deleteCompra = await this.prismaService.ordenCompra.delete({
+        const deleteCompra = await this.prismaService.ordencompra.delete({
             where: {
                 idOrdenCompra: Number(idOrdenCompra)
             }

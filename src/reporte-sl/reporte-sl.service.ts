@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { reporteShelfLife } from '@prisma/client';
+import { reporteshelflife } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateReporte, DtoUpdateReporte } from 'src/dtos/reporte-sl.dto';
@@ -10,12 +10,23 @@ export class ReporteSlService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getReporte(): Promise<reporteShelfLife[]> {
-        return await this.prismaService.reporteShelfLife.findMany();
+    async getReporte(): Promise<reporteshelflife[]> {
+        return await this.prismaService.reporteshelflife.findMany({
+            include: {
+                inventario: {
+                    include: {
+                        tipocomponente: true,
+                        zona: true,
+                        almacenes: true,
+                        estado: true
+                    }
+                },
+            },
+        });
     }
 
     async postReporte(add: DtoCreateReporte): Promise<DtoBaseResponse>{
-        const createReporte = await this.prismaService.reporteShelfLife.create({
+        const createReporte = await this.prismaService.reporteshelflife.create({
             data: {
                 idReporteShelfLife: add.idReporteShelfLife,
                 inventarioId: add.inventarioId,
@@ -32,7 +43,7 @@ export class ReporteSlService {
     }
 
     async putReporte(update: DtoUpdateReporte): Promise<DtoBaseResponse>{
-        const updateReporte = await this.prismaService.reporteShelfLife.update({
+        const updateReporte = await this.prismaService.reporteshelflife.update({
             data: {
                 idReporteShelfLife: update.idReporteShelfLife,
                 inventarioId: update.inventarioId,
@@ -52,7 +63,7 @@ export class ReporteSlService {
     }
     
     async deleteReporte(id: string): Promise<DtoBaseResponse> {
-        const deleteReporte = await this.prismaService.reporteShelfLife.delete({
+        const deleteReporte = await this.prismaService.reporteshelflife.delete({
             where: {
                 idReporteShelfLife: Number(id)
             }

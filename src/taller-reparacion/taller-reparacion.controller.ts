@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { tallerReparacion } from '@prisma/client';
+import { tallerreparacion } from '@prisma/client';
 import { TallerReparacionService } from './taller-reparacion.service';
 import { DtoCreateTallerReparacion, DtoUpdateTallerReparacion } from 'src/dtos/taller-reparacion.dto';
 import { DtoBaseResponse } from 'src/dtos/base-response';
@@ -10,7 +10,7 @@ export class TallerReparacionController {
     constructor(private tallerReparacionService: TallerReparacionService){}
 
     @Get()
-    async getTaller(): Promise<tallerReparacion[]> {
+    async getTaller(): Promise<tallerreparacion[]> {
         return await this.tallerReparacionService.getTaller();
     }
 

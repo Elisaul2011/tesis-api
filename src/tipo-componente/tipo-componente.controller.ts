@@ -1,4 +1,4 @@
-import { tipoComponente } from '@prisma/client';
+import { tipocomponente } from '@prisma/client';
 import { Controller, Get } from '@nestjs/common';
 import { TipoComponenteService } from './tipo-componente.service';
 
@@ -8,7 +8,7 @@ export class TipoComponenteController {
     constructor(private tipoComponenteService: TipoComponenteService){}
 
     @Get()
-    async getTipoComponente(): Promise<tipoComponente[]>{
+    async getTipoComponente(): Promise<tipocomponente[]>{
         return await this.tipoComponenteService.getTipoComponente();
     }
 }

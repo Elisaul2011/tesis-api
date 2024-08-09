@@ -11,7 +11,18 @@ export class InspeccionService {
     constructor(private prismaService: PrismaService) { }
 
     async getInspeccion(): Promise<inspeccion[]> {
-        return await this.prismaService.inspeccion.findMany();
+        return await this.prismaService.inspeccion.findMany({
+            include:{
+                inventario:{
+                    include:{
+                        tipocomponente: true,
+                        zona: true,
+                        almacenes: true,
+                        estado: true
+                    }
+                }
+            }
+        });
     }
 
     async postInspeccion(add: DtoCreateInspeccion): Promise<DtoBaseResponse>{

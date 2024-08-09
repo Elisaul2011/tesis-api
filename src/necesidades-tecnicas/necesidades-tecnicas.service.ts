@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { necesidadesTecnicas } from '@prisma/client';
+import { necesidadestecnicas } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateNecesidades, DtoUpdateNecesidades } from 'src/dtos/necesidades-tecnicas.dto';
@@ -10,12 +10,23 @@ export class NecesidadesTecnicasService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getNecesidades(): Promise<necesidadesTecnicas[]> {
-        return await this.prismaService.necesidadesTecnicas.findMany();
+    async getNecesidades(): Promise<necesidadestecnicas[]> {
+        return await this.prismaService.necesidadestecnicas.findMany({
+            include: {
+                inventario: {
+                    include: {
+                        tipocomponente: true,
+                        zona: true,
+                        almacenes: true,
+                        estado: true
+                    }
+                }
+            }
+        });
     }
 
     async postNecesidades(add: DtoCreateNecesidades): Promise<DtoBaseResponse>{
-        const createNecesidades = await this.prismaService.necesidadesTecnicas.create({
+        const createNecesidades = await this.prismaService.necesidadestecnicas.create({
             data: {
                 pn: add.pn,
                 descripcion: add.descripcion,
@@ -32,7 +43,7 @@ export class NecesidadesTecnicasService {
     }
 
     async putNecesidades(update: DtoUpdateNecesidades): Promise<DtoBaseResponse>{
-        const updateNecesidades = await this.prismaService.necesidadesTecnicas.update({
+        const updateNecesidades = await this.prismaService.necesidadestecnicas.update({
             data: {
                 pn: update.pn,
                 descripcion: update.descripcion,
@@ -52,7 +63,7 @@ export class NecesidadesTecnicasService {
     }
     
     async deleteNecesidades(id: string): Promise<DtoBaseResponse> {
-        const deleteNecesidades = await this.prismaService.necesidadesTecnicas.delete({
+        const deleteNecesidades = await this.prismaService.necesidadestecnicas.delete({
             where: {
                 idNecesidadesTecnicas: Number(id)
             }

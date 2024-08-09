@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,146 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model inventario {
-  idInventario     Int                @id @default(autoincrement())
-  almacenes        almacenes          @relation(fields: [almacenesId], references: [idAlmacenes])
-  almacenesId      Int
-  zonas            zona               @relation(fields: [zonaId], references: [idZona])
-  zonaId           Int
-  pn               String
-  descripcion      String
-  idTipoComponente tipoComponente     @relation(fields: [tipoComponenteId], references: [idTipoComponente])
-  tipoComponenteId Int
-  sn               String
-  cantidad         Int
-  lote             String
-  fabricante       String
-  idEstado         estado             @relation(fields: [estadoId], references: [idEstado])
-  estadoId         Int
-  shelfLife        DateTime
-  order            String
-  idAta            atas               @relation(fields: [ataId], references: [IdAta])
-  ataId            Int
-  idHorasManuales  horasManuales      @relation(fields: [horasManualesId], references: [idHorasManuales])
-  horasManualesId  Int
-  aeronave         aeronave[]
-  tallerReparacion tallerReparacion[]
-  inspeccion       inspeccion[]
-  historial        historial[]
-  reporteShelfLife reporteShelfLife[]
-}
-
-model inspeccion {
-  idInspeccion Int         @id @default(autoincrement())
-  idInventario inventario  @relation(fields: [inventarioId], references: [idInventario])
-  inventarioId Int
-  historial    historial[]
-}
-
-model ordenCompra {
-  idOrdenCompra Int         @id @default(autoincrement())
-  ordenCompra   String
-  Fecha         DateTime
-  descripcion   String
-  cantidad      Int
-  pn            String
-  sn            String
-  historial     historial[]
-}
-
-model necesidadesTecnicas {
-  idNecesidadesTecnicas Int    @id @default(autoincrement())
-  pn                    String
-  descripcion           String
-  cantidad              Int
-}
-
 model aeronave {
-  idAeronave   Int         @id @default(autoincrement())
+  idAeronave   Int        @id @default(autoincrement())
   aeronave     String
-  idInventario inventario  @relation(fields: [inventarioId], references: [idInventario])
   inventarioId Int
-  historial    historial[]
-}
-
-model tallerReparacion {
-  idTaller     Int         @id @default(autoincrement())
-  taller       String
-  idInventario inventario  @relation(fields: [inventarioId], references: [idInventario])
-  inventarioId Int
-  historial    historial[]
-}
-
-model horasManuales {
-  idHorasManuales Int          @id @default(autoincrement())
-  fecha           DateTime
-  horas           Int
-  ciclos          Int
-  aterrizajes     Int
-  inventario      inventario[]
-}
-
-model estado {
-  idEstado   Int          @id @default(autoincrement())
-  estado     String
-  inventario inventario[]
-}
-
-model reporteShelfLife {
-  idReporteShelfLife Int        @id @default(autoincrement())
-  idInventario       inventario @relation(fields: [inventarioId], references: [idInventario])
-  inventarioId       Int
-  venceEn            Int
-}
-
-model historial {
-  idHistorial      Int              @id @default(autoincrement())
-  idInventario     inventario       @relation(fields: [inventarioId], references: [idInventario])
-  inventarioId     Int
-  idInspeccion     inspeccion       @relation(fields: [inspeccionId], references: [idInspeccion])
-  inspeccionId     Int
-  idOrdenCompra    ordenCompra      @relation(fields: [ordenCompraId], references: [idOrdenCompra])
-  ordenCompraId    Int
-  idAeronave       aeronave         @relation(fields: [aeronaveId], references: [idAeronave])
-  aeronaveId       Int
-  idTaller         tallerReparacion @relation(fields: [tallerId], references: [idTaller])
-  tallerId         Int
-  idUser           user             @relation(fields: [userId], references: [idUser])
-  userId           Int
-  idTipoMovimiento tipoMovimiento   @relation(fields: [tipoMovimientoId], references: [idTipoMovimiento])
-  tipoMovimientoId Int
-}
-
-model tipoMovimiento {
-  idTipoMovimiento Int         @id @default(autoincrement())
-  tipoMovimiento   String
-  historial        historial[]
-}
-
-model tipoComponente {
-  idTipoComponente Int          @id @default(autoincrement())
-  tipoComponente   String
-  inventario       inventario[]
-}
-
-model atas {
-  IdAta      Int          @id @default(autoincrement())
-  CodigoAta  String       @db.VarChar(30)
-  NombreATA  String       @db.VarChar(200)
-  inventario inventario[]
-}
-
-model user {
-  idUser       Int         @id @default(autoincrement())
-  nameUser     String
-  lastnameUser String
-  rolId        Int
-  active       Boolean
-  password     String      @db.VarChar(50)
-  roles        roles       @relation(fields: [rolId], references: [idRol], map: "User_rolId_fkey")
-  historial    historial[]
-
-  @@index([rolId], map: "User_rolId_fkey")
+  inventario   inventario @relation(fields: [inventarioId], references: [idInventario])
 }
 
 model almacenes {
@@ -166,17 +25,144 @@ model almacenes {
   zona        zona[]
 }
 
+model atas {
+  IdAta      Int          @id @default(autoincrement())
+  CodigoAta  String       @db.VarChar(30)
+  NombreATA  String       @db.VarChar(200)
+  inventario inventario[]
+}
+
+model estado {
+  idEstado   Int          @id @default(autoincrement())
+  estado     String
+  inventario inventario[]
+}
+
+model historial {
+  idHistorial      Int            @id @default(autoincrement())
+  inventarioId     Int
+  tipoMovimientoId Int
+  fechaMovimiento  DateTime
+  inventario       inventario     @relation(fields: [inventarioId], references: [idInventario])
+  tipomovimiento   tipomovimiento @relation(fields: [tipoMovimientoId], references: [idTipoMovimiento])
+}
+
+model horasmanuales {
+  idHorasManuales Int          @id @default(autoincrement())
+  fecha           DateTime
+  horas           Int
+  ciclos          Int
+  aterrizajes     Int
+  inventario      inventario[]
+}
+
+model inspeccion {
+  idInspeccion Int        @id @default(autoincrement())
+  inventarioId Int
+  inventario   inventario @relation(fields: [inventarioId], references: [idInventario])
+}
+
+model inventario {
+  idInventario          Int                 @id @default(autoincrement())
+  almacenesId           Int
+  zonaId                Int
+  pn                    String
+  descripcion           String
+  tipoComponenteId      Int
+  sn                    String
+  cantidad              Int
+  lote                  String
+  fabricante            String
+  estadoId              Int
+  shelfLife             DateTime
+  order                 String
+  ataId                 Int
+  horasManualesId       Int
+  necesidadesTecnicasId Int
+  rolId                 Int
+  almacenes             almacenes           @relation(fields: [almacenesId], references: [idAlmacenes])
+  atas                  atas                @relation(fields: [ataId], references: [IdAta])
+  estado                estado              @relation(fields: [estadoId], references: [idEstado])
+  horasmanuales         horasmanuales       @relation(fields: [horasManualesId], references: [idHorasManuales])
+  necesidadestecnicas   necesidadestecnicas @relation(fields: [necesidadesTecnicasId], references: [idNecesidadesTecnicas])
+  roles                 roles               @relation(fields: [rolId], references: [idRol])
+  tipocomponente        tipocomponente      @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  zona                  zona                @relation(fields: [zonaId], references: [idZona])
+  
+  aeronave              aeronave[]
+  historial             historial[]
+  inspeccion            inspeccion[]
+  reporteshelflife      reporteshelflife[]
+  tallerreparacion      tallerreparacion[]
+}
+
+model necesidadestecnicas {
+  idNecesidadesTecnicas Int          @id @default(autoincrement())
+  pn                    String
+  descripcion           String
+  cantidad              Int
+  inventario            inventario[]
+}
+
+model ordencompra {
+  idOrdenCompra Int      @id @default(autoincrement())
+  ordenCompra   String
+  Fecha         DateTime
+  descripcion   String
+  cantidad      Int
+  pn            String
+  sn            String
+  proveedor     String
+}
+
+model reporteshelflife {
+  idReporteShelfLife Int        @id @default(autoincrement())
+  inventarioId       Int
+  venceEn            Int
+  inventario         inventario @relation(fields: [inventarioId], references: [idInventario])
+}
+
+model roles {
+  idRol      Int          @id @default(autoincrement())
+  rol        String
+  inventario inventario[]
+  user       user[]
+}
+
+model tallerreparacion {
+  idTaller     Int        @id @default(autoincrement())
+  taller       String
+  inventarioId Int
+  inventario   inventario @relation(fields: [inventarioId], references: [idInventario])
+}
+
+model tipocomponente {
+  idTipoComponente Int          @id @default(autoincrement())
+  tipoComponente   String
+  inventario       inventario[]
+}
+
+model tipomovimiento {
+  idTipoMovimiento Int         @id @default(autoincrement())
+  tipoMovimiento   String
+  historial        historial[]
+}
+
+model user {
+  idUser       Int     @id @default(autoincrement())
+  nameUser     String
+  lastnameUser String
+  rolId        Int
+  active       Boolean
+  password     String  @db.VarChar(50)
+  roles        roles   @relation(fields: [rolId], references: [idRol])
+}
+
 model zona {
   idZona          Int          @id @default(autoincrement())
   zona            String
   descripcionZona String
   almacenId       Int
-  almacen         almacenes    @relation(fields: [almacenId], references: [idAlmacenes])
   inventario      inventario[]
-}
-
-model roles {
-  idRol Int    @id @default(autoincrement())
-  rol   String
-  user  user[]
+  almacenes       almacenes    @relation(fields: [almacenId], references: [idAlmacenes])
 }
