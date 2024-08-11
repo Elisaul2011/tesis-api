@@ -104,13 +104,10 @@ export class MainLoadService {
           tipoMovimiento: 'Inspeccionar',
         },
         {
-          tipoMovimiento: 'Prestar',
+          tipoMovimiento: 'Orden de Trabajo',
         },
         {
-          tipoMovimiento: 'WO',
-        },
-        {
-          tipoMovimiento: 'OT',
+          tipoMovimiento: 'Orden de Taller',
         },
         {
           tipoMovimiento: 'Cuarentena',
@@ -126,9 +123,7 @@ export class MainLoadService {
         {
           estado: 'Esperando por inspección',
         },
-        {
-          estado: 'En préstamo',
-        },
+        // mas nada?, nada mas... por ahroa
         {
           estado: 'En cuarentena',
         },
@@ -187,7 +182,7 @@ export class MainLoadService {
       ]
     })
 
-    const createNecesidades = await this.prismaService.necesidadesTecnicas.createMany({
+    const createNecesidades = await this.prismaService.necesidadestecnicas.createMany({
       data: [
         {
           idNecesidadesTecnicas: 1,

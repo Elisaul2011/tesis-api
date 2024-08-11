@@ -39,7 +39,7 @@ export class InventarioService {
                 shelfLife: add.shelfLife,
                 order: add.order,
                 zonaId: add.zonaId,
-                ataId: add.idAta,
+                ataId: add.ataId,
                 horasManualesId: add.idHorasManuales,
                 necesidadesTecnicasId: add.necesidadesTecnicasId,
                 rolId: add.rolId
@@ -69,7 +69,7 @@ export class InventarioService {
                 shelfLife: update.shelfLife,
                 order: update.order,
                 zonaId: update.zonaId,
-                ataId: update.idAta,
+                ataId: update.ataId,
                 horasManualesId: update.idHorasManuales,
                 necesidadesTecnicasId: update.necesidadesTecnicasId,
                 rolId: update.rolId

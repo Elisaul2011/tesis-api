@@ -34,8 +34,6 @@ export class DtoCreateInventario {
     @IsNumber()
     idHorasManuales: number;
     @IsNumber()
-    necesidadesTecnicasId: number;
-    @IsNumber()
     rolId: number;
 }
 
