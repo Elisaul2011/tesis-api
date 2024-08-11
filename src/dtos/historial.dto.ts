@@ -1,22 +1,14 @@
+import { Transform } from "class-transformer";
 import { IsDate, IsNumber, IsString } from "class-validator";
 
 export class DtoCreateHistorial {
     @IsNumber()
-    idHistorial: number;
-    @IsNumber()
     inventarioId: number;
     @IsNumber()
-    inspeccionId: number;
-    @IsNumber()
-    ordenCompraId: number;
-    @IsNumber()
-    aeronaveId: number;
-    @IsNumber()
-    tallerId: number;
-    @IsNumber()
-    userId: number;
-    @IsNumber()
     tipoMovimientoId: number;
+    @Transform(({ value }) => new Date(value))
+    @IsDate()
+    fechaMovimiento: Date;
 }
 
 export class DtoUpdateHistorial extends DtoCreateHistorial {

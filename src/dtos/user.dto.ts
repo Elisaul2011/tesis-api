@@ -1,6 +1,13 @@
 import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 
+export class BodyLogin {
+    @IsString()
+    nameUser: string;
+    @IsString()
+    password: string;
+}
+
 export class DtoCreateUser {
     @IsString()
     nameUser: string;

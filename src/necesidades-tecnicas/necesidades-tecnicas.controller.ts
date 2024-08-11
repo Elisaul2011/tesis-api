@@ -1,4 +1,4 @@
-import { necesidadesTecnicas } from '@prisma/client';
+import { necesidadestecnicas } from '@prisma/client';
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { NecesidadesTecnicasService } from './necesidades-tecnicas.service';
 import { DtoCreateNecesidades, DtoUpdateNecesidades } from 'src/dtos/necesidades-tecnicas.dto';
@@ -10,7 +10,7 @@ export class NecesidadesTecnicasController {
     constructor(private necesidadesService: NecesidadesTecnicasService){}
 
     @Get()
-    async getNecesidades(): Promise<necesidadesTecnicas[]> {
+    async getNecesidades(): Promise<necesidadestecnicas[]> {
         return await this.necesidadesService.getNecesidades();
     }
 

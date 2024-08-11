@@ -1,8 +1,10 @@
+import { Transform } from "class-transformer";
 import { IsDate, IsNumber, IsString } from "class-validator"
 
 export class DtoCreateCompra {
     @IsString()
     ordenCompra: string;
+    @Transform(({ value }) => new Date(value))
     @IsDate()
     Fecha: Date
     @IsNumber()
@@ -12,7 +14,9 @@ export class DtoCreateCompra {
     @IsString()
     descripcion: string;
     @IsString()
-    sn: string
+    sn: string;
+    @IsString()
+    proveedor: string;
 }
 
 export class DtoUpdateCompra extends DtoCreateCompra {

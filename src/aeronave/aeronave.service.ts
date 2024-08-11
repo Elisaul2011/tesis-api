@@ -11,7 +11,15 @@ export class AeronaveService {
     constructor(private prismaService: PrismaService) { }
 
     async getAeronave(): Promise<aeronave[]> {
-        return await this.prismaService.aeronave.findMany();
+        return await this.prismaService.aeronave.findMany({
+            include: {
+                inventario: {
+                    include: {
+                        tipocomponente: true
+                    }
+                }
+            }
+        });
     }
 
     async postAeronave(add: DtoCreateAeronave): Promise<DtoBaseResponse>{

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { tallerReparacion } from '@prisma/client';
+import { tallerreparacion } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateTallerReparacion, DtoUpdateTallerReparacion } from 'src/dtos/taller-reparacion.dto';
@@ -10,12 +10,20 @@ export class TallerReparacionService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getTaller(): Promise<tallerReparacion[]> {
-        return await this.prismaService.tallerReparacion.findMany();
+    async getTaller(): Promise<tallerreparacion[]> {
+        return await this.prismaService.tallerreparacion.findMany({
+            include: {
+                inventario: {
+                    include: {
+                        tipocomponente: true
+                    }
+                }
+            }
+        });
     }
 
     async postTaller(add: DtoCreateTallerReparacion): Promise<DtoBaseResponse>{
-        const createTaller = await this.prismaService.tallerReparacion.create({
+        const createTaller = await this.prismaService.tallerreparacion.create({
             data: {
                 taller: add.taller,
                 inventarioId: add.inventarioId,
@@ -31,7 +39,7 @@ export class TallerReparacionService {
     }
 
     async putTaller(update: DtoUpdateTallerReparacion): Promise<DtoBaseResponse>{
-        const updateTaller = await this.prismaService.tallerReparacion.update({
+        const updateTaller = await this.prismaService.tallerreparacion.update({
             data: {
                 taller: update.taller,
                 inventarioId: update.inventarioId,
@@ -50,7 +58,7 @@ export class TallerReparacionService {
     }
     
     async deleteTaller(id: string): Promise<DtoBaseResponse> {
-        const deleteTaller = await this.prismaService.tallerReparacion.delete({
+        const deleteTaller = await this.prismaService.tallerreparacion.delete({
             where: {
                 idTaller: Number(id)
             }
