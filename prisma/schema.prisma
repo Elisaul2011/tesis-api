@@ -56,12 +56,6 @@ model horasmanuales {
   inventario      inventario[]
 }
 
-model inspeccion {
-  idInspeccion Int        @id @default(autoincrement())
-  inventarioId Int
-  inventario   inventario @relation(fields: [inventarioId], references: [idInventario])
-}
-
 model inventario {
   idInventario          Int                 @id @default(autoincrement())
   almacenesId           Int
@@ -88,12 +82,11 @@ model inventario {
   roles                 roles               @relation(fields: [rolId], references: [idRol])
   tipocomponente        tipocomponente      @relation(fields: [tipoComponenteId], references: [idTipoComponente])
   zona                  zona                @relation(fields: [zonaId], references: [idZona])
-  
-  aeronave              aeronave[]
-  historial             historial[]
-  inspeccion            inspeccion[]
-  reporteshelflife      reporteshelflife[]
-  tallerreparacion      tallerreparacion[]
+
+  aeronave         aeronave[]
+  historial        historial[]
+  reporteshelflife reporteshelflife[]
+  tallerreparacion tallerreparacion[]
 }
 
 model necesidadestecnicas {
@@ -118,7 +111,6 @@ model ordencompra {
 model reporteshelflife {
   idReporteShelfLife Int        @id @default(autoincrement())
   inventarioId       Int
-  venceEn            Int
   inventario         inventario @relation(fields: [inventarioId], references: [idInventario])
 }
 

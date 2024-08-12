@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { reporteshelflife } from '@prisma/client';
+import { inventario, reporteshelflife } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateReporte, DtoUpdateReporte } from 'src/dtos/reporte-sl.dto';
@@ -10,31 +10,30 @@ export class ReporteSlService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getReporte(): Promise<reporteshelflife[]> {
-        return await this.prismaService.reporteshelflife.findMany({
+    async getReporte(): Promise<inventario[]> {
+        return await this.prismaService.inventario.findMany({
+            where: {
+                estadoId: {
+                    in: [1,2]
+                }
+            },
             include: {
-                inventario: {
-                    include: {
-                        tipocomponente: true,
-                        zona: true,
-                        almacenes: true,
-                        estado: true
-                    }
-                },
+                tipocomponente: true,
+                zona: true,
+                almacenes: true,
+                estado: true
             },
         });
     }
 
-    async postReporte(add: DtoCreateReporte): Promise<DtoBaseResponse>{
+    async postReporte(add: DtoCreateReporte): Promise<DtoBaseResponse> {
         const createReporte = await this.prismaService.reporteshelflife.create({
             data: {
-                idReporteShelfLife: add.idReporteShelfLife,
                 inventarioId: add.inventarioId,
-                venceEn: add.venceEn,
             }
         });
 
-        if(!createReporte){
+        if (!createReporte) {
             throw new BadRequestException('El reporte no pudo ser registrado.')
         }
 
@@ -42,26 +41,25 @@ export class ReporteSlService {
         return baseResponse;
     }
 
-    async putReporte(update: DtoUpdateReporte): Promise<DtoBaseResponse>{
+    async putReporte(update: DtoUpdateReporte): Promise<DtoBaseResponse> {
         const updateReporte = await this.prismaService.reporteshelflife.update({
             data: {
                 idReporteShelfLife: update.idReporteShelfLife,
                 inventarioId: update.inventarioId,
-                venceEn: update.venceEn
             },
             where: {
                 idReporteShelfLife: update.idReporteShelfLife
             }
         });
 
-        if(!updateReporte){
+        if (!updateReporte) {
             throw new BadRequestException('El reporte no se pudo actualizar.')
         }
 
         baseResponse.message = 'Reporte actualizado.'
         return baseResponse;
     }
-    
+
     async deleteReporte(id: string): Promise<DtoBaseResponse> {
         const deleteReporte = await this.prismaService.reporteshelflife.delete({
             where: {
@@ -69,7 +67,7 @@ export class ReporteSlService {
             }
         });
 
-        if(!deleteReporte){
+        if (!deleteReporte) {
             throw new BadRequestException('Ha ocurrido un error');
         }
 

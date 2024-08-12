@@ -12,6 +12,11 @@ export class TallerReparacionService {
 
     async getTaller(): Promise<tallerreparacion[]> {
         return await this.prismaService.tallerreparacion.findMany({
+            where: {
+                inventario: {
+                    estadoId: 4
+                }
+            },
             include: {
                 inventario: {
                     include: {

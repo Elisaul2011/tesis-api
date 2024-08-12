@@ -15,6 +15,9 @@ export class MainLoadService {
     const createRoles = await this.prismaService.roles.createMany({
       data: [
         {
+          rol: 'Administrador',
+        },
+        {
           rol: 'Almacenista',
         },
         {
@@ -25,50 +28,47 @@ export class MainLoadService {
         },
         {
           rol: 'Jefe de almacén',
-        },
-        {
-          rol: 'Administrador',
-        },
+        }
       ],
     });
 
     const createUsers = await this.prismaService.user.createMany({
       data: [
         {
+          nameUser: 'admin',
+          lastnameUser: 'admin',
+          rolId: 1,
+          password: 'admin',
+          active: true
+        },
+        {
           nameUser: 'Eduardo',
           lastnameUser: 'Uribe',
-          rolId: 1,
+          rolId: 2,
           password: '12345',
           active: true
         },
         {
           nameUser: 'Luis',
           lastnameUser: 'Nava',
-          rolId: 2,
+          rolId: 3,
           password: '12345',
           active: true
         },
         {
           nameUser: 'Saulo',
           lastnameUser: 'Ortega',
-          rolId: 3,
+          rolId: 4,
           password: '12345',
           active: true
         },
         {
           nameUser: 'José',
           lastnameUser: 'Urdaneta',
-          rolId: 4,
+          rolId: 5,
           password: 'admin123',
           active: true
-        },
-        {
-          nameUser: 'admin',
-          lastnameUser: 'admin',
-          rolId: 5,
-          password: 'admin',
-          active: true
-        },
+        }
       ],
     });
 
@@ -104,13 +104,13 @@ export class MainLoadService {
           tipoMovimiento: 'Inspeccionar',
         },
         {
-          tipoMovimiento: 'Orden de Trabajo',
+          tipoMovimiento: 'Instalar en Aeronave',
         },
         {
-          tipoMovimiento: 'Orden de Taller',
+          tipoMovimiento: 'Reparar',
         },
         {
-          tipoMovimiento: 'Cuarentena',
+          tipoMovimiento: 'Registro de componente',
         },
       ],
     });
@@ -118,12 +118,11 @@ export class MainLoadService {
     const createEstado = await this.prismaService.estado.createMany({
       data: [
         {
-          estado: 'Serviciable',
-        },
-        {
           estado: 'Esperando por inspección',
         },
-        // mas nada?, nada mas... por ahroa
+        {
+          estado: 'Serviciable',
+        },
         {
           estado: 'En cuarentena',
         },
@@ -169,11 +168,9 @@ export class MainLoadService {
       ]
     });
 
-    //--------------------------------------------//
     const createHorasManuales = await this.prismaService.horasmanuales.createMany({
       data: [
         {
-          idHorasManuales: 1,
           fecha: new Date('2024-04-15'),
           horas: 12,
           ciclos: 2,
@@ -185,7 +182,6 @@ export class MainLoadService {
     const createNecesidades = await this.prismaService.necesidadestecnicas.createMany({
       data: [
         {
-          idNecesidadesTecnicas: 1,
           pn: '2121451',
           descripcion: 'Guantes',
           cantidad: 1
@@ -221,7 +217,7 @@ export class MainLoadService {
           tipoComponenteId: 3,
           sn: 'SN-002',
           cantidad: 8,
-          estadoId: 1,
+          estadoId: 2,
           shelfLife: new Date('2024-11-30'),
           order: 'OT-002',
           zonaId: 1,
@@ -239,7 +235,7 @@ export class MainLoadService {
           tipoComponenteId: 2,
           sn: 'SN-003',
           cantidad: 20,
-          estadoId: 3,
+          estadoId: 2,
           shelfLife: new Date('2026-01-01'),
           order: 'INSP-003',
           zonaId: 1,
@@ -275,7 +271,7 @@ export class MainLoadService {
           tipoComponenteId: 1,
           sn: 'SN-005',
           cantidad: 6,
-          estadoId: 2,
+          estadoId: 1,
           shelfLife: new Date('2024-09-15'),
           order: 'OT-005',
           zonaId: 1,
@@ -311,7 +307,7 @@ export class MainLoadService {
           tipoComponenteId: 7,
           sn: 'SN-007',
           cantidad: 9,
-          estadoId: 1,
+          estadoId: 3,
           shelfLife: new Date('2025-12-31'),
           order: 'WO-007',
           zonaId: 1,
@@ -329,7 +325,7 @@ export class MainLoadService {
           tipoComponenteId: 2,
           sn: 'SN-008',
           cantidad: 22,
-          estadoId: 2,
+          estadoId: 3,
           shelfLife: new Date('2024-07-01'),
           order: 'OT-008',
           zonaId: 1,
@@ -365,7 +361,7 @@ export class MainLoadService {
           tipoComponenteId: 3,
           sn: 'SN-010',
           cantidad: 11,
-          estadoId: 1,
+          estadoId: 3,
           shelfLife: new Date('2025-05-31'),
           order: 'WO-010',
           zonaId: 1,
@@ -391,15 +387,7 @@ export class MainLoadService {
         {
           aeronave: 'Airbus A320',
           inventarioId: 3,
-        },
-        {
-          aeronave: 'Embraer ERJ-145',
-          inventarioId: 4,
-        },
-        {
-          aeronave: 'Bombardier CRJ-200',
-          inventarioId: 5,
-        },
+        }
       ],
     });
 
@@ -407,27 +395,81 @@ export class MainLoadService {
       data: [
         {
           taller: 'Taller A',
-          inventarioId: 1,
+          inventarioId: 6,
         },
         {
           taller: 'Taller B',
-          inventarioId: 2,
+          inventarioId: 7,
         },
         {
           taller: 'Taller C',
-          inventarioId: 3,
+          inventarioId: 8,
         },
         {
           taller: 'Taller D',
-          inventarioId: 4,
+          inventarioId: 9,
         },
         {
           taller: 'Taller E',
-          inventarioId: 5,
+          inventarioId: 10,
         },
       ],
     });
 
+    const createReport = await this.prismaService.reporteshelflife.createMany({
+      data: [
+        {
+          inventarioId: 1
+        },
+        {
+          inventarioId: 5
+        },
+        {
+          inventarioId: 7
+        },
+        {
+          inventarioId: 10
+        },
+        {
+          inventarioId: 4
+        }
+      ]
+    });
+
+    const createHistory = await this.prismaService.historial.createMany({
+      data: [
+        {
+          inventarioId: 1,
+          tipoMovimientoId: 3,
+          fechaMovimiento: new Date('2024-08-08')
+        },
+        {
+          inventarioId: 5,
+          tipoMovimientoId: 4,
+          fechaMovimiento: new Date('2024-08-04')
+        },
+        {
+          inventarioId: 7,
+          tipoMovimientoId: 1,
+          fechaMovimiento: new Date('2024-08-01')
+        },
+        {
+          inventarioId: 10,
+          tipoMovimientoId: 3,
+          fechaMovimiento: new Date('2024-08-08')
+        },
+        {
+          inventarioId: 4,
+          tipoMovimientoId: 4,
+          fechaMovimiento: new Date('2024-08-04')
+        }
+      ]
+    });
+
+
+    if (!createReport) {
+      throw new BadRequestException('Se produjo un error.');
+    }
     if (!createNecesidades) {
       throw new BadRequestException('Se produjo un error.');
     }

@@ -12,6 +12,11 @@ export class AeronaveService {
 
     async getAeronave(): Promise<aeronave[]> {
         return await this.prismaService.aeronave.findMany({
+            where: {
+                inventario: {
+                    estadoId: 1
+                }
+            },
             include: {
                 inventario: {
                     include: {
