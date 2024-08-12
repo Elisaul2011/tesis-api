@@ -44,7 +44,8 @@ export class InventarioService {
 
         const updateInventory = await this.prismaService.inventario.updateMany({
             data: {
-                estadoId: 2
+                estadoId: 2,
+                order: asign.order
             }, where : {
                 idInventario: { in: asign.idInventario }
             }
