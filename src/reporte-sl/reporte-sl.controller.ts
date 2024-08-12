@@ -13,20 +13,4 @@ export class ReporteSlController {
     async getReporte(): Promise<reporteshelflife[]> {
         return await this.reporteService.getReporte();
     }
-
-    @Post()
-    async postReporte(@Body() newReporte: DtoCreateReporte): Promise<DtoBaseResponse>{
-        return await this.reporteService.postReporte(newReporte);
-    }
-
-    @Put()
-    async putReporte(@Body() reporteShelfLife: DtoUpdateReporte): Promise<DtoBaseResponse>{
-        return await this.reporteService.putReporte(reporteShelfLife);
-    }
-
-    @Delete('/:id')
-    async deleteReporte(@Param('id') id: string): Promise<DtoBaseResponse>{
-        return await this.reporteService.deleteReporte(id);
-    }
-
 }

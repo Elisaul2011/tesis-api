@@ -20,6 +20,22 @@ export class InventarioService {
         });
     }
 
+    async getInventarioServices(): Promise<inventario[]> {
+        return await this.prismaService.inventario.findMany({
+            where: {
+                estado: {
+                    idEstado: 1
+                }
+            },
+            include: {
+                estado: true,
+                tipocomponente: true,
+                almacenes: true,
+                zona: true
+            }
+        });
+    }
+
     async getAtas(): Promise<atas[]> {
         return await this.prismaService.atas.findMany();
     }

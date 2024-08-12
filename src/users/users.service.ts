@@ -17,6 +17,17 @@ export class UsersService {
             }
         });
     }
+
+    async getUsersByRol(id: string): Promise<user[]> {
+        return await this.prismaService.user.findMany({
+            where:{
+                rolId: Number(id)
+            },
+            include: {
+                roles: true
+            }
+        });
+    }
     async getUsersRoles(): Promise<roles[]> {
         return await this.prismaService.roles.findMany();
     }

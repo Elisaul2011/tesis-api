@@ -13,10 +13,4 @@ export class HistorialController {
     async getHistorial(): Promise<historial[]> {
         return await this.historialService.getHistorial();
     }
-
-    @Post()
-    async postHistorial(@Body() newHistorial: DtoCreateHistorial): Promise<DtoBaseResponse>{
-        return await this.historialService.postHistorial(newHistorial);
-    }
-
 }

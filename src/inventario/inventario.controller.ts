@@ -13,6 +13,11 @@ export class InventarioController {
     async getInventario(): Promise<inventario[]> {
         return await this.inventarioService.getInventario();
     }
+    
+    @Get('/serviciables')
+    async getInventarioServices(): Promise<inventario[]> {
+        return await this.inventarioService.getInventarioServices();
+    }
 
     @Get('/atas')
     async getAtas(): Promise<atas[]> {

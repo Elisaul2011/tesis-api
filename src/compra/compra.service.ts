@@ -19,7 +19,7 @@ export class CompraService {
         const createCompra = await this.prismaService.ordencompra.create({
             data: {
                 ordenCompra: add.ordenCompra,
-                Fecha: add.Fecha,
+                Fecha: add.fecha,
                 descripcion: add.descripcion,
                 cantidad: add.cantidad,
                 pn: add.pn,
@@ -40,7 +40,7 @@ export class CompraService {
         const updateCompra = await this.prismaService.ordencompra.update({
             data: {
                 ordenCompra: update.ordenCompra,
-                Fecha: update.Fecha,
+                Fecha: update.fecha,
                 descripcion: update.descripcion,
                 cantidad: update.cantidad,
                 pn: update.pn,

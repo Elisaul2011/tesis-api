@@ -15,6 +15,11 @@ export class UsersController {
         return await this.userService.getUsers();
     }
 
+    @Get('/byRol/:id')
+    async getUsersByRol(@Param('id') id: string): Promise<user[]> {
+        return await this.userService.getUsersByRol(id);
+    }
+
     @Get('/roles')
     async getUsersRoles(): Promise<roles[]> {
         return await this.userService.getUsersRoles();

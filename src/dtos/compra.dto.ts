@@ -6,7 +6,7 @@ export class DtoCreateCompra {
     ordenCompra: string;
     @Transform(({ value }) => new Date(value))
     @IsDate()
-    Fecha: Date
+    fecha: Date
     @IsNumber()
     cantidad: number;
     @IsString()
