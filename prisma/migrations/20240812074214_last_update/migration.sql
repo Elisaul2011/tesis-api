@@ -58,14 +58,6 @@ CREATE TABLE `horasmanuales` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `inspeccion` (
-    `idInspeccion` INTEGER NOT NULL AUTO_INCREMENT,
-    `inventarioId` INTEGER NOT NULL,
-
-    PRIMARY KEY (`idInspeccion`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `inventario` (
     `idInventario` INTEGER NOT NULL AUTO_INCREMENT,
     `almacenesId` INTEGER NOT NULL,
@@ -116,7 +108,6 @@ CREATE TABLE `ordencompra` (
 CREATE TABLE `reporteshelflife` (
     `idReporteShelfLife` INTEGER NOT NULL AUTO_INCREMENT,
     `inventarioId` INTEGER NOT NULL,
-    `venceEn` INTEGER NOT NULL,
 
     PRIMARY KEY (`idReporteShelfLife`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -184,9 +175,6 @@ ALTER TABLE `historial` ADD CONSTRAINT `historial_inventarioId_fkey` FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE `historial` ADD CONSTRAINT `historial_tipoMovimientoId_fkey` FOREIGN KEY (`tipoMovimientoId`) REFERENCES `tipomovimiento`(`idTipoMovimiento`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `inspeccion` ADD CONSTRAINT `inspeccion_inventarioId_fkey` FOREIGN KEY (`inventarioId`) REFERENCES `inventario`(`idInventario`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `inventario` ADD CONSTRAINT `inventario_almacenesId_fkey` FOREIGN KEY (`almacenesId`) REFERENCES `almacenes`(`idAlmacenes`) ON DELETE RESTRICT ON UPDATE CASCADE;
