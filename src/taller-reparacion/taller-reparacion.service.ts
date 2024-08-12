@@ -14,7 +14,7 @@ export class TallerReparacionService {
         return await this.prismaService.tallerreparacion.findMany({
             where: {
                 inventario: {
-                    estadoId: 3
+                    estadoId: 2
                 }
             },
             include: {
