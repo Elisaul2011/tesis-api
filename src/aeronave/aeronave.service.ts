@@ -14,7 +14,7 @@ export class AeronaveService {
         return await this.prismaService.aeronave.findMany({
             where: {
                 inventario: {
-                    estadoId: 1
+                    estadoId: 2
                 }
             },
             include: {

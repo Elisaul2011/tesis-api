@@ -187,7 +187,57 @@ export class MainLoadService {
           cantidad: 1
         }
       ]
-    })
+    });
+
+    const createOrdenCompra = await this.prismaService.ordencompra.createMany({
+      data: [
+        {
+          ordenCompra: 'OP-001',
+          Fecha: new Date('2024-08-07'),
+          descripcion: 'Guante',
+          cantidad: 20,
+          pn: '5245121',
+          sn: '2154785',
+          proveedor: 'Aerospace Components Inc.'
+        },
+        {
+          ordenCompra: 'OP-002',
+          Fecha: new Date('2024-08-01'),
+          descripcion: 'Lija',
+          cantidad: 50,
+          pn: '25147854',
+          sn: '254178542',
+          proveedor: 'Avionic Solutions Ltd.'
+        },
+        {
+          ordenCompra: 'OP-003',
+          Fecha: new Date('2024-07-17'),
+          descripcion: 'Turbina de Arranque',
+          cantidad: 2,
+          pn: '54785412',
+          sn: '12547854',
+          proveedor: 'Aircraft Spare Parts Co.'
+        },
+        {
+          ordenCompra: 'OP-004',
+          Fecha: new Date('2024-07-29'),
+          descripcion: 'Ala Derecha',
+          cantidad: 1,
+          pn: 'B67890',
+          sn: '2541632',
+          proveedor: 'Aero Parts Suppliers'
+        },
+        {
+          ordenCompra: 'OP-005',
+          Fecha: new Date('2024-07-19'),
+          descripcion: 'Neumático de Repuesto',
+          cantidad: 4,
+          pn: 'C5412365',
+          sn: '785459',
+          proveedor: 'Aviación Equipment LLC'
+        },
+      ]
+    });
 
     const createInventario = await this.prismaService.inventario.createMany({
       data: [
@@ -466,7 +516,12 @@ export class MainLoadService {
       ]
     });
 
-
+    if (!createOrdenCompra) {
+      throw new BadRequestException('Se produjo un error.');
+    }
+    if (!createHistory) {
+      throw new BadRequestException('Se produjo un error.');
+    }
     if (!createReport) {
       throw new BadRequestException('Se produjo un error.');
     }
