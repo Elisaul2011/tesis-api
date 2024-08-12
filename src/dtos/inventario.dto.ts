@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsDate, IsNumber, IsString } from "class-validator";
 
 export class DtoCreateInventario {
     @IsNumber()
@@ -40,4 +40,19 @@ export class DtoCreateInventario {
 export class DtoUpdateInventario extends DtoCreateInventario {
     @IsNumber()
     idInventario: number;
+}
+
+export class DtoAsignInventario {
+    @IsArray()
+    @ArrayNotEmpty()
+    @IsNumber({}, { each: true })
+    idInventario: number[];
+    @IsNumber()
+    typeOrder: number;
+    @IsNumber()
+    asignTo: number;
+    @IsString()
+    text: string;
+    @IsString()
+    order: string;
 }

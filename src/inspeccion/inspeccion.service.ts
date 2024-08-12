@@ -13,7 +13,7 @@ export class InspeccionService {
     async getInspeccion(): Promise<inventario[]> {
         return await this.prismaService.inventario.findMany({
                 where:{
-                    estadoId: 1
+                    estadoId: 2
                 },
                 include:{
                     tipocomponente: true,

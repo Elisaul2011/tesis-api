@@ -1,7 +1,7 @@
 import { atas, inventario } from '@prisma/client';
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { InventarioService } from './inventario.service';
-import { DtoCreateInventario, DtoUpdateInventario } from 'src/dtos/inventario.dto';
+import { DtoAsignInventario, DtoCreateInventario, DtoUpdateInventario } from 'src/dtos/inventario.dto';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 
 @Controller('inventario')
@@ -22,6 +22,11 @@ export class InventarioController {
     @Get('/atas')
     async getAtas(): Promise<atas[]> {
         return await this.inventarioService.getAtas();
+    }
+
+    @Post('/asign')
+    async postInventarioOrder(@Body() assign: DtoAsignInventario): Promise<DtoBaseResponse>{
+        return await this.inventarioService.postInventarioOrder(assign);
     }
 
     @Post()
