@@ -51,14 +51,14 @@ export class InventarioService {
                 cantidad: add.cantidad,
                 lote: add.lote,
                 fabricante: add.fabricante,
-                estadoId: add.estadoId,
+                estadoId: 2,
                 shelfLife: add.shelfLife,
-                order: add.order,
+                order: '',
                 zonaId: add.zonaId,
                 ataId: add.ataId,
-                horasManualesId: add.idHorasManuales,
-                necesidadesTecnicasId: add.necesidadesTecnicasId,
-                rolId: add.rolId
+                horasManualesId: 1,
+                necesidadesTecnicasId: 1,
+                rolId: 1
             }
         });
 
@@ -81,14 +81,14 @@ export class InventarioService {
                 cantidad: update.cantidad,
                 lote: update.lote,
                 fabricante: update.fabricante,
-                estadoId: update.estadoId,
+                estadoId: 2,
                 shelfLife: update.shelfLife,
-                order: update.order,
+                order: '',
                 zonaId: update.zonaId,
                 ataId: update.ataId,
-                horasManualesId: update.idHorasManuales,
-                necesidadesTecnicasId: update.necesidadesTecnicasId,
-                rolId: update.rolId
+                horasManualesId: 1,
+                necesidadesTecnicasId: 1,
+                rolId: 1
             },
             where: {
                 idInventario: update.idInventario

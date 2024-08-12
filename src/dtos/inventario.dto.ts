@@ -1,3 +1,4 @@
+import { Transform } from "class-transformer";
 import { IsDate, IsNumber, IsString } from "class-validator";
 
 export class DtoCreateInventario {
@@ -19,22 +20,21 @@ export class DtoCreateInventario {
     lote: string;
     @IsString()
     fabricante: string;
-    @IsNumber()
-    estadoId: number;
+    @Transform(({ value }) => new Date(value))
     @IsDate()
     shelfLife: Date;
-    @IsString()
-    order: string;
+    // @IsString()
+    // order: string;
     @IsNumber()
     ataId: number;
-    @IsNumber()
-    horasManualesId: number;
-    @IsNumber()
-    necesidadesTecnicasId: number
-    @IsNumber()
-    idHorasManuales: number;
-    @IsNumber()
-    rolId: number;
+    // @IsNumber()
+    // horasManualesId: number;
+    // @IsNumber()
+    // necesidadesTecnicasId: number
+    // @IsNumber()
+    // idHorasManuales: number;
+    // @IsNumber()
+    // rolId: number;
 }
 
 export class DtoUpdateInventario extends DtoCreateInventario {

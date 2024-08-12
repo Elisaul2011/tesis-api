@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { inspeccion } from '@prisma/client';
+import { inspeccion, inventario } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateInspeccion, DtoUpdateInspeccion } from 'src/dtos/inspeccion.dto';
@@ -10,19 +10,19 @@ export class InspeccionService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getInspeccion(): Promise<inspeccion[]> {
-        return await this.prismaService.inspeccion.findMany({
-            include:{
-                inventario:{
-                    include:{
-                        tipocomponente: true,
-                        zona: true,
-                        almacenes: true,
-                        estado: true
-                    }
+    async getInspeccion(): Promise<inventario[]> {
+        return await this.prismaService.inventario.findMany({
+                where:{
+                    estadoId: 2
+                },
+                include:{
+                    tipocomponente: true,
+                    zona: true,
+                    almacenes: true,
+                    estado: true
                 }
             }
-        });
+        );
     }
 
     async postInspeccion(add: DtoCreateInspeccion): Promise<DtoBaseResponse>{
@@ -41,12 +41,12 @@ export class InspeccionService {
     }
 
     async putInspeccion(update: DtoUpdateInspeccion): Promise<DtoBaseResponse>{
-        const updateInspeccion = await this.prismaService.inspeccion.update({
+        const updateInspeccion = await this.prismaService.inventario.update({
             data: {
-                inventarioId: update.inventarioId,
+                estadoId: update.active == true ? 1 : 4,
             },
             where: {
-                idInspeccion: update.idInspeccion
+                idInventario: update.idInventario
             }
         });
 

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { InspeccionService } from './inspeccion.service';
-import { inspeccion } from '@prisma/client';
+import { inspeccion, inventario } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { DtoCreateInspeccion, DtoUpdateInspeccion } from 'src/dtos/inspeccion.dto';
 
@@ -10,7 +10,7 @@ export class InspeccionController {
     constructor(private inspeccionService: InspeccionService){}
 
     @Get()
-    async getInspeccion(): Promise<inspeccion[]> {
+    async getInspeccion(): Promise<inventario[]> {
         return await this.inspeccionService.getInspeccion();
     }
 

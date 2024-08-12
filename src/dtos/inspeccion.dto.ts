@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 export class DtoCreateInspeccion {
     @IsNumber()
@@ -7,7 +7,13 @@ export class DtoCreateInspeccion {
     orderInsp: string
 }
 
-export class DtoUpdateInspeccion extends DtoCreateInspeccion {
+export class DtoUpdateInspeccion{
     @IsNumber()
-    idInspeccion: number;
+    idInventario: number;
+    @IsString()
+    orderInspect: string;
+    @IsNumber()
+    inspectecBy: number;
+    @IsBoolean()
+    active: boolean;
 }
