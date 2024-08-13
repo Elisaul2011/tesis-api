@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { inventario, almacenes, zona, atas } from '@prisma/client';
+import { AppService } from 'src/app.service';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateHistorial } from 'src/dtos/historial.dto';
@@ -9,7 +10,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class InventarioService {
-    constructor(private prismaService: PrismaService, private historialService: HistorialService) { }
+    constructor(
+        private prismaService: PrismaService, 
+        private historialService: HistorialService,
+        private appService: AppService
+    ) { }
 
     async getInventario(): Promise<inventario[]> {
         return await this.prismaService.inventario.findMany({
@@ -40,6 +45,20 @@ export class InventarioService {
 
     async getAtas(): Promise<atas[]> {
         return await this.prismaService.atas.findMany();
+    }
+
+    async generateExcelInvenory(): Promise<Buffer> {
+        const dataInventory = await this.prismaService.inventario.findMany({
+            include: {
+                estado: true,
+                tipocomponente: true,
+                almacenes: true,
+                zona: true
+            }
+        });
+        const columnsInventory: string[] = ['descripcion','sn','pn','shelfLife','order'];
+
+        return await this.appService.generateExcelFile(columnsInventory, dataInventory);
     }
 
     async postInventarioOrder(asign: DtoAsignInventario): Promise<DtoBaseResponse> {

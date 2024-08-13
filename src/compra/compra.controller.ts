@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { CompraService } from './compra.service';
 import { ordencompra } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
@@ -12,6 +12,15 @@ export class CompraController {
     @Get()
     async getCompra(): Promise<ordencompra[]>{
         return await this.compraService.getCompra();
+    }
+
+    @Get('/imprimir')
+    async generateExcelInvenory(@Res() res): Promise<void> {
+
+        const buffer = await this.compraService.generateExcelCompra();
+        res.setHeader('Content-Disposition', 'attachment; filename=report.xlsx');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.send(buffer);
     }
 
     @Post()

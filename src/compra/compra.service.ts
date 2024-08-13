@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ordencompra } from '@prisma/client';
+import { AppService } from 'src/app.service';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateCompra, DtoUpdateCompra } from 'src/dtos/compra.dto';
@@ -10,11 +11,21 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class CompraService {
 
-    constructor(private prismaService: PrismaService, private historialService: HistorialService){}
+    constructor(
+        private prismaService: PrismaService, 
+        private historialService: HistorialService,
+        private appService: AppService
+    ){}
 
     async getCompra(): Promise<ordencompra[]> {
-        return await this.prismaService.ordencompra.findMany({
-        })
+        return await this.prismaService.ordencompra.findMany()
+    }
+
+    async generateExcelCompra(): Promise<Buffer> {
+        const dataCompra = await this.prismaService.ordencompra.findMany();
+        const columnsCompra: string[] = ['descripcion','cantidad','sn','pn','proveedor','ordenCompra','Fecha'];
+
+        return await this.appService.generateExcelFile(columnsCompra, dataCompra);
     }
 
     async postCompra(add: DtoCreateCompra): Promise<DtoBaseResponse>{

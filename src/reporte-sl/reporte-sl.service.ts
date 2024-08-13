@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { inventario, reporteshelflife } from '@prisma/client';
+import { AppService } from 'src/app.service';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateReporte, DtoUpdateReporte } from 'src/dtos/reporte-sl.dto';
@@ -8,15 +9,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class ReporteSlService {
 
-    constructor(private prismaService: PrismaService) { }
+    constructor(private prismaService: PrismaService, private appService: AppService) { }
 
     async getReporte(): Promise<inventario[]> {
         return await this.prismaService.inventario.findMany({
-            where: {
-                estadoId: {
-                    in: [1,2]
-                }
-            },
             include: {
                 tipocomponente: true,
                 zona: true,
@@ -24,6 +20,20 @@ export class ReporteSlService {
                 estado: true
             },
         });
+    }
+
+    async generateExcelReport(): Promise<Buffer> {
+        const dataReport = await this.prismaService.inventario.findMany({
+            include: {
+                estado: true,
+                tipocomponente: true,
+                almacenes: true,
+                zona: true
+            }
+        });
+        const columnsReport: string[] = ['descripcion','sn','pn','shelfLife','order'];
+
+        return await this.appService.generateExcelFile(columnsReport, dataReport);
     }
 
     async postReporte(add: DtoCreateReporte): Promise<DtoBaseResponse> {
