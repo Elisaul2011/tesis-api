@@ -2,12 +2,14 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { inventario, almacenes, zona, atas } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
+import { DtoCreateHistorial } from 'src/dtos/historial.dto';
 import { DtoAsignInventario, DtoCreateInventario, DtoUpdateInventario } from 'src/dtos/inventario.dto';
+import { HistorialService } from 'src/historial/historial.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class InventarioService {
-    constructor(private prismaService: PrismaService) { }
+    constructor(private prismaService: PrismaService, private historialService: HistorialService) { }
 
     async getInventario(): Promise<inventario[]> {
         return await this.prismaService.inventario.findMany({
@@ -24,7 +26,7 @@ export class InventarioService {
         return await this.prismaService.inventario.findMany({
             where: {
                 estado: {
-                    idEstado: 1
+                    idEstado: 2
                 }
             },
             include: {
@@ -111,6 +113,13 @@ export class InventarioService {
             throw new BadRequestException('El componente no pudo ser registrado.')
         }
 
+        const saveHistory: DtoCreateHistorial = {
+            inventarioId: createInventario.idInventario,
+            tipoMovimientoId: 1
+        }
+
+        this.historialService.postHistorial(saveHistory);
+        
         baseResponse.message = 'Componente registrado.'
         return baseResponse;
     }

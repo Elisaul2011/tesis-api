@@ -3,12 +3,14 @@ import { ordencompra } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateCompra, DtoUpdateCompra } from 'src/dtos/compra.dto';
+import { DtoCreateHistorial } from 'src/dtos/historial.dto';
+import { HistorialService } from 'src/historial/historial.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CompraService {
 
-    constructor(private prismaService: PrismaService){}
+    constructor(private prismaService: PrismaService, private historialService: HistorialService){}
 
     async getCompra(): Promise<ordencompra[]> {
         return await this.prismaService.ordencompra.findMany({
@@ -31,6 +33,13 @@ export class CompraService {
         if(!createCompra){
             throw new BadRequestException('La Compra no pudo ser creado.')
         }
+
+        const saveHistory: DtoCreateHistorial = {
+            inventarioId: createCompra.idOrdenCompra,
+            tipoMovimientoId: 4
+        }
+
+        this.historialService.postHistorial(saveHistory);
 
         baseResponse.message = 'Compra creada.'
         return baseResponse;

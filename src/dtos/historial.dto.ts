@@ -6,9 +6,6 @@ export class DtoCreateHistorial {
     inventarioId: number;
     @IsNumber()
     tipoMovimientoId: number;
-    @Transform(({ value }) => new Date(value))
-    @IsDate()
-    fechaMovimiento: Date;
 }
 
 export class DtoUpdateHistorial extends DtoCreateHistorial {
