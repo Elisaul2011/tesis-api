@@ -1,7 +1,7 @@
 import { BadRequestException, Get, Injectable } from '@nestjs/common';
 import { roles, user } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
-import { baseResponse } from 'src/dtos/baseResponse';
+import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateUser, DtoEditUser } from 'src/dtos/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -38,11 +38,11 @@ export class UsersService {
         });
 
         if(!createUser){
-            throw new BadRequestException('Ha ocurrido un error');
+            badBaseResponse.message = 'Ha ocurrido un error';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Usuario creado.'
-
         return baseResponse;
     }
 
@@ -51,7 +51,8 @@ export class UsersService {
             data: {
                 nameUser: user.nameUser,
                 lastnameUser: user.lastnameUser,
-                active: user.active
+                active: user.active,
+                password: user.password
             },
             where: {
                 idUser: user.idUser
@@ -59,7 +60,8 @@ export class UsersService {
         });
 
         if(!editUser){
-            throw new BadRequestException('Ha ocurrido un error');
+            badBaseResponse.message = 'Ha ocurrido un error';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Usuario Editado.'
@@ -75,7 +77,8 @@ export class UsersService {
         });
 
         if(!deleteUser){
-            throw new BadRequestException('Ha ocurrido un error');
+            badBaseResponse.message = 'Ha ocurrido un error';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Usuario Eliminado.'

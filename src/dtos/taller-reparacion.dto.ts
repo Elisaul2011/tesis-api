@@ -5,6 +5,8 @@ export class DtoCreateTallerReparacion {
     taller: string;
     @IsNumber()
     inventarioId: number;
+    @IsNumber()
+    madeBy: number;
     @IsString()
     workshopOrder: string;
 }

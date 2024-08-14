@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { tallerreparacion } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
-import { baseResponse } from 'src/dtos/baseResponse';
+import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateTallerReparacion, DtoUpdateTallerReparacion } from 'src/dtos/taller-reparacion.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -36,7 +36,8 @@ export class TallerReparacionService {
         });
 
         if(!createTaller){
-            throw new BadRequestException('El taller no pudo ser registrado.')
+            badBaseResponse.message = 'El taller no pudo ser registrado.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Taller registrado.'
@@ -55,7 +56,8 @@ export class TallerReparacionService {
         });
 
         if(!updateTaller){
-            throw new BadRequestException('El registro del taller no se pudo actualizar.')
+            badBaseResponse.message = 'El registro del taller no se pudo actualizar.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Registro del taller actualizado.'
@@ -70,7 +72,8 @@ export class TallerReparacionService {
         });
 
         if(!deleteTaller){
-            throw new BadRequestException('Ha ocurrido un error');
+            badBaseResponse.message = 'Ha ocurrido un error';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Registro del taller eliminado.'

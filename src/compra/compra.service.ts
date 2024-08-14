@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ordencompra } from '@prisma/client';
-import { AppService } from 'src/app.service';
+import { AppService, IColumns } from 'src/app.service';
 import { DtoBaseResponse } from 'src/dtos/base-response';
-import { baseResponse } from 'src/dtos/baseResponse';
+import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateCompra, DtoUpdateCompra } from 'src/dtos/compra.dto';
 import { DtoCreateHistorial } from 'src/dtos/historial.dto';
 import { HistorialService } from 'src/historial/historial.service';
@@ -12,23 +12,52 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CompraService {
 
     constructor(
-        private prismaService: PrismaService, 
+        private prismaService: PrismaService,
         private historialService: HistorialService,
         private appService: AppService
-    ){}
+    ) { }
 
     async getCompra(): Promise<ordencompra[]> {
         return await this.prismaService.ordencompra.findMany()
     }
 
     async generateExcelCompra(): Promise<Buffer> {
-        const dataCompra = await this.prismaService.ordencompra.findMany();
-        const columnsCompra: string[] = ['descripcion','cantidad','sn','pn','proveedor','ordenCompra','Fecha'];
+        const dataCompra = await this.getCompra();
+        const columnsCompra: IColumns[] = [
+            {
+                header: 'Orden de compra',
+                column: 'ordenCompra',
+            },
+            {
+                header: 'Descripción',
+                column: 'descripcion',
+            },
+            {
+                header: 'P/N',
+                column: 'pn',
+            },
+            {
+                header: 'SN',
+                column: 'sn',
+            },
+            {
+                header: 'Cantidad',
+                column: 'cantidad',
+            },
+            {
+                header: 'Proveedor',
+                column: 'proveedor',
+            },
+            {
+                header: 'Fecha',
+                column: 'Fecha',
+            }
+        ];
 
         return await this.appService.generateExcelFile(columnsCompra, dataCompra);
     }
 
-    async postCompra(add: DtoCreateCompra): Promise<DtoBaseResponse>{
+    async postCompra(add: DtoCreateCompra): Promise<DtoBaseResponse> {
         const createCompra = await this.prismaService.ordencompra.create({
             data: {
                 ordenCompra: add.ordenCompra,
@@ -41,22 +70,23 @@ export class CompraService {
             }
         });
 
-        if(!createCompra){
-            throw new BadRequestException('La Compra no pudo ser creado.')
+        if (!createCompra) {
+            badBaseResponse.message = 'La Compra no pudo ser creado.';
+            return badBaseResponse;
         }
 
-        const saveHistory: DtoCreateHistorial = {
-            inventarioId: createCompra.idOrdenCompra,
-            tipoMovimientoId: 4
-        }
+        // const saveHistory: DtoCreateHistorial = {
+        //     inventarioId: createCompra.idOrdenCompra,
+        //     tipoMovimientoId: 4
+        // }
 
-        this.historialService.postHistorial(saveHistory);
+        // this.historialService.postHistorial(saveHistory);
 
         baseResponse.message = 'Compra creada.'
         return baseResponse;
     }
 
-    async putCompra(update: DtoUpdateCompra): Promise<DtoBaseResponse>{
+    async putCompra(update: DtoUpdateCompra): Promise<DtoBaseResponse> {
         const updateCompra = await this.prismaService.ordencompra.update({
             data: {
                 ordenCompra: update.ordenCompra,
@@ -71,23 +101,25 @@ export class CompraService {
             }
         });
 
-        if(!updateCompra){
-            throw new BadRequestException('La Compra no se pudo actualizar.')
+        if (!updateCompra) {
+            badBaseResponse.message = 'La Compra no se pudo actualizar.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Compra actualizada.'
         return baseResponse;
     }
 
-    async deleteCompra(idOrdenCompra: string): Promise<DtoBaseResponse>{
+    async deleteCompra(idOrdenCompra: string): Promise<DtoBaseResponse> {
         const deleteCompra = await this.prismaService.ordencompra.delete({
             where: {
                 idOrdenCompra: Number(idOrdenCompra)
             }
         });
 
-        if(!deleteCompra){
-            throw new BadRequestException('El Compra no se pudo eliminar.')
+        if (!deleteCompra) {
+            badBaseResponse.message = 'El Compra no se pudo eliminar.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Compra eliminado.'

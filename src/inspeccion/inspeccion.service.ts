@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { inventario } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
-import { baseResponse } from 'src/dtos/baseResponse';
+import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateHistorial } from 'src/dtos/historial.dto';
 import { DtoUpdateInspeccion } from 'src/dtos/inspeccion.dto';
 import { HistorialService } from 'src/historial/historial.service';
@@ -38,12 +38,14 @@ export class InspeccionService {
         });
 
         if(!updateInspeccion){
-            throw new BadRequestException('La inspeccion no se pudo actualizar.')
+            badBaseResponse.message = 'La inspeccion no se pudo actualizar.';
+            return badBaseResponse;
         }
 
         const saveHistory: DtoCreateHistorial = {
             inventarioId: updateInspeccion.idInventario,
-            tipoMovimientoId: update.active == true ? 2 : 3
+            tipoMovimientoId: 1
+            // tipoMovimientoId: update.active == true ? 2 : 3
         }
 
         this.historialService.postHistorial(saveHistory);

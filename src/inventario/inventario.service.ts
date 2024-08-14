@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { inventario, almacenes, zona, atas } from '@prisma/client';
-import { AppService } from 'src/app.service';
+import { AppService, IColumns } from 'src/app.service';
 import { DtoBaseResponse } from 'src/dtos/base-response';
-import { baseResponse } from 'src/dtos/baseResponse';
+import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateHistorial } from 'src/dtos/historial.dto';
 import { DtoAsignInventario, DtoCreateInventario, DtoUpdateInventario } from 'src/dtos/inventario.dto';
 import { HistorialService } from 'src/historial/historial.service';
@@ -11,7 +11,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class InventarioService {
     constructor(
-        private prismaService: PrismaService, 
+        private prismaService: PrismaService,
         private historialService: HistorialService,
         private appService: AppService
     ) { }
@@ -22,7 +22,8 @@ export class InventarioService {
                 estado: true,
                 tipocomponente: true,
                 almacenes: true,
-                zona: true
+                zona: true,
+                atas: true
             }
         });
     }
@@ -48,32 +49,97 @@ export class InventarioService {
     }
 
     async generateExcelInvenory(): Promise<Buffer> {
-        const dataInventory = await this.prismaService.inventario.findMany({
-            include: {
-                estado: true,
-                tipocomponente: true,
-                almacenes: true,
-                zona: true
+        const dataInventory = await this.getInventario();
+
+        const dataInventoryParse = dataInventory.map((inv: any) => {
+            return {
+                nombre: inv.almacenes.nombre,
+                zona: inv.zona.zona,
+                pn: inv.pn,
+                ata: inv.atas.NombreATA,
+                fabricante: inv.fabricante,
+                descripcion: inv.descripcion,
+                tipoComponente: inv.tipocomponente.tipoComponente,
+                sn: inv.sn,
+                cantidad: inv.cantidad,
+                lote: inv.lote,
+                estado: inv.estado.estado,
+                shelfLife: inv.shelfLife,
+                order: inv.order,
             }
         });
-        const columnsInventory: string[] = ['descripcion','sn','pn','shelfLife','order'];
 
-        return await this.appService.generateExcelFile(columnsInventory, dataInventory);
+        const columnsInventory: IColumns[] = [
+            {
+                header: 'Ubicación',
+                column: 'nombre',
+            },
+            {
+                header: 'Zona',
+                column: 'zona',
+            },
+            {
+                header: 'P/N',
+                column: 'pn',
+            },
+            {
+                header: 'Descripción',
+                column: 'descripcion',
+            },
+            {
+                header: 'Ata',
+                column: 'ata',
+            },
+            {
+                header: 'Fabricante',
+                column: 'fabricante',
+            },
+            {
+                header: 'Tipo Componente',
+                column: 'tipoComponente',
+            },
+            {
+                header: 'S/N',
+                column: 'sn',
+            },
+            {
+                header: 'Cantidad',
+                column: 'cantidad',
+            },
+            {
+                header: 'Lote',
+                column: 'lote',
+            },
+            {
+                header: 'Estado',
+                column: 'estado',
+            },
+            {
+                header: 'Shelf Lite',
+                column: 'shelfLife',
+            },
+            {
+                header: '# Orden',
+                column: 'order',
+            }
+        ];
+
+        return await this.appService.generateExcelFile(columnsInventory, dataInventoryParse);
     }
 
     async postInventarioOrder(asign: DtoAsignInventario): Promise<DtoBaseResponse> {
-
         const updateInventory = await this.prismaService.inventario.updateMany({
             data: {
                 estadoId: 2,
                 order: asign.order
-            }, where : {
+            }, where: {
                 idInventario: { in: asign.idInventario }
             }
         });
 
-        if(!updateInventory){
-            throw new BadRequestException('Ha ocurrido un error al actualziar')
+        if (!updateInventory) {
+            badBaseResponse.message = 'Ha ocurrido un error al actualizar';
+            return badBaseResponse;
         }
 
         if (asign.typeOrder == 1) {
@@ -85,7 +151,8 @@ export class InventarioService {
             });
 
             if (!createAeronave) {
-                throw new BadRequestException('El componente no pudo ser registrado.')
+                badBaseResponse.message = 'El componente no pudo ser registrado.'
+                return badBaseResponse;
             }
         }
 
@@ -98,11 +165,12 @@ export class InventarioService {
             });
 
             if (!createTaller) {
-                throw new BadRequestException('El componente no pudo ser registrado.')
+                badBaseResponse.message = 'El componente no pudo ser registrado.'
+                return badBaseResponse;
             }
         }
 
-        baseResponse.message = 'Componente registrado.'
+        baseResponse.message = 'Componente registrado.';
         return baseResponse;
     }
 
@@ -129,17 +197,18 @@ export class InventarioService {
         });
 
         if (!createInventario) {
-            throw new BadRequestException('El componente no pudo ser registrado.')
+            badBaseResponse.message = 'El componente no pudo ser registrado.'
+            return badBaseResponse;
         }
 
         const saveHistory: DtoCreateHistorial = {
             inventarioId: createInventario.idInventario,
-            tipoMovimientoId: 1
+            tipoMovimientoId: 4
         }
 
         this.historialService.postHistorial(saveHistory);
-        
-        baseResponse.message = 'Componente registrado.'
+
+        baseResponse.message = 'Componente registrado.';
         return baseResponse;
     }
 
@@ -169,10 +238,11 @@ export class InventarioService {
         });
 
         if (!updateInventario) {
-            throw new BadRequestException('El registro del componente no se pudo actualizar.')
+            badBaseResponse.message = 'El registro del componente no se pudo actualizar.'
+            return badBaseResponse;
         }
 
-        baseResponse.message = 'Registro de componente actualizado.'
+        baseResponse.message = 'Registro de componente actualizado.';
         return baseResponse;
     }
 
@@ -184,7 +254,8 @@ export class InventarioService {
         });
 
         if (!deleteInventario) {
-            throw new BadRequestException('Ha ocurrido un error');
+            badBaseResponse.message = 'Ha ocurrido un error';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Registro de componente eliminado.'

@@ -1,4 +1,4 @@
-import { baseResponse } from './../dtos/baseResponse';
+import { badBaseResponse, baseResponse } from './../dtos/baseResponse';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { zona } from '@prisma/client';
 import { DtoCreateZona, DtoUpdateZona } from 'src/dtos/almacen.dto';
@@ -31,7 +31,8 @@ export class ZonaService {
         });
 
         if (!newZona) {
-            throw new BadRequestException('Ha ocurriso un error al crear la zona.');
+            badBaseResponse.message = 'Ha ocurriso un error al crear la zona.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Zona creada exitosamente.';
@@ -51,9 +52,8 @@ export class ZonaService {
         });
 
         if (!updateZona) {
-            throw new BadRequestException(
-                'Ha ocurriso un error al actualizar la zona.',
-            );
+            badBaseResponse.message = 'Ha ocurriso un error al actualizar la zona.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Zona actuazliada exitosamente.';
@@ -68,9 +68,8 @@ export class ZonaService {
         });
 
         if (!deleteZona) {
-            throw new BadRequestException(
-                'Ha ocurriso un error al eliminar la zona.',
-            );
+            badBaseResponse.message = 'Ha ocurriso un error al eliminar la zona.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Zona eliminada exitosamente.';

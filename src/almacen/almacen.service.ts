@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { almacenes, zona } from '@prisma/client';
 import { DtoCreateAlmacen, DtoUpdateAlmacen } from 'src/dtos/almacen.dto';
 import { DtoBaseResponse } from 'src/dtos/base-response';
-import { baseResponse } from 'src/dtos/baseResponse';
+import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateHistorial } from 'src/dtos/historial.dto';
 import { HistorialService } from 'src/historial/historial.service';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -28,7 +28,8 @@ export class AlmacenService {
         });
 
         if(!createAlmacen){
-            throw new BadRequestException('El almacen no pudo ser creado.')
+            badBaseResponse.message = 'El almacen no pudo ser creado.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Almacen creado.'
@@ -50,7 +51,8 @@ export class AlmacenService {
         });
 
         if(!updateAlmacen){
-            throw new BadRequestException('El almacen no se pudo actualizar.')
+            badBaseResponse.message = 'El almacen no se pudo actualizar.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Almacen actualizado.'
@@ -65,7 +67,8 @@ export class AlmacenService {
         });
 
         if(!deleteAlmacen){
-            throw new BadRequestException('El almacen no se pudo eliminar.')
+            badBaseResponse.message = 'El almacen no se pudo eliminar.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Almacen eliminado.'

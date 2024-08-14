@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { necesidadestecnicas } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
-import { baseResponse } from 'src/dtos/baseResponse';
+import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateNecesidades, DtoUpdateNecesidades } from 'src/dtos/necesidades-tecnicas.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -33,7 +33,8 @@ export class NecesidadesTecnicasService {
         });
 
         if(!findInventarioId){
-            throw new BadRequestException('Componente no encontrado.')
+            badBaseResponse.message = 'Componente no encontrado.';
+            return badBaseResponse;
         }
 
         const updateInventory = await this.prismaService.inventario.update({
@@ -46,7 +47,8 @@ export class NecesidadesTecnicasService {
         });
 
         if(!updateInventory){
-            throw new BadRequestException('Ocurrio un error al actualizar el inventario.')
+            badBaseResponse.message = 'Ocurrio un error al actualizar el inventario.';
+            return badBaseResponse;
         }
 
         const createNecesidades = await this.prismaService.necesidadestecnicas.create({
@@ -58,7 +60,8 @@ export class NecesidadesTecnicasService {
         });
 
         if(!createNecesidades){
-            throw new BadRequestException('la solicitud de necesidades no pudo ser registrado.')
+            badBaseResponse.message = 'La solicitud de necesidades no pudo ser registrado.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Solicitud de necesidades registrado.'
@@ -78,7 +81,8 @@ export class NecesidadesTecnicasService {
         });
 
         if(!updateNecesidades){
-            throw new BadRequestException('La solicitud de necesidades no se pudo actualizar.')
+            badBaseResponse.message = 'La solicitud de necesidades no se pudo actualizar.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Solicitud de necesidades actualizado.'
@@ -93,7 +97,8 @@ export class NecesidadesTecnicasService {
         });
 
         if(!deleteNecesidades){
-            throw new BadRequestException('Ha ocurrido un error');
+            badBaseResponse.message = 'Ha ocurrido un error';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Solicitud de necesidades eliminada.'

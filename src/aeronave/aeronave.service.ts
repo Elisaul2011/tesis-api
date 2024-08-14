@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { aeronave } from '@prisma/client';
 import { DtoCreateAeronave, DtoUpdateAeronave } from 'src/dtos/aeronave.dto';
 import { DtoBaseResponse } from 'src/dtos/base-response';
-import { baseResponse } from 'src/dtos/baseResponse';
+import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -36,7 +36,8 @@ export class AeronaveService {
         });
 
         if(!createAeronave){
-            throw new BadRequestException('La aeronave  no pudo ser registrado.')
+            badBaseResponse.message = 'La aeronave  no pudo ser registrado.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Aeronave registrado.'
@@ -55,7 +56,8 @@ export class AeronaveService {
         });
 
         if(!updateAeronave){
-            throw new BadRequestException('El registro de la aeronave no se pudo actualizar.')
+            badBaseResponse.message = 'El registro de la aeronave no se pudo actualizar.';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Registro de la aeronave actualizada.'
@@ -70,7 +72,8 @@ export class AeronaveService {
         });
 
         if(!deleteAeronave){
-            throw new BadRequestException('Ha ocurrido un error');
+            badBaseResponse.message = 'Ha ocurrido un error';
+            return badBaseResponse;
         }
 
         baseResponse.message = 'Registro de aeronave eliminado.'
