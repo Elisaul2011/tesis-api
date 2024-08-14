@@ -26,6 +26,29 @@ export class NecesidadesTecnicasService {
     }
 
     async postNecesidades(add: DtoCreateNecesidades): Promise<DtoBaseResponse>{
+        const findInventarioId = await this.prismaService.inventario.findFirst({
+            where: {
+                idInventario: add.inventarioId,
+            }
+        });
+
+        if(!findInventarioId){
+            throw new BadRequestException('Componente no encontrado.')
+        }
+
+        const updateInventory = await this.prismaService.inventario.update({
+            data: {
+                cantidad: findInventarioId.cantidad - add.cantidad
+            },
+            where: {
+                idInventario: add.inventarioId,
+            }
+        });
+
+        if(!updateInventory){
+            throw new BadRequestException('Ocurrio un error al actualizar el inventario.')
+        }
+
         const createNecesidades = await this.prismaService.necesidadestecnicas.create({
             data: {
                 pn: add.pn,

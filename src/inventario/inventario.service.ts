@@ -117,7 +117,7 @@ export class InventarioService {
                 cantidad: add.cantidad,
                 lote: add.lote,
                 fabricante: add.fabricante,
-                estadoId: 2,
+                estadoId: 1,
                 shelfLife: add.shelfLife,
                 order: '',
                 zonaId: add.zonaId,
