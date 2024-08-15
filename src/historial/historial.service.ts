@@ -14,15 +14,9 @@ export class HistorialService {
     async getHistorial(): Promise<historial[]> {
         return await this.prismaService.historial.findMany({
             include: {
-                inventario: {
-                    include: {
-                        tipocomponente: true,
-                        zona: true,
-                        almacenes: true,
-                        estado: true
-                    }
-                },
-                tipomovimiento: true
+                tipomovimiento: true,
+                estado: true,
+                user: true
             }
         });
     }
@@ -32,16 +26,15 @@ export class HistorialService {
 
         const dataParse = dataHistory.map((history: any) => {
             return {
-                descripcion: history.inventario.descripcion,
-                pn: history.inventario.pn,
-                sn: history.inventario.sn,
-                cantidad: history.inventario.cantidad,
-                madeBy: 'admin',
+                descripcion: history.description,
+                pn: history.pn,
+                sn: history.sn,
+                cantidad: history.cantidad,
+                madeBy: `${history.user.nameUser} ${history.user.lastnameUser}`,
                 tipoMovimiento: history.tipomovimiento.tipoMovimiento,
-                estado: history.inventario.estado.estado,
-                order: history.inventario.order,
-                shelfLife: history.inventario.shelfLife,
-                fechaMovimiento: history.fechaMovimiento
+                estado: history.estado.estado,
+                order: history.orderHistorial,
+                fechaMovimiento: history.fechaMovimiento,
             }
         })
         const columnsHistory: IColumns[] = [
@@ -89,9 +82,41 @@ export class HistorialService {
     async postHistorial(add: DtoCreateHistorial): Promise<DtoBaseResponse> {
         const createHistorial = await this.prismaService.historial.create({
             data: {
-                inventarioId: add.inventarioId,
+                description: add.description,
+                pn: add.pn,
+                sn: add.sn,
+                cantidad: add.cantidad,
+                madeBy: add.madeBy,
                 tipoMovimientoId: add.tipoMovimientoId,
-                fechaMovimiento: new Date(),
+                estadoId: add.estadoId,
+                orderHistorial: add.orderHistorial,
+                fechaMovimiento: new Date()
+            }
+        });
+
+        if (!createHistorial) {
+            throw new BadRequestException('El historial no pudo ser registrado.')
+        }
+
+        baseResponse.message = 'Historial registrado.'
+        return baseResponse;
+    }
+
+    async poutHistorial(add: DtoCreateHistorial): Promise<DtoBaseResponse> {
+        const createHistorial = await this.prismaService.historial.update({
+            data: {
+                description: add.description,
+                pn: add.pn,
+                sn: add.sn,
+                cantidad: add.cantidad,
+                madeBy: add.madeBy,
+                tipoMovimientoId: add.tipoMovimientoId,
+                estadoId: add.estadoId,
+                orderHistorial: add.orderHistorial,
+                fechaMovimiento: new Date()
+            },
+            where: {
+                idHistorial:1
             }
         });
 

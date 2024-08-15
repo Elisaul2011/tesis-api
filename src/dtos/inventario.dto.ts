@@ -6,6 +6,8 @@ export class DtoCreateInventario {
     almacenesId: number;
     @IsNumber()
     zonaId: number;
+    @IsNumber()
+    userId: number;
     @IsString()
     pn: string;
     @IsString()
@@ -19,7 +21,7 @@ export class DtoCreateInventario {
     @IsString()
     lote: string;
     @IsString()
-    fabricante: string;
+    proveedor: string;
     @Transform(({ value }) => new Date(value))
     @IsDate()
     shelfLife: Date;

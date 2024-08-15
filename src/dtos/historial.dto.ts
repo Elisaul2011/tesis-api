@@ -1,11 +1,22 @@
-import { Transform } from "class-transformer";
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class DtoCreateHistorial {
+    @IsString()
+    description:             string;
+    @IsString()
+    pn:                      string;
+    @IsString()
+    sn:                      string;
     @IsNumber()
-    inventarioId: number;
+    cantidad:                number;
     @IsNumber()
-    tipoMovimientoId: number;
+    madeBy:                  number;
+    @IsNumber()
+    tipoMovimientoId:        number;
+    @IsNumber()
+    estadoId:                number;
+    @IsString()
+    orderHistorial:          string;   
 }
 
 export class DtoUpdateHistorial extends DtoCreateHistorial {

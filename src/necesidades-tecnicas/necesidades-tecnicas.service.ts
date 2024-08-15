@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { necesidadestecnicas } from '@prisma/client';
+import { necesidadestecnicas, notificaciones } from '@prisma/client';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
 import { DtoCreateNecesidades, DtoUpdateNecesidades } from 'src/dtos/necesidades-tecnicas.dto';
@@ -11,18 +11,7 @@ export class NecesidadesTecnicasService {
     constructor(private prismaService: PrismaService) { }
 
     async getNecesidades(): Promise<necesidadestecnicas[]> {
-        return await this.prismaService.necesidadestecnicas.findMany({
-            include: {
-                inventario: {
-                    include: {
-                        tipocomponente: true,
-                        zona: true,
-                        almacenes: true,
-                        estado: true
-                    }
-                }
-            }
-        });
+        return await this.prismaService.necesidadestecnicas.findMany();
     }
 
     async postNecesidades(add: DtoCreateNecesidades): Promise<DtoBaseResponse>{
@@ -69,23 +58,31 @@ export class NecesidadesTecnicasService {
     }
 
     async putNecesidades(update: DtoUpdateNecesidades): Promise<DtoBaseResponse>{
-        const updateNecesidades = await this.prismaService.necesidadestecnicas.update({
-            data: {
-                pn: update.pn,
-                descripcion: update.descripcion,
-                cantidad: update.cantidad
-            },
-            where: {
-                idNecesidadesTecnicas: update.idNecesidadesTecnicas
+        const updateNecesidades = await this.prismaService.necesidadestecnicas.findMany();
+
+        const createManyNotificaciones: any[] = updateNecesidades.map((need: necesidadestecnicas) => {
+            return {
+                sendBy: update.sendBy,
+                sendTo: update.sendTo,
+                pn: need.pn,
+                descripcion: need.descripcion,
+                cantidad: need.cantidad
             }
         });
 
-        if(!updateNecesidades){
-            badBaseResponse.message = 'La solicitud de necesidades no se pudo actualizar.';
+
+        const createNotification = await this.prismaService.notificaciones.createMany({
+            data: createManyNotificaciones
+        });
+
+        if(!createNotification){
+            badBaseResponse.message = 'Error al enviar la solicitud';
             return badBaseResponse;
         }
 
-        baseResponse.message = 'Solicitud de necesidades actualizado.'
+        await this.prismaService.necesidadestecnicas.deleteMany();
+
+        baseResponse.message = 'Solicitud enviada.'
         return baseResponse;
     }
     

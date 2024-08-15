@@ -3,8 +3,6 @@ import { almacenes, zona } from '@prisma/client';
 import { DtoCreateAlmacen, DtoUpdateAlmacen } from 'src/dtos/almacen.dto';
 import { DtoBaseResponse } from 'src/dtos/base-response';
 import { badBaseResponse, baseResponse } from 'src/dtos/baseResponse';
-import { DtoCreateHistorial } from 'src/dtos/historial.dto';
-import { HistorialService } from 'src/historial/historial.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()

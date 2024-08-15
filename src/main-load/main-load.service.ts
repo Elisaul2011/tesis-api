@@ -112,6 +112,9 @@ export class MainLoadService {
         {
           tipoMovimiento: 'Registro de componente',
         },
+        {
+          tipoMovimiento: 'Compra registrada',
+        },
       ],
     });
 
@@ -125,6 +128,9 @@ export class MainLoadService {
         },
         {
           estado: 'En cuarentena',
+        },
+        {
+          estado: 'Finalizado',
         },
       ],
     });
@@ -250,7 +256,7 @@ export class MainLoadService {
           sn: 'SN-001',
           cantidad: 15,
           estadoId: 2,
-          fabricante: '',
+          proveedor: '',
           shelfLife: new Date('2025-03-15'),
           order: 'WO-001',
           zonaId: 1,
@@ -271,7 +277,7 @@ export class MainLoadService {
           shelfLife: new Date('2024-11-30'),
           order: 'OT-002',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -289,7 +295,7 @@ export class MainLoadService {
           shelfLife: new Date('2026-01-01'),
           order: 'INSP-003',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -307,7 +313,7 @@ export class MainLoadService {
           shelfLife: new Date('2025-06-30'),
           order: 'WO-004',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -325,7 +331,7 @@ export class MainLoadService {
           shelfLife: new Date('2024-09-15'),
           order: 'OT-005',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -343,7 +349,7 @@ export class MainLoadService {
           shelfLife: new Date('2026-04-20'),
           order: 'INSP-006',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -361,7 +367,7 @@ export class MainLoadService {
           shelfLife: new Date('2025-12-31'),
           order: 'WO-007',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -379,7 +385,7 @@ export class MainLoadService {
           shelfLife: new Date('2024-07-01'),
           order: 'OT-008',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -397,7 +403,7 @@ export class MainLoadService {
           shelfLife: new Date('2026-02-28'),
           order: 'INSP-009',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -415,7 +421,7 @@ export class MainLoadService {
           shelfLife: new Date('2025-05-31'),
           order: 'WO-010',
           zonaId: 1,
-          fabricante: '',
+          proveedor: '',
           ataId: 1,
           horasManualesId: 1,
           necesidadesTecnicasId: 1,
@@ -486,42 +492,47 @@ export class MainLoadService {
       ]
     });
 
-    const createHistory = await this.prismaService.historial.createMany({
-      data: [
-        {
-          inventarioId: 1,
-          tipoMovimientoId: 3,
-          fechaMovimiento: new Date('2024-08-08')
-        },
-        {
-          inventarioId: 5,
-          tipoMovimientoId: 4,
-          fechaMovimiento: new Date('2024-08-04')
-        },
-        {
-          inventarioId: 7,
-          tipoMovimientoId: 1,
-          fechaMovimiento: new Date('2024-08-01')
-        },
-        {
-          inventarioId: 10,
-          tipoMovimientoId: 3,
-          fechaMovimiento: new Date('2024-08-08')
-        },
-        {
-          inventarioId: 4,
-          tipoMovimientoId: 4,
-          fechaMovimiento: new Date('2024-08-04')
-        }
-      ]
-    });
+    // const createHistory = await this.prismaService.historial.createMany({
+    //   data: [
+    //     {
+    //       inventarioId: 1,
+    //       tipoMovimientoId: 3,
+    //       orderHistorial: '',
+    //       fechaMovimiento: new Date('2024-08-08')
+    //     },
+    //     {
+    //       inventarioId: 5,
+    //       tipoMovimientoId: 4,
+    //       orderHistorial: '',
+    //       fechaMovimiento: new Date('2024-08-04')
+    //     },
+    //     {
+    //       inventarioId: 7,
+    //       tipoMovimientoId: 1,
+    //       orderHistorial: '',
+    //       fechaMovimiento: new Date('2024-08-01')
+    //     },
+    //     {
+    //       inventarioId: 10,
+    //       tipoMovimientoId: 3,
+    //       orderHistorial: '',
+    //       fechaMovimiento: new Date('2024-08-08')
+    //     },
+    //     {
+    //       inventarioId: 4,
+    //       tipoMovimientoId: 4,
+    //       orderHistorial: '',
+    //       fechaMovimiento: new Date('2024-08-04')
+    //     }
+    //   ]
+    // });
 
     if (!createOrdenCompra) {
       throw new BadRequestException('Se produjo un error.');
     }
-    if (!createHistory) {
-      throw new BadRequestException('Se produjo un error.');
-    }
+    // if (!createHistory) {
+    //   throw new BadRequestException('Se produjo un error.');
+    // }
     if (!createReport) {
       throw new BadRequestException('Se produjo un error.');
     }

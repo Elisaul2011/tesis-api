@@ -1,12 +1,10 @@
 import { IsNumber, IsString } from "class-validator";
 
 export class DtoCreateAeronave {
-    @IsString()
-    aeronave: string;
     @IsNumber()
     inventarioId: number;
-    @IsString()
-    workOrder: string;
+    @IsNumber()
+    madeBy: number;
 }
 
 export class DtoUpdateAeronave extends DtoCreateAeronave {

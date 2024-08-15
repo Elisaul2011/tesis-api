@@ -9,6 +9,8 @@ export class DtoCreateCompra {
     fecha: Date
     @IsNumber()
     cantidad: number;
+    @IsNumber()
+    userId: number;
     @IsString()
     pn: string;
     @IsString()

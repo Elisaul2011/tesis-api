@@ -75,12 +75,18 @@ export class CompraService {
             return badBaseResponse;
         }
 
-        // const saveHistory: DtoCreateHistorial = {
-        //     inventarioId: createCompra.idOrdenCompra,
-        //     tipoMovimientoId: 4
-        // }
+        const saveHistory: DtoCreateHistorial = {
+            description: createCompra.descripcion,
+            pn: createCompra.pn,
+            sn: createCompra.sn,
+            cantidad: createCompra.cantidad,
+            madeBy: add.userId,
+            tipoMovimientoId: 5,
+            estadoId: 1,
+            orderHistorial: createCompra.ordenCompra,
+        };
 
-        // this.historialService.postHistorial(saveHistory);
+        this.historialService.postHistorial(saveHistory);
 
         baseResponse.message = 'Compra creada.'
         return baseResponse;
@@ -105,6 +111,19 @@ export class CompraService {
             badBaseResponse.message = 'La Compra no se pudo actualizar.';
             return badBaseResponse;
         }
+
+        const saveHistory: DtoCreateHistorial = {
+            description: updateCompra.descripcion,
+            pn: updateCompra.pn,
+            sn: updateCompra.sn,
+            cantidad: updateCompra.cantidad,
+            madeBy: update.userId,
+            tipoMovimientoId: 5,
+            estadoId: 1,
+            orderHistorial: updateCompra.ordenCompra,
+        };
+
+        this.historialService.postHistorial(saveHistory);
 
         baseResponse.message = 'Compra actualizada.'
         return baseResponse;

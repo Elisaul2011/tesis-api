@@ -14,10 +14,10 @@ export class AeronaveController {
         return await this.aeronaveService.getAeronave();
     }
 
-    @Post()
-    async postAeronave(@Body() newAeronave: DtoCreateAeronave): Promise<DtoBaseResponse>{
-        return await this.aeronaveService.postAeronave(newAeronave);
-    }
+    // @Post()
+    // async postAeronave(@Body() newAeronave: DtoCreateAeronave): Promise<DtoBaseResponse>{
+    //     return await this.aeronaveService.postAeronave(newAeronave);
+    // }
 
     @Put()
     async putAeronave(@Body() inventario: DtoUpdateAeronave): Promise<DtoBaseResponse>{

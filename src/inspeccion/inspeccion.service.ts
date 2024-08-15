@@ -31,6 +31,7 @@ export class InspeccionService {
         const updateInspeccion = await this.prismaService.inventario.update({
             data: {
                 estadoId: update.active == true ? 2 : 3,
+                order: update.orderInspect
             },
             where: {
                 idInventario: update.idInventario
@@ -43,9 +44,14 @@ export class InspeccionService {
         }
 
         const saveHistory: DtoCreateHistorial = {
-            inventarioId: updateInspeccion.idInventario,
-            tipoMovimientoId: 1
-            // tipoMovimientoId: update.active == true ? 2 : 3
+            description: updateInspeccion.descripcion,
+            pn: updateInspeccion.pn,
+            sn: updateInspeccion.sn,
+            cantidad: updateInspeccion.cantidad,
+            madeBy: update.inspectecBy,
+            tipoMovimientoId: 1,
+            estadoId: update.active == true ? 2 : 3,
+            orderHistorial: updateInspeccion.order,
         }
 
         this.historialService.postHistorial(saveHistory);

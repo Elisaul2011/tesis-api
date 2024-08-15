@@ -14,10 +14,10 @@ export class TallerReparacionController {
         return await this.tallerReparacionService.getTaller();
     }
 
-    @Post()
-    async postTaller(@Body() newTaller: DtoCreateTallerReparacion): Promise<DtoBaseResponse>{
-        return await this.tallerReparacionService.postTaller(newTaller);
-    }
+    // @Post()
+    // async postTaller(@Body() newTaller: DtoCreateTallerReparacion): Promise<DtoBaseResponse>{
+    //     return await this.tallerReparacionService.postTaller(newTaller);
+    // }
 
     @Put()
     async putTaller(@Body() tallerReparacion: DtoUpdateTallerReparacion): Promise<DtoBaseResponse>{

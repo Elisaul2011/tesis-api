@@ -23,14 +23,6 @@ export class AppService {
       });
     });
 
-    // Agrega datos a la hoja
-    // sheet.cell('A1').value('Nombre');
-    // sheet.cell('B1').value('Edad');
-    // sheet.cell('A2').value('Juan');
-    // sheet.cell('B2').value(30);
-    // sheet.cell('A3').value('María');
-    // sheet.cell('B3').value(25);
-
     // Genera el archivo Excel y lo devuelve como un buffer
     return workbook.outputAsync();
   }

@@ -4,6 +4,7 @@ CREATE TABLE `aeronave` (
     `aeronave` VARCHAR(191) NOT NULL,
     `inventarioId` INTEGER NOT NULL,
 
+    INDEX `aeronave_inventarioId_fkey`(`inventarioId`),
     PRIMARY KEY (`idAeronave`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -39,8 +40,14 @@ CREATE TABLE `estado` (
 -- CreateTable
 CREATE TABLE `historial` (
     `idHistorial` INTEGER NOT NULL AUTO_INCREMENT,
-    `inventarioId` INTEGER NOT NULL,
+    `description` VARCHAR(191) NOT NULL,
+    `pn` VARCHAR(191) NOT NULL,
+    `sn` VARCHAR(191) NOT NULL,
+    `cantidad` INTEGER NOT NULL,
+    `madeBy` INTEGER NOT NULL,
     `tipoMovimientoId` INTEGER NOT NULL,
+    `estadoId` INTEGER NOT NULL,
+    `orderHistorial` VARCHAR(191) NOT NULL,
     `fechaMovimiento` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`idHistorial`)
@@ -68,7 +75,7 @@ CREATE TABLE `inventario` (
     `sn` VARCHAR(191) NOT NULL,
     `cantidad` INTEGER NOT NULL,
     `lote` VARCHAR(191) NOT NULL,
-    `fabricante` VARCHAR(191) NOT NULL,
+    `proveedor` VARCHAR(191) NOT NULL,
     `estadoId` INTEGER NOT NULL,
     `shelfLife` DATETIME(3) NOT NULL,
     `order` VARCHAR(191) NOT NULL,
@@ -77,6 +84,14 @@ CREATE TABLE `inventario` (
     `necesidadesTecnicasId` INTEGER NOT NULL,
     `rolId` INTEGER NOT NULL,
 
+    INDEX `inventario_almacenesId_fkey`(`almacenesId`),
+    INDEX `inventario_ataId_fkey`(`ataId`),
+    INDEX `inventario_estadoId_fkey`(`estadoId`),
+    INDEX `inventario_horasManualesId_fkey`(`horasManualesId`),
+    INDEX `inventario_necesidadesTecnicasId_fkey`(`necesidadesTecnicasId`),
+    INDEX `inventario_rolId_fkey`(`rolId`),
+    INDEX `inventario_tipoComponenteId_fkey`(`tipoComponenteId`),
+    INDEX `inventario_zonaId_fkey`(`zonaId`),
     PRIMARY KEY (`idInventario`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -88,6 +103,18 @@ CREATE TABLE `necesidadestecnicas` (
     `cantidad` INTEGER NOT NULL,
 
     PRIMARY KEY (`idNecesidadesTecnicas`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `notificaciones` (
+    `idNotificacion` INTEGER NOT NULL AUTO_INCREMENT,
+    `pn` VARCHAR(191) NOT NULL,
+    `descripcion` VARCHAR(191) NOT NULL,
+    `cantidad` INTEGER NOT NULL,
+    `sendBy` INTEGER NOT NULL,
+    `sendTo` INTEGER NOT NULL,
+
+    PRIMARY KEY (`idNotificacion`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -109,6 +136,7 @@ CREATE TABLE `reporteshelflife` (
     `idReporteShelfLife` INTEGER NOT NULL AUTO_INCREMENT,
     `inventarioId` INTEGER NOT NULL,
 
+    INDEX `reporteshelflife_inventarioId_fkey`(`inventarioId`),
     PRIMARY KEY (`idReporteShelfLife`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -126,6 +154,7 @@ CREATE TABLE `tallerreparacion` (
     `taller` VARCHAR(191) NOT NULL,
     `inventarioId` INTEGER NOT NULL,
 
+    INDEX `tallerreparacion_inventarioId_fkey`(`inventarioId`),
     PRIMARY KEY (`idTaller`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -154,6 +183,7 @@ CREATE TABLE `user` (
     `active` BOOLEAN NOT NULL,
     `password` VARCHAR(50) NOT NULL,
 
+    INDEX `user_rolId_fkey`(`rolId`),
     PRIMARY KEY (`idUser`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -164,6 +194,7 @@ CREATE TABLE `zona` (
     `descripcionZona` VARCHAR(191) NOT NULL,
     `almacenId` INTEGER NOT NULL,
 
+    INDEX `zona_almacenId_fkey`(`almacenId`),
     PRIMARY KEY (`idZona`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -171,10 +202,13 @@ CREATE TABLE `zona` (
 ALTER TABLE `aeronave` ADD CONSTRAINT `aeronave_inventarioId_fkey` FOREIGN KEY (`inventarioId`) REFERENCES `inventario`(`idInventario`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `historial` ADD CONSTRAINT `historial_inventarioId_fkey` FOREIGN KEY (`inventarioId`) REFERENCES `inventario`(`idInventario`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `historial` ADD CONSTRAINT `historial_madeBy_fkey` FOREIGN KEY (`madeBy`) REFERENCES `user`(`idUser`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `historial` ADD CONSTRAINT `historial_tipoMovimientoId_fkey` FOREIGN KEY (`tipoMovimientoId`) REFERENCES `tipomovimiento`(`idTipoMovimiento`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `historial` ADD CONSTRAINT `historial_estadoId_fkey` FOREIGN KEY (`estadoId`) REFERENCES `estado`(`idEstado`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `inventario` ADD CONSTRAINT `inventario_almacenesId_fkey` FOREIGN KEY (`almacenesId`) REFERENCES `almacenes`(`idAlmacenes`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -189,9 +223,6 @@ ALTER TABLE `inventario` ADD CONSTRAINT `inventario_estadoId_fkey` FOREIGN KEY (
 ALTER TABLE `inventario` ADD CONSTRAINT `inventario_horasManualesId_fkey` FOREIGN KEY (`horasManualesId`) REFERENCES `horasmanuales`(`idHorasManuales`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `inventario` ADD CONSTRAINT `inventario_necesidadesTecnicasId_fkey` FOREIGN KEY (`necesidadesTecnicasId`) REFERENCES `necesidadestecnicas`(`idNecesidadesTecnicas`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `inventario` ADD CONSTRAINT `inventario_rolId_fkey` FOREIGN KEY (`rolId`) REFERENCES `roles`(`idRol`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -199,6 +230,12 @@ ALTER TABLE `inventario` ADD CONSTRAINT `inventario_tipoComponenteId_fkey` FOREI
 
 -- AddForeignKey
 ALTER TABLE `inventario` ADD CONSTRAINT `inventario_zonaId_fkey` FOREIGN KEY (`zonaId`) REFERENCES `zona`(`idZona`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `notificaciones` ADD CONSTRAINT `notificaciones_sendBy_fkey` FOREIGN KEY (`sendBy`) REFERENCES `user`(`idUser`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `notificaciones` ADD CONSTRAINT `notificaciones_sendTo_fkey` FOREIGN KEY (`sendTo`) REFERENCES `user`(`idUser`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `reporteshelflife` ADD CONSTRAINT `reporteshelflife_inventarioId_fkey` FOREIGN KEY (`inventarioId`) REFERENCES `inventario`(`idInventario`) ON DELETE RESTRICT ON UPDATE CASCADE;

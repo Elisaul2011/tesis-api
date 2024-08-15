@@ -11,7 +11,9 @@ export class DtoCreateNecesidades {
     cantidad: number;
 }
 
-export class DtoUpdateNecesidades extends DtoCreateNecesidades {
+export class DtoUpdateNecesidades {
     @IsNumber()
-    idNecesidadesTecnicas: number;
+    sendTo: number;
+    @IsNumber()
+    sendBy: number;
 }

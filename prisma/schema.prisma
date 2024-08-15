@@ -12,6 +12,8 @@ model aeronave {
   aeronave     String
   inventarioId Int
   inventario   inventario @relation(fields: [inventarioId], references: [idInventario])
+
+  @@index([inventarioId], map: "aeronave_inventarioId_fkey")
 }
 
 model almacenes {
@@ -36,15 +38,23 @@ model estado {
   idEstado   Int          @id @default(autoincrement())
   estado     String
   inventario inventario[]
+  historial  historial[]
 }
 
 model historial {
   idHistorial      Int            @id @default(autoincrement())
-  inventarioId     Int
+  description      String
+  pn               String
+  sn               String
+  cantidad         Int
+  madeBy           Int
+  user             user           @relation(fields: [madeBy], references: [idUser])
   tipoMovimientoId Int
-  fechaMovimiento  DateTime
-  inventario       inventario     @relation(fields: [inventarioId], references: [idInventario])
   tipomovimiento   tipomovimiento @relation(fields: [tipoMovimientoId], references: [idTipoMovimiento])
+  estadoId         Int
+  estado           estado         @relation(fields: [estadoId], references: [idEstado])
+  orderHistorial   String
+  fechaMovimiento  DateTime
 }
 
 model horasmanuales {
@@ -57,7 +67,7 @@ model horasmanuales {
 }
 
 model inventario {
-  idInventario          Int                 @id @default(autoincrement())
+  idInventario          Int                @id @default(autoincrement())
   almacenesId           Int
   zonaId                Int
   pn                    String
@@ -66,7 +76,7 @@ model inventario {
   sn                    String
   cantidad              Int
   lote                  String
-  fabricante            String
+  proveedor             String
   estadoId              Int
   shelfLife             DateTime
   order                 String
@@ -74,27 +84,43 @@ model inventario {
   horasManualesId       Int
   necesidadesTecnicasId Int
   rolId                 Int
-  almacenes             almacenes           @relation(fields: [almacenesId], references: [idAlmacenes])
-  atas                  atas                @relation(fields: [ataId], references: [IdAta])
-  estado                estado              @relation(fields: [estadoId], references: [idEstado])
-  horasmanuales         horasmanuales       @relation(fields: [horasManualesId], references: [idHorasManuales])
-  necesidadestecnicas   necesidadestecnicas @relation(fields: [necesidadesTecnicasId], references: [idNecesidadesTecnicas])
-  roles                 roles               @relation(fields: [rolId], references: [idRol])
-  tipocomponente        tipocomponente      @relation(fields: [tipoComponenteId], references: [idTipoComponente])
-  zona                  zona                @relation(fields: [zonaId], references: [idZona])
+  aeronave              aeronave[]
+  almacenes             almacenes          @relation(fields: [almacenesId], references: [idAlmacenes])
+  atas                  atas               @relation(fields: [ataId], references: [IdAta])
+  estado                estado             @relation(fields: [estadoId], references: [idEstado])
+  horasmanuales         horasmanuales      @relation(fields: [horasManualesId], references: [idHorasManuales])
+  roles                 roles              @relation(fields: [rolId], references: [idRol])
+  tipocomponente        tipocomponente     @relation(fields: [tipoComponenteId], references: [idTipoComponente])
+  zona                  zona               @relation(fields: [zonaId], references: [idZona])
+  reporteshelflife      reporteshelflife[]
+  tallerreparacion      tallerreparacion[]
 
-  aeronave         aeronave[]
-  historial        historial[]
-  reporteshelflife reporteshelflife[]
-  tallerreparacion tallerreparacion[]
+  @@index([almacenesId], map: "inventario_almacenesId_fkey")
+  @@index([ataId], map: "inventario_ataId_fkey")
+  @@index([estadoId], map: "inventario_estadoId_fkey")
+  @@index([horasManualesId], map: "inventario_horasManualesId_fkey")
+  @@index([necesidadesTecnicasId], map: "inventario_necesidadesTecnicasId_fkey")
+  @@index([rolId], map: "inventario_rolId_fkey")
+  @@index([tipoComponenteId], map: "inventario_tipoComponenteId_fkey")
+  @@index([zonaId], map: "inventario_zonaId_fkey")
 }
 
 model necesidadestecnicas {
-  idNecesidadesTecnicas Int          @id @default(autoincrement())
+  idNecesidadesTecnicas Int    @id @default(autoincrement())
   pn                    String
   descripcion           String
   cantidad              Int
-  inventario            inventario[]
+}
+
+model notificaciones {
+  idNotificacion Int    @id @default(autoincrement())
+  pn             String
+  descripcion    String
+  cantidad       Int
+  sendBy         Int
+  userSolitited  user   @relation("userSolitited", fields: [sendBy], references: [idUser])
+  sendTo         Int
+  userAlmacen    user   @relation("userAlmacen", fields: [sendTo], references: [idUser])
 }
 
 model ordencompra {
@@ -112,6 +138,8 @@ model reporteshelflife {
   idReporteShelfLife Int        @id @default(autoincrement())
   inventarioId       Int
   inventario         inventario @relation(fields: [inventarioId], references: [idInventario])
+
+  @@index([inventarioId], map: "reporteshelflife_inventarioId_fkey")
 }
 
 model roles {
@@ -126,6 +154,8 @@ model tallerreparacion {
   taller       String
   inventarioId Int
   inventario   inventario @relation(fields: [inventarioId], references: [idInventario])
+
+  @@index([inventarioId], map: "tallerreparacion_inventarioId_fkey")
 }
 
 model tipocomponente {
@@ -141,13 +171,18 @@ model tipomovimiento {
 }
 
 model user {
-  idUser       Int     @id @default(autoincrement())
-  nameUser     String
-  lastnameUser String
-  rolId        Int
-  active       Boolean
-  password     String  @db.VarChar(50)
-  roles        roles   @relation(fields: [rolId], references: [idRol])
+  idUser        Int              @id @default(autoincrement())
+  nameUser      String
+  lastnameUser  String
+  rolId         Int
+  active        Boolean
+  password      String           @db.VarChar(50)
+  roles         roles            @relation(fields: [rolId], references: [idRol])
+  historial     historial[]
+  userSolitited notificaciones[] @relation("userSolitited")
+  userAlmacen   notificaciones[] @relation("userAlmacen")
+
+  @@index([rolId], map: "user_rolId_fkey")
 }
 
 model zona {
@@ -157,4 +192,6 @@ model zona {
   almacenId       Int
   inventario      inventario[]
   almacenes       almacenes    @relation(fields: [almacenId], references: [idAlmacenes])
+
+  @@index([almacenId], map: "zona_almacenId_fkey")
 }

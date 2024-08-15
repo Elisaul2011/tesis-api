@@ -18,6 +18,11 @@ export class InventarioService {
 
     async getInventario(): Promise<inventario[]> {
         return await this.prismaService.inventario.findMany({
+            where: {
+                estadoId: {
+                    in: [1,2,3]
+                }
+            },
             include: {
                 estado: true,
                 tipocomponente: true,
@@ -57,7 +62,7 @@ export class InventarioService {
                 zona: inv.zona.zona,
                 pn: inv.pn,
                 ata: inv.atas.NombreATA,
-                fabricante: inv.fabricante,
+                proveedor: inv.proveedor,
                 descripcion: inv.descripcion,
                 tipoComponente: inv.tipocomponente.tipoComponente,
                 sn: inv.sn,
@@ -91,8 +96,8 @@ export class InventarioService {
                 column: 'ata',
             },
             {
-                header: 'Fabricante',
-                column: 'fabricante',
+                header: 'Proveedor',
+                column: 'proveedor',
             },
             {
                 header: 'Tipo Componente',
@@ -184,7 +189,7 @@ export class InventarioService {
                 sn: add.sn,
                 cantidad: add.cantidad,
                 lote: add.lote,
-                fabricante: add.fabricante,
+                proveedor: add.proveedor,
                 estadoId: 1,
                 shelfLife: add.shelfLife,
                 order: '',
@@ -202,8 +207,14 @@ export class InventarioService {
         }
 
         const saveHistory: DtoCreateHistorial = {
-            inventarioId: createInventario.idInventario,
-            tipoMovimientoId: 4
+            description: createInventario.descripcion,
+            pn: createInventario.pn,
+            sn: createInventario.sn,
+            cantidad: createInventario.cantidad,
+            madeBy: add.userId,
+            tipoMovimientoId: 4,
+            estadoId: 1,
+            orderHistorial: createInventario.order,
         }
 
         this.historialService.postHistorial(saveHistory);
@@ -222,7 +233,7 @@ export class InventarioService {
                 sn: update.sn,
                 cantidad: update.cantidad,
                 lote: update.lote,
-                fabricante: update.fabricante,
+                proveedor: update.proveedor,
                 estadoId: 2,
                 shelfLife: update.shelfLife,
                 order: '',
